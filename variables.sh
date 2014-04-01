@@ -1,3 +1,6 @@
+#!/bin/bash
+
+. .secrets
 
 LOGBASE=$HOME/log
 LOGDIR=$LOGBASE/$(basename $0)

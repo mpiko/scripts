@@ -1,3 +1,5 @@
+#!/bin/bash
+
 . .secrets
 
-sudo mount -t cifs //192.168.0.5/michael /media/remote/michael -o username=$USERNAME,password=$PASSWORD
+sudo mount -t cifs //192.168.0.5/michael /media/remote/michael -o username=$LTSPUSERNAME,password=$LTSPPASSWORD
