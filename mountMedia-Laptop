@@ -1,0 +1,1 @@
+sudo mount -t cifs //192.168.0.10/media /media/remote/media-laptop -o username=media,password=media

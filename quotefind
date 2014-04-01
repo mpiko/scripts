@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Michael Piko
+# 18-3-2014
+# puts the output from find into double quotes.
+# Directories and files are treated seperately
+# example: quotefind -f /home | xargs chmod g+w
+# will deal with spaces in file name and pass them to xargs with quotes around each name.
+
+somearray=""
+
+while getopts ":d:f:" opt; do
+  case $opt in
+    d)
+      #echo "-d was triggered, Parameter: $OPTARG" >&2
+      IFS="
+"
+      somearray=`find $OPTARG -type d`
+      for i in $somearray
+      do
+          echo \"$i\"
+      done
+      ;;
+    f)
+      #echo "-f was triggered, Parameter: $OPTARG" >&2
+      IFS="
+"
+      somearray=`find $OPTARG -type f`
+      for i in $somearray
+      do
+          echo \"$i\"
+      done
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
+done
+
+exit
+
+
+
+

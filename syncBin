@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. setEnvironment.sh
+
+buildpath $LOGDIR
+recordscriptrun $(basename $0) $LOGBASE
+
+cd
+
+SOURCE=bin/
+DEST=bin/
+#REMOTE=media@media-laptop
+
+
+if [ $# -eq 1 ] && [ $1 = "-v" ]
+then
+   SWITCHES=avPe
+else
+   SWITCHES=ae
+fi
+
+rsync -$SWITCHES ssh $SOURCE ltsp:$DEST
+rsync -$SWITCHES ssh $SOURCE media@media-laptop:$DEST
+
+

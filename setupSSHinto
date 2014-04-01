@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $1  ] 
+then
+    #RET=`ping -c2 $1` > /dev/null 2>&1
+    #if [ ! $RET ]
+    #then
+    #   echo "Host $1 is not reachable"
+    #   exit 1
+    #fi
+    cd $HOME
+    echo "copy public key for $USER to $1"
+    #cat .ssh/id_rsa.pub | ssh $1 'cat >> .ssh/authorized_keys'
+else
+   echo "Need a remote machine name"
+fi
+

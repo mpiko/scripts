@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ -e /home/michael/s.txt ]
+then
+  rm /home/michael/s.txt
+  sudo shutdown -h now
+fi

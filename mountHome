@@ -1,0 +1,1 @@
+sudo mount -t cifs //192.168.0.5/michael /media/remote/michael -o username=michael,password=letmein

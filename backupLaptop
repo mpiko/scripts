@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# Michael Piko
+# backup up laptop to my LTSP server. 
+# 22-3-2014
+# last modified: 30-3-2014
+
+#see setEnvironment.sh, functions.sh, and variables.sh for explaination
+. setEnvironment.sh
+
+buildpath $LOGDIR
+cleandir $LOGDIR 2
+recordscriptrun $(basename $0) $LOGBASE
+
+SOURCE=/home/michael/
+DEST=/home/backup/laptop/
+REMOTE=192.168.0.5
+
+
+if [ $# -eq 1 ] && [ $1 = "-v" ]
+then
+  rsync -azve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads | tee $LOGFILE
+else
+  rsync -azve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads > $LOGFILE
+fi
+
+
+
