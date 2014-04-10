@@ -1,0 +1,10 @@
+#!/bin/bash
+
+INTERFACES=$(ifconfig | grep '^[a-zA-Z0-9]' | cut -f1 -d" ")
+
+for i in $INTERFACES
+do
+  IP=$(ifconfig $i | grep "inet addr" | sed 's/ *inet addr://')
+  echo "$i    Addr:$IP"
+done
+
