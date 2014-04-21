@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]
+then
+    #echo "Usage `basename` file1 ..."
+    echo "Usage $0 file1 ..."
+    exit
+fi
+
+for i in $@
+do
+    if [ -z "$1" ]
+    then
+        shift
+        continue
+    fi
+    if [ ! -e "$1" ]
+    then
+        echo "Cannot find file $1. Skipping"
+        shift
+        continue
+    fi
+
+    EXT=`echo "$1"|awk -F . '{print $NF}'`
+    if [ $EXT != "mkv" ]
+    then
+        echo "not a mkv file: $1. Skipping"
+        shift
+        continue
+    fi
+
+    ORIGFILENAME=$1
+    if [ -z "$ORIGFILENAME" ]
+    then
+        shift
+        continue
+    fi
+    BASEFILENAME=`basename "$ORIGFILENAME" .mkv`
+    NEWFILENAME=$BASEFILENAME.avi
+    echo "Old: $ORIGFILENAME"
+    echo "New: $NEWFILENAME"
+    #command goes here
+    avconv -i "$ORIGFILENAME" -codec copy "$NEWFILENAME"
+    
+    shift
+done
