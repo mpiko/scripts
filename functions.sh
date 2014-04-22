@@ -163,3 +163,63 @@ function isNumber() {
     return 1
   fi
 }
+
+function getMonthNum() {
+   local MONTHNAME=$1
+   [ $MONTHNAME = "January" ] && echo 1
+   [ $MONTHNAME = "February" ] && echo 2
+   [ $MONTHNAME = "March" ] && echo 3
+   [ $MONTHNAME = "April" ] && echo 4
+   [ $MONTHNAME = "May" ] && echo 5
+   [ $MONTHNAME = "June" ] && echo 6
+   [ $MONTHNAME = "July" ] && echo 7
+   [ $MONTHNAME = "August" ] && echo 8
+   [ $MONTHNAME = "September" ] && echo 9
+   [ $MONTHNAME = "October" ] && echo 10
+   [ $MONTHNAME = "November" ] && echo 11
+   [ $MONTHNAME = "December" ] && echo 12
+   [ $MONTHNAME = "Jan" ] && echo 1
+   [ $MONTHNAME = "Feb" ] && echo 2
+   [ $MONTHNAME = "Mar" ] && echo 3
+   [ $MONTHNAME = "Apr" ] && echo 4
+   [ $MONTHNAME = "May" ] && echo 5
+   [ $MONTHNAME = "Jun" ] && echo 6
+   [ $MONTHNAME = "Jul" ] && echo 7
+   [ $MONTHNAME = "Aug" ] && echo 8
+   [ $MONTHNAME = "Sep" ] && echo 9
+   [ $MONTHNAME = "Oct" ] && echo 10
+   [ $MONTHNAME = "Nov" ] && echo 11
+   [ $MONTHNAME = "Dec" ] && echo 12
+}
+
+function getLongMonthName() {
+   local MONTHNUM=$1
+   [ $MONTHNUM -eq 1 ] && echo "January"
+   [ $MONTHNUM -eq 2 ] && echo "February"
+   [ $MONTHNUM -eq 3 ] && echo "March"
+   [ $MONTHNUM -eq 4 ] && echo "April"
+   [ $MONTHNUM -eq 5 ] && echo "May"
+   [ $MONTHNUM -eq 6 ] && echo "June"
+   [ $MONTHNUM -eq 7 ] && echo "July"
+   [ $MONTHNUM -eq 8 ] && echo "August"
+   [ $MONTHNUM -eq 9 ] && echo "September"
+   [ $MONTHNUM -eq 10 ] && echo "October"
+   [ $MONTHNUM -eq 11 ] && echo "November"
+   [ $MONTHNUM -eq 12 ] && echo "December"
+}
+
+function getShortMonthName() {
+   local MONTHNUM=$1
+   [ $MONTHNUM -eq 1 ] && echo "Jan"
+   [ $MONTHNUM -eq 2 ] && echo "Feb"
+   [ $MONTHNUM -eq 3 ] && echo "Mar"
+   [ $MONTHNUM -eq 4 ] && echo "Apr"
+   [ $MONTHNUM -eq 5 ] && echo "May"
+   [ $MONTHNUM -eq 6 ] && echo "Jun"
+   [ $MONTHNUM -eq 7 ] && echo "Jul"
+   [ $MONTHNUM -eq 8 ] && echo "Aug"
+   [ $MONTHNUM -eq 9 ] && echo "Sep"
+   [ $MONTHNUM -eq 10 ] && echo "Oct"
+   [ $MONTHNUM -eq 11 ] && echo "Nov"
+   [ $MONTHNUM -eq 12 ] && echo "Dec"
+}
