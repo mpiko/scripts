@@ -164,6 +164,8 @@ function isNumber() {
   fi
 }
 
+# Yep, should have used a case statment
+# returns the number of the month
 function getMonthNum() {
    local MONTHNAME=$1
    [ $MONTHNAME = "January" ] && echo 1
@@ -192,6 +194,7 @@ function getMonthNum() {
    [ $MONTHNAME = "Dec" ] && echo 12
 }
 
+# returns the full name of the month
 function getLongMonthName() {
    local MONTHNUM=$1
    [ $MONTHNUM -eq 1 ] && echo "January"
@@ -208,6 +211,7 @@ function getLongMonthName() {
    [ $MONTHNUM -eq 12 ] && echo "December"
 }
 
+# returns the short name of the month
 function getShortMonthName() {
    local MONTHNUM=$1
    [ $MONTHNUM -eq 1 ] && echo "Jan"
@@ -224,7 +228,10 @@ function getShortMonthName() {
    [ $MONTHNUM -eq 12 ] && echo "Dec"
 }
 
-function yesno() {
+# ask a question and test the response
+# Usage: if askyesNo "question?"
+# default is no.
+function askyesNo() {
   local QUESTION=$1
   local RESPONSE=""
 
@@ -233,6 +240,29 @@ function yesno() {
   if [ -z $RESPONSE ] 
   then
     RESPONSE="N"
+  fi
+
+  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
+
+# ask a question and test the response
+# Usage: if askYesno "question?"
+# default is yes.
+function askYesno() {
+  local QUESTION=$1
+  local RESPONSE=""
+
+  echo -n "$QUESTION (Y/n) "
+  read RESPONSE
+  if [ -z $RESPONSE ] 
+  then
+    RESPONSE="y"
   fi
 
   if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
