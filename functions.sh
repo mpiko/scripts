@@ -223,3 +223,23 @@ function getShortMonthName() {
    [ $MONTHNUM -eq 11 ] && echo "Nov"
    [ $MONTHNUM -eq 12 ] && echo "Dec"
 }
+
+function yesno() {
+  local QUESTION=$1
+  local RESPONSE=""
+
+  echo -n "$QUESTION (y/N) "
+  read RESPONSE
+  if [ -z $RESPONSE ] 
+  then
+    RESPONSE="N"
+  fi
+
+  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
+  then
+    return 0
+  else
+    return 1
+  fi
+}
+
