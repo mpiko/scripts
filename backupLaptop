@@ -19,9 +19,9 @@ REMOTE=192.168.0.5
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
 then
-  rsync -azve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads --exclude local/share/Trash | tee $LOGFILE
+  rsync -azPve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads --exclude .local/share/Trash
 else
-  rsync -azve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads --exclude local/share/Trash > $LOGFILE
+  rsync -azve ssh $SOURCE $REMOTE:$DEST --delete --partial --exclude '*~' --exclude log --exclude Downloads --exclude .local/share/Trash > $LOGFILE
 fi
 
 
