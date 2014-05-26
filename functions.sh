@@ -151,6 +151,24 @@ function remove_ds_Store() {
     fi
 }
 
+function remove_Thumbs () {
+    __dir=$1
+    if [ -d $__dir ] 
+    then
+        FOUND=$(find $__dir -name 'Thumbs.db')
+        IFS="
+"
+        for i in $FOUND
+        do
+            echo removed $i
+            rm $i
+        done
+    else
+        echo Cannot find $__dir to clean
+        return 1
+    fi
+}
+
 # test to see if a value is a number or not
 # usage if isNumber $VAR
 # returns 0 (true) if it is a number
