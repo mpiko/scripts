@@ -1,0 +1,16 @@
+#!/bin/bash
+
+BLOCKSIZE=512
+
+# how many blocks have been allocated so far?
+BLOCKSALLOCATED=$(stat --printf=%b $1)
+
+# How many blocks will the completed file be?
+SIZE_IN_BYTES=$(stat --printf=%s $1)
+TOTALBLOCKS=$(expr $SIZE_IN_BYTES \/ $BLOCKSIZE)
+
+# work out what percentage we are up to
+PERCENTILE=$(expr $BLOCKSALLOCATED \* 100 \/ $TOTALBLOCKS)
+
+echo "We are at $PERCENTILE percent"
+
