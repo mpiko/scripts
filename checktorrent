@@ -1,16 +1,41 @@
 #!/bin/bash
 
 BLOCKSIZE=512
+MINSIZE=100000000
+
+# get the size of the file
+SIZE_IN_BYTES=$(stat --printf=%s "$1")
+if [ $SIZE_IN_BYTES -lt $MINSIZE ]
+then
+   echo "File too small - Unreliable output"
+fi
 
 # how many blocks have been allocated so far?
 BLOCKSALLOCATED=$(stat --printf=%b "$1")
 
 # How many blocks will the completed file be?
-SIZE_IN_BYTES=$(stat --printf=%s "$1")
 TOTALBLOCKS=$(expr $SIZE_IN_BYTES \/ $BLOCKSIZE)
 
 # work out what percentage we are up to
 PERCENTILE=$(expr $BLOCKSALLOCATED \* 100 \/ $TOTALBLOCKS)
 
-echo "We are at $PERCENTILE percent"
 
+RAWTIME=$(date +"%s")
+
+CHANGEDTIME=$(stat --printf=%Z "$1")
+
+TIMEDELTA=$(expr $RAWTIME - $CHANGEDTIME)
+
+if [ $TIMEDELTA -gt 59 ]
+then 
+  if [ $PERCENTILE -ge 100 ]
+  then
+    STATE="COMPLETE"
+  else
+    STATE="STALE"
+  fi
+else
+  STATE="Downloading"
+fi
+
+echo "$STATE: $1 at ${PERCENTILE}%"

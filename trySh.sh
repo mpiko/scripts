@@ -1,15 +1,9 @@
 #!/bin/bash
 
-. setEnvironment.sh
+#. setEnvironment.sh
 
-MONTH="July"
-NUM=$(getMonthNum $MONTH)
+ps ax | grep "$1" | grep -v grep | grep -v `basename $0` | grep -v defunct | cut -f2- -d":" | cut -f2- -d" " > /tmp/torrent.$$
 
-echo $MONTH is $NUM
+FILE=$(cat /tmp/torrent.$$ | cut -f3 -d= | sed 's/+/-/g' | sed 's/&/-/g')
 
-for i in 1 2 3 4 5 6 7 8 9 10 11 12
-do
-   LNAME=$(getLongMonthName $i)
-   SNAME=$(getShortMonthName $i)
-   echo "$LNAME $SNAME $i"
-done
+mv /tmp/torrent.$$ ~/torrent/${FILE}.sh
