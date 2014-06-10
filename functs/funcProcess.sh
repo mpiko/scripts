@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/bash -x
 
 
 isRunning() {
   local PID=$1
-  RUNNING=$(ps ax | grep "^$PID")
+  [ -z $PID ] && return 1
+  local RUNNING=$(ps ax | grep "^$PID" | cut -f1 -d" ")
   [ -z "$RUNNING" ] && return 1
   return 0
 }

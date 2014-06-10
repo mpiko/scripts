@@ -60,13 +60,12 @@ cleandir() {
 
     if [ -d $__dir ] 
     then
-        find $__dir -mtime +$__retaindays | xargs rm -f
+        find $__dir/ -mtime +$__retaindays | xargs rm -f
     else
         echo cleandir - directory does not exist
     fi
 }
 
-GSIZELIMIT=10
 # make the path if it does not exit.
 buildpath() {
    [ -d $1 ] || mkdir -p $1

@@ -7,7 +7,8 @@
 # Example: setLock $(basename $0).lock 60
 setLock() {
   local LOCK=$1
-  [ ! -e $LOCK ] && echo $$ > $LOCK && return 0
+  local CONTENT=$2
+  [ ! -e $LOCK ] && echo $2 > $LOCK && return 0
   return 1
 }
 
