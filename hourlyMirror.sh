@@ -3,37 +3,33 @@
 . setEnvironment.sh
 
 LOCALSOURCE=$HOME
-REMOTEDIR=/home/backup/laptop
 REMOTEUSER=""
 REMOTEHOST=ltsp
+REMOTEDIR=/home/backup/laptop
 EXCLUDES="--exclude '*~' --exclude log --exclude Downloads --exclude .local/share/Trash"
 LIMIT=1M
 SWITCHES=axv
-ARGS="--delete --partial --bwlimit=$LIMIT"
-LOCKFILE=/tmp/$(basename $0).lock
+ARGS="--partial --bwlimit=$LIMIT --delete"
+LOCKFILE=/tmp/$ME.lock
 
 #Set up the log files
 buildpath $LOGDIR
 cleandir $LOGDIR 2
-recordscriptrun $(basename $0) $LOGBASE
+recordscriptrun $ME $LOGBASE
 
 # locking.
-if ! setLock $LOCKFILE
+if [ -e $LOCKFILE ]
 then
   PID=$(cat $LOCKFILE)
   if isRunning $PID
   then
-    : #Need to do stuff here.
-  fi
-  if isStaleFile $LOCKFILE 3000
-  then
-    removeLock $LOCKFILE
+    echo "An instance $ME is already running with pid $PID. Aborting."
+    exit 30
   else
-    echo "an instance with pid $PID is already running"
-    exit 1
+    removeLock $LOCKFILE
   fi
-  setLock $LOCKFILE
 fi
+setLock $LOCKFILE
 
 if [ -z $REMOTEUSER ]
 then
