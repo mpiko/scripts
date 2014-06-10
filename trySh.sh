@@ -1,9 +1,12 @@
 #!/bin/bash
 
-#. setEnvironment.sh
+. setEnvironment.sh
 
-ps ax | grep "$1" | grep -v grep | grep -v `basename $0` | grep -v defunct | cut -f2- -d":" | cut -f2- -d" " > /tmp/torrent.$$
+PID=$(cat /tmp/constantMirror.sh.lock)
+if isRunning $PID
+then
+  echo PID=$PID running
+else
+  echo Not running
+fi
 
-FILE=$(cat /tmp/torrent.$$ | cut -f3 -d= | sed 's/+/-/g' | sed 's/&/-/g')
-
-mv /tmp/torrent.$$ ~/torrent/${FILE}.sh

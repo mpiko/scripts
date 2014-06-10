@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+for f in *.wma 
+do
+ MP3FILE=$(basename "$f" .wma)
+ #avconv -acodec libmp3lame -i "$f"  "$MP3FILE"
+ lame "$f"  "$MP3FILE"
+done
+

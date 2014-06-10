@@ -7,6 +7,9 @@ MINSIZE=100000000
 # how many blocks have been allocated so far?
 BLOCKSALLOCATED=$(stat --printf=%b "$1")
 
+# get the size of the file
+SIZE_IN_BYTES=$(stat --printf=%s "$1")
+
 # How many blocks will the completed file be?
 TOTALBLOCKS=$(expr $SIZE_IN_BYTES \/ $BLOCKSIZE)
 
@@ -19,9 +22,6 @@ RAWTIME=$(date +"%s")
 CHANGEDTIME=$(stat --printf=%Z "$1")
 
 TIMEDELTA=$(expr $RAWTIME - $CHANGEDTIME)
-
-# get the size of the file
-SIZE_IN_BYTES=$(stat --printf=%s "$1")
 
 if [ $TIMEDELTA -gt 59 ]
 then 

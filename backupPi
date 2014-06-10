@@ -1,9 +1,9 @@
 #!/bin/bash
 #
 # Michael Piko
-# backup up laptop to my LTSP server. 
-# 22-3-2014
-# last modified: 30-3-2014
+# backup up pi to my LTSP server. 
+# 9-62014
+# last modified: 
 
 #see setEnvironment.sh, functions.sh, and variables.sh for explaination
 . setEnvironment.sh
@@ -12,9 +12,11 @@ buildpath $LOGDIR
 cleandir $LOGDIR 2
 recordscriptrun $(basename $0) $LOGBASE
 
-SOURCE=/home/michael/
-DEST=/home/backup/laptop/
-REMOTE=192.168.0.5
+SOURCE=/home/pi/
+DEST=/home/backup/pi/occidentalis
+REMOTE=pi@192.168.1.28
+
+ssh $REMOTE "[ -d $DEST ] && mkdir -p $DEST"
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
 then

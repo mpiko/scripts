@@ -6,17 +6,9 @@
 
 set -o history
 
-# getlogdate
-# commonly used in file names
-# usage:  LOGFILE=program-$(getlogdate).log
-# returns: program-dd-mm-yy.log
-function getlogdate() {
-   echo $(date +%d-%m-%Y)
-}
-
 # Handy to keep track.
 # usage: recordscriptrun $HOME/bin/script.sh $HOME/log
-function recordscriptrun() {
+recordscriptrun() {
      local CALLER=$1
      local LOGBASE=$2
      local LOGFILE=logrecord.txt
@@ -28,7 +20,7 @@ function recordscriptrun() {
 # for trimming log files etc.
 # usage: trimtail $HOME/log/logfile.log 100
 # will trim and retain the last 100 lines of the file
-function trimtail() {
+trimtail() {
     local FILE=$1
     local BASEFILE=$(basename $1)
     local SIZELIMIT=$2
@@ -54,7 +46,7 @@ function trimtail() {
 # This function need to know the directory and the retention time in days. 
 # usage:  cleandir /dir/path 4
 # removes file older than 4 days from the /dir/path directory
-function cleandir() {
+cleandir() {
     local  __dir=$1
     local  __retaindays=$2
     [ -z $__dir ] && {
@@ -76,19 +68,19 @@ function cleandir() {
 
 GSIZELIMIT=10
 # make the path if it does not exit.
-function buildpath() {
+buildpath() {
    [ -d $1 ] || mkdir -p $1
 }
 
 
-function getlastcommand() {
+getlastcommand() {
     echo $(history |tail -n2 |head -n1 | sed 's/[0-9]* //')
 }
 
 
 
 # testing return code are often ignored. Might try to make it simpler.
-function killiflastfailed() {
+killiflastfailed() {
    local __retval=$1
    if [ $__retval -gt 0 ] 
    then 
@@ -101,7 +93,7 @@ function killiflastfailed() {
    fi
 }
 
-function warniflastfailed() {
+warniflastfailed() {
    local __retval=$1
    if [ $__retval -gt 0 ] 
    then 
@@ -114,7 +106,7 @@ function warniflastfailed() {
 }
 
 # remove those vi swap files that get left around.
-function remove_swaps() {
+remove_swaps() {
     __dir=$1
     if [ -d $__dir ] 
     then
@@ -133,7 +125,7 @@ function remove_swaps() {
 }
 
 # similar to remove swaps but for mac poop.
-function remove_ds_Store() {
+remove_ds_Store() {
     __dir=$1
     if [ -d $__dir ] 
     then
@@ -151,7 +143,7 @@ function remove_ds_Store() {
     fi
 }
 
-function remove_Thumbs () {
+remove_Thumbs () {
     __dir=$1
     if [ -d $__dir ] 
     then
@@ -172,7 +164,7 @@ function remove_Thumbs () {
 # test to see if a value is a number or not
 # usage if isNumber $VAR
 # returns 0 (true) if it is a number
-function isNumber() {
+isNumber() {
   local NUMB=$(echo $1 | sed 's/^[^0-9]*//g')
   if [ $NUMB ]
   then
@@ -184,7 +176,7 @@ function isNumber() {
 
 # Yep, should have used a case statment
 # returns the number of the month
-function getMonthNum() {
+getMonthNum() {
    local MONTHNAME=$1
    [ $MONTHNAME = "January" ] && echo 1
    [ $MONTHNAME = "February" ] && echo 2
@@ -213,7 +205,7 @@ function getMonthNum() {
 }
 
 # returns the full name of the month
-function getLongMonthName() {
+getLongMonthName() {
    local MONTHNUM=$1
    [ $MONTHNUM -eq 1 ] && echo "January"
    [ $MONTHNUM -eq 2 ] && echo "February"
@@ -230,7 +222,7 @@ function getLongMonthName() {
 }
 
 # returns the short name of the month
-function getShortMonthName() {
+getShortMonthName() {
    local MONTHNUM=$1
    [ $MONTHNUM -eq 1 ] && echo "Jan"
    [ $MONTHNUM -eq 2 ] && echo "Feb"
@@ -249,7 +241,7 @@ function getShortMonthName() {
 # ask a question and test the response
 # Usage: if askyesNo "question?"
 # default is no.
-function askyesNo() {
+askyesNo() {
   local QUESTION=$1
   local RESPONSE=""
 
@@ -272,7 +264,7 @@ function askyesNo() {
 # ask a question and test the response
 # Usage: if askYesno "question?"
 # default is yes.
-function askYesno() {
+askYesno() {
   local QUESTION=$1
   local RESPONSE=""
 
@@ -291,3 +283,17 @@ function askYesno() {
   fi
 }
 
+# usage: checkStaleFile file 60 
+# would return true if file is older than 60 seconds
+isStaleFile() {
+  local LIMIT=$2
+  local RAWTIME=$(date +"%s")
+  local CHANGEDTIME=$(stat --printf=%Z "$1")
+  local TIMEDELTA=$(expr $RAWTIME - $CHANGEDTIME)
+  if [ $TIMEDELTA -gt $LIMIT ]
+  then
+    return 0
+  else
+    return 1
+  fi 
+}
