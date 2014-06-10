@@ -2,7 +2,6 @@
 
 . setEnvironment.sh
 
-DEST="media@media-laptop"
+NEWHOST="pi@pi"
 
-  scp /etc/hosts $DEST:/tmp
-  ssh $DEST "sudo cat /tmp/hosts > /etc/hosts"
+ssh $NEWHOST "echo \"PATH=\\\$PATH:\\\$HOME/bin:\\\$HOME/localbin\" >> .profile"
