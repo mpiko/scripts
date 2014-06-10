@@ -20,8 +20,8 @@ else
 fi
 
 
-rsync -$SWITCHES ssh $SOURCE ltsp:$DEST
-rsync -$SWITCHES ssh $SOURCE media@media-laptop:$DEST
-rsync -$SWITCHES ssh $SOURCE pi@pi:$DEST
+rsync -$SWITCHES --delete ssh $SOURCE ltsp:$DEST
+rsync -$SWITCHES --delete ssh $SOURCE media@media-laptop:$DEST
+rsync -$SWITCHES --delete ssh $SOURCE pi@pi:$DEST
 
 
