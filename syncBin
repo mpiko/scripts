@@ -9,19 +9,18 @@ cd
 
 SOURCE=bin/
 DEST=bin/
-#REMOTE=media@media-laptop
-
+VERBOSE="no"
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
 then
-   SWITCHES=avPe
-else
-   SWITCHES=ae
+   VERBOSE="yes"
 fi
 
-
-rsync -$SWITCHES --delete ssh $SOURCE ltsp:$DEST
-rsync -$SWITCHES --delete ssh $SOURCE media@media-laptop:$DEST
-rsync -$SWITCHES --delete ssh $SOURCE pi@pi:$DEST
+[ $VERBOSE = "yes" ] && echo rsync $SOURCE to ltsp
+rsync -a --delete -e ssh $SOURCE ltsp:$DEST
+[ $VERBOSE = "yes" ] && echo rsync $SOURCE to media-laptop
+rsync -a --delete -e ssh $SOURCE media@media-laptop:$DEST
+[ $VERBOSE = "yes" ] && echo rsync $SOURCE to pi
+rsync -a --delete -e ssh $SOURCE pi@pi:$DEST
 
 
