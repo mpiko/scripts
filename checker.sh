@@ -7,7 +7,7 @@ while true
 do
     NOW=$(getTime | sed 's/-/:/g')
     echo "Time: $NOW"
-    for i in *S??E??*.mp4
+    for i in *[sS]??[eE]??*.mp4
     do
         checkdownload "$i"; 
     done
