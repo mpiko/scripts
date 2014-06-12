@@ -14,7 +14,7 @@ setLock() {
 
 rmStaleLock() {
 # removes stale lock files
-# Usage: rmStaleLock file
+# Usage: rmStaleLock file time_in_seconds
 # Example: removeLock $(basename $0).lock 3600
 #    removes the lock if older than 60 minutes
   local LOCK=$1
