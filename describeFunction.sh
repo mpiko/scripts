@@ -12,7 +12,12 @@ buildpath $LOGDIR
 cleandir $LOGDIR 2
 recordscriptrun $(basename $0) $LOGBASE
 
-dieIfNotEnoughArgs 1 $#
+if ! enoughArgs 1 $#
+then
+   echo Need to supply a function to look up
+   echo Usage: describeFunction.sh functionname
+   exit
+fi
 
 FINDFUNC=$1
 OLDIFS=$IFS
@@ -49,7 +54,7 @@ do
         then
            echo $LINE | sed 's/^#/  /'
         else
-            FOUND="FALSE"
+            break
         fi
     fi
     

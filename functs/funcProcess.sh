@@ -26,3 +26,21 @@ dieIfNotEnoughArgs() {
     exit
   fi
 }
+
+enoughArgs() {
+# Usage: checkEnoughArgs x $#
+# Example: if checkEnoughArgs 3 $#; then...
+  local NEEDED=$1
+  local SUPPLIED=$2
+  if [ -z $NEEDED ] || [ -z $SUPPLIED ]
+  then
+     echo "Invalid use of checkEnoughArgs"
+     echo Usage  checkEnoughArgs x \$#
+     exit
+  fi
+  if [ $SUPPLIED -eq $NEEDED ]
+  then
+    return 0
+  fi
+  return 1
+}
