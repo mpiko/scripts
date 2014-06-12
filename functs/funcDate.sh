@@ -8,17 +8,17 @@ getlogdate() {
    echo $(date +%d-%m-%Y)
 }
 
-getdate() {
-# getlogdate
+getDate() {
+# getDate
 # commonly used in file names
-# usage:  LOGFILE=program-$(getdate).log
+# Example:  LOGFILE=program-$(getDate).log
 # returns: program-dd-mm-yy.log
    echo $(date +%d-%m-%Y)
 
 }
 getTime() {
 # returns hh-mm-ss
-# Usage: FILE=program-date-$(getTime).txt
+# Example: FILE=program-date-$(getTime).txt
    echo $(date +%H-%M-%S)
 }
 

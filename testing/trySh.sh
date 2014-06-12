@@ -2,7 +2,8 @@
 
 . setEnvironment.sh
 
-DEBUG=n
-
-onScreen $DEBUG Hi there, what is going on?
+if enoughArgs +2 $#
+then
+  echo 2 args proided
+fi
 
