@@ -1,0 +1,13 @@
+Discription of functions
+Functions should have comments directly following their declaraion. A utility
+called describeFunctions.sh looks inside files in the ~/bin/functs directory 
+for anything string with a '(' after it. IE: function() would match.
+After it finds a function, it then looks for lines beginning with '#' to
+display. As soon as it gets the a line without a '#' it assumes the description
+has finished.
+
+To pull down a copy of the scripts:
+git clone git://github.com/mpiko/scripts.git
+
+
+
