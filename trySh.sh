@@ -1,5 +1,9 @@
 #!/bin/bash
 
 . setEnvironment.sh
-dieIfNotEnoughArgs 1 $#
-echo All good
+if isHostUp ltp
+then
+  echo All good
+else
+  echo "Not found"
+fi
