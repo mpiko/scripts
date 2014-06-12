@@ -6,9 +6,9 @@
 
 set -o history
 
+recordscriptrun() {
 # Handy to keep track.
 # usage: recordscriptrun $HOME/bin/script.sh $HOME/log
-recordscriptrun() {
      local CALLER=$1
      local LOGBASE=$2
      local LOGFILE=logrecord.txt
@@ -17,10 +17,10 @@ recordscriptrun() {
 
 }
 
+trimtail() {
 # for trimming log files etc.
 # usage: trimtail $HOME/log/logfile.log 100
 # will trim and retain the last 100 lines of the file
-trimtail() {
     local FILE=$1
     local BASEFILE=$(basename $1)
     local SIZELIMIT=$2
@@ -42,11 +42,11 @@ trimtail() {
 }
 
 
+cleandir() {
 # cleandir
 # This function need to know the directory and the retention time in days. 
 # usage:  cleandir /dir/path 4
 # removes file older than 4 days from the /dir/path directory
-cleandir() {
     local  __dir=$1
     local  __retaindays=$2
     [ -z $__dir ] && {
@@ -66,8 +66,8 @@ cleandir() {
     fi
 }
 
-# make the path if it does not exit.
 buildpath() {
+# make the path if it does not exit.
    [ -d $1 ] || mkdir -p $1
 }
 
@@ -78,8 +78,8 @@ getlastcommand() {
 
 
 
-# testing return code are often ignored. Might try to make it simpler.
 killiflastfailed() {
+# testing return code are often ignored. Might try to make it simpler.
    local __retval=$1
    if [ $__retval -gt 0 ] 
    then 
@@ -104,8 +104,8 @@ warniflastfailed() {
    fi
 }
 
-# remove those vi swap files that get left around.
 remove_swaps() {
+# remove those vi swap files that get left around.
     __dir=$1
     if [ -d $__dir ] 
     then
@@ -123,8 +123,8 @@ remove_swaps() {
     fi
 }
 
-# similar to remove swaps but for mac poop.
 remove_ds_Store() {
+# similar to remove swaps but for mac poop.
     __dir=$1
     if [ -d $__dir ] 
     then
@@ -160,10 +160,10 @@ remove_Thumbs () {
     fi
 }
 
+isNumber() {
 # test to see if a value is a number or not
 # usage if isNumber $VAR
 # returns 0 (true) if it is a number
-isNumber() {
   local NUMB=$(echo $1 | sed 's/^[^0-9]*//g')
   if [ $NUMB ]
   then
@@ -172,9 +172,9 @@ isNumber() {
     return 1
   fi
 }
+isStaleFile() {
 # usage: checkStaleFile file 60 
 # would return true if file is older than 60 seconds
-isStaleFile() {
   local LIMIT=$2
   local RAWTIME=$(date +"%s")
   local CHANGEDTIME=$(stat --printf=%Z "$1")

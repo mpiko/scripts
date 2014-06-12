@@ -1,24 +1,31 @@
 #!/bin/bash
 
+getlogdate() {
 # getlogdate
 # commonly used in file names
 # usage:  LOGFILE=program-$(getlogdate).log
 # returns: program-dd-mm-yy.log
-getlogdate() {
    echo $(date +%d-%m-%Y)
 }
 
 getdate() {
+# getlogdate
+# commonly used in file names
+# usage:  LOGFILE=program-$(getdate).log
+# returns: program-dd-mm-yy.log
    echo $(date +%d-%m-%Y)
 
 }
 getTime() {
+# returns hh-mm-ss
+# Usage: FILE=program-date-$(getTime).txt
    echo $(date +%H-%M-%S)
 }
 
 
-# returns the number of the month
 getMonthNum() {
+# returns the number of the month
+# Example: MONNUM=$(getMonthNum Jan)
    local MONTHNAME=$1
    case $MONTHNAME in
        January) echo 1 ;;
@@ -49,8 +56,10 @@ getMonthNum() {
    esac
 }
 
-# returns the full name of the month
 getLongMonthName() {
+# returns the full name of the month
+# example: MONTH=$(getLongMonthName 3)
+#          $MONTH will contain "March"
    local MONTHNUM=$1
    case $MONTHNUM in
        1) echo "January" ;;
@@ -69,8 +78,10 @@ getLongMonthName() {
    esac
 }
 
-# returns the short name of the month
 getShortMonthName() {
+# returns the short name of the month
+# example: MONTH=$(getShortMonthName 3)
+#          $MONTH will contain "Mar"
    local MONTHNUM=$1
    case $MONTHNUM in
        1) echo "Jan" ;;

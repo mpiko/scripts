@@ -1,73 +1,97 @@
 #!/bin/bash
 
-# ask a question and test the response
-# Usage: if askyesNo "question?"
-# default is no.
-askyesNo() {
-  local QUESTION=$1
-  local RESPONSE=""
-
-  echo -n "$QUESTION (y/N) "
-  read RESPONSE
-  if [ -z $RESPONSE ] 
-  then
-    RESPONSE="N"
-  fi
-
-  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
-  then
-    return 1
-  else
-    return 0
-  fi
-}
-
-
-# ask a question and test the response
-# Usage: if askYesno "question?"
-# default is yes.
 askYesno() {
+# Usage: if askYesno "question?"
+# y = true (default)
+# n = false
   local QUESTION=$1
-  local RESPONSE=""
+  local RESPONSE="FAKE"
 
-  echo -n "$QUESTION (Y/n) "
-  read RESPONSE
-  if [ -z $RESPONSE ] 
-  then
-    RESPONSE="y"
-  fi
+  while [ $RESPONSE = 'FAKE' ]
+  do
+    echo -n "$QUESTION (y/n) "
+    read RESPONSE
+    if [ -z $RESPONSE ] 
+    then
+      RESPONSE="Y"
+    fi
 
-  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
-  then
-    return 0
-  else
-    return 1
-  fi
+    RESPONSE=$(upper $RESPONSE)
+
+    if [ $RESPONSE = 'Y' ]
+    then
+      return 0
+    elif [ $RESPONSE = 'N' ]
+    then
+      return 1
+    else
+      RESPONSE="FAKE"
+      echo "Invalid response"
+    fi
+  done
 }
 
-askyesnoquit() {
+askyesNo() {
+# Usage: if askyesNo "question?"
 # y = true
-# n = false
+# n = false (default)
+  local QUESTION=$1
+  local RESPONSE="FAKE"
+
+  while [ $RESPONSE = 'FAKE' ]
+  do
+    echo -n "$QUESTION (y/n) "
+    read RESPONSE
+    if [ -z $RESPONSE ] 
+    then
+      RESPONSE="N"
+    fi
+
+    RESPONSE=$(upper $RESPONSE)
+
+    if [ $RESPONSE = 'Y' ]
+    then
+      return 0
+    elif [ $RESPONSE = 'N' ]
+    then
+      return 1
+    else
+      RESPONSE="FAKE"
+      echo "Invalid response"
+    fi
+  done
+}
+
+askyesNoquit() {
+# y = true
+# n = false (default)
 # q = exit
 # quiting will exit the program completely.
   local QUESTION=$1
-  local RESPONSE=""
+  local RESPONSE="FAKE"
 
-  echo -n "$QUESTION (y/n/q) "
-  read RESPONSE
-  if [ -z $RESPONSE ] 
-  then
-    RESPONSE="N"
-  fi
+  while [ $RESPONSE = 'FAKE' ]
+  do
+    echo -n "$QUESTION (y/n/q) "
+    read RESPONSE
+    if [ -z $RESPONSE ] 
+    then
+      RESPONSE="N"
+    fi
+    RESPONSE=$(upper $RESPONSE)
   
-  if [ $RESPONSE = 'q' ] || [ $RESPONSE = 'Q' ]
-  then
-     exit 5
-  fi
-
-  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
-  then
-    return 0
-  fi
-  return 1
+   if [ $RESPONSE = 'Y' ]
+    then
+      return 0
+    elif [ $RESPONSE = 'N' ]
+    then
+      return 1
+    elif [ $RESPONSE = 'Q' ]
+    then
+      exit 5
+    else
+      RESPONSE="FAKE"
+      echo "Invalid response"
+    fi
+  done
 }
