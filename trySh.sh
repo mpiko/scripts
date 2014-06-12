@@ -2,6 +2,6 @@
 
 . setEnvironment.sh
 
-NEWHOST="pi@pi"
+NEWHOST="pi@rpi"
 
 ssh $NEWHOST "echo \"PATH=\\\$PATH:\\\$HOME/bin:\\\$HOME/localbin\" >> .profile"

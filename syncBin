@@ -20,7 +20,7 @@ fi
 rsync -a --delete -e ssh $SOURCE ltsp:$DEST
 [ $VERBOSE = "yes" ] && echo rsync $SOURCE to media-laptop
 rsync -a --delete -e ssh $SOURCE media@media-laptop:$DEST
-[ $VERBOSE = "yes" ] && echo rsync $SOURCE to pi
-rsync -a --delete -e ssh $SOURCE pi@pi:$DEST
+[ $VERBOSE = "yes" ] && echo rsync $SOURCE to rpi
+rsync -a --delete -e ssh $SOURCE pi@rpi:$DEST
 
 

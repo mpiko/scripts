@@ -16,9 +16,9 @@ askyesNo() {
 
   if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
   then
-    return 0
-  else
     return 1
+  else
+    return 0
   fi
 }
 
@@ -45,3 +45,29 @@ askYesno() {
   fi
 }
 
+askyesnoquit() {
+# y = true
+# n = false
+# q = exit
+# quiting will exit the program completely.
+  local QUESTION=$1
+  local RESPONSE=""
+
+  echo -n "$QUESTION (y/n/q) "
+  read RESPONSE
+  if [ -z $RESPONSE ] 
+  then
+    RESPONSE="N"
+  fi
+  
+  if [ $RESPONSE = 'q' ] || [ $RESPONSE = 'Q' ]
+  then
+     exit 5
+  fi
+
+  if [ $RESPONSE = 'y' ] || [ $RESPONSE = 'Y' ]
+  then
+    return 0
+  fi
+  return 1
+}

@@ -5,7 +5,7 @@
 192.168.1.1     ltsp
 192.168.1.3     Samsung
 192.168.1.4     HP
-192.168.1.28    pi
+192.168.1.28    rpi
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
