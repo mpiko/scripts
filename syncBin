@@ -9,18 +9,18 @@ cd
 
 SOURCE=bin/
 DEST=bin/
-VERBOSE="no"
+VERBOSE="n"
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
 then
-   VERBOSE="yes"
+   VERBOSE="y"
 fi
 
-[ $VERBOSE = "yes" ] && echo rsync $SOURCE to ltsp
+onScreen $VERBOSE rsync $SOURCE to ltsp
 rsync -a --delete -e ssh $SOURCE ltsp:$DEST
-[ $VERBOSE = "yes" ] && echo rsync $SOURCE to media-laptop
+onScreen $VERBOSE rsync $SOURCE to media-laptop
 rsync -a --delete -e ssh $SOURCE media@media-laptop:$DEST
-[ $VERBOSE = "yes" ] && echo rsync $SOURCE to rpi
+onScreen $VERBOSE rsync $SOURCE to rpi
 rsync -a --delete -e ssh $SOURCE pi@rpi:$DEST
 
 
