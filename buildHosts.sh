@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOSTS="media@media-laptop pi@rpi ltsp vserver001"
+HOSTS="media@media-laptop pi@rpi ltsp vserver001 vserver002"
 
 cd $HOME/bin
 
