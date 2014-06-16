@@ -27,4 +27,5 @@ fi
 
 cat ~/bin/skel.txt | sed "s/CDD-CMM-C20YY/$CDATE/" > $NEWFILE
 
+chmod 755 $NEWFILE
 echo $NEWFILE is now ready.
