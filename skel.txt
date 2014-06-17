@@ -14,18 +14,18 @@
 # Script Variables:
 
 
-#see setEnvironment.sh, functions.sh, and variables.sh for explaination
+#see setEnvironment.sh, functions.sh, and variables.sh for explainations
 . setEnvironment.sh
 
-buildpath $LOGDIR
-cleandir $LOGDIR 2
-recordscriptrun $(basename $0) $LOGBASE
+#buildpath $LOGDIR
+#cleandir $LOGDIR 2
+#recordscriptrun $(basename $0) $LOGBASE
 
 
-VERBOSE=n
-if [ $# -eq 1 ] && [ $1 = "-v" ]
-then
-  VERBOSE=y
-fi
+#VERBOSE=n
+#if [ $# -eq 1 ] && [ $1 = "-v" ]
+#then
+#  VERBOSE=y
+#fi
 
-
+# onScreen $VERBOSE "running"
