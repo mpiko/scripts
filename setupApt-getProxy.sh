@@ -15,5 +15,7 @@ if isHostUp $REMOTE
 then
   scp 01proxy $REMOTE:
   ssh $REMOTE "sudo mv 01proxy /etc/apt/apt.conf.d/"
+else
+  echo Could not contact $RHOST
 fi
 

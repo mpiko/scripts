@@ -26,14 +26,19 @@ then
   onScreen $VERBOSE rsync $SOURCE to media-laptop
   rsync -a --delete -e ssh $SOURCE media@media-laptop:$DEST
 fi
-if isHostUp media-laptop
+if isHostUp rpi
 then
   onScreen $VERBOSE rsync $SOURCE to rpi
   rsync -a --delete -e ssh $SOURCE pi@rpi:$DEST
 fi
-if isHostUp media-laptop
+if isHostUp vserver001
 then
   onScreen $VERBOSE rsync $SOURCE to vserver001
   rsync -a --delete -e ssh $SOURCE vserver001:$DEST
+fi
+if isHostUp vserver002
+then
+  onScreen $VERBOSE rsync $SOURCE to vserver002
+  rsync -a --delete -e ssh $SOURCE vserver002:$DEST
 fi
 

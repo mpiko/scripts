@@ -8,10 +8,6 @@
 #see setEnvironment.sh, functions.sh, and variables.sh for explaination
 . setEnvironment.sh
 
-buildpath $LOGDIR
-cleandir $LOGDIR 2
-recordscriptrun $(basename $0) $LOGBASE
-
 if ! enoughArgs 1 $#
 then
    echo Need to supply a function to look up
