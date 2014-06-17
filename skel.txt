@@ -5,6 +5,15 @@
 # Date created:  CDD-CMM-C20YY
 # last modified: dd-mm-20yy
 
+# Description:
+#
+#
+#
+#
+
+# Script Variables:
+
+
 #see setEnvironment.sh, functions.sh, and variables.sh for explaination
 . setEnvironment.sh
 
@@ -13,5 +22,10 @@ cleandir $LOGDIR 2
 recordscriptrun $(basename $0) $LOGBASE
 
 
+VERBOSE=n
+if [ $# -eq 1 ] && [ $1 = "-v" ]
+then
+  VERBOSE=y
+fi
 
 
