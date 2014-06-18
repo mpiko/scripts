@@ -5,18 +5,18 @@
 # Date created:  18-06-2014
 # last modified: dd-mm-20yy
 
-# Description:
-# Compair two files based purly on their modified time. the files are usually
-# in separate directories.
-#
-# Usage: mtime path/file1 path/file2
-# Output: "older_file_number diff_in_seconds"   
-# Example: 
-# assume file2 is 14 seconds older run:
-#   mtime file1 file2
-# prints "2 14"
-# 2 being the second argument or file
-# if they are both the same it prints "0 0"
+#-# Description:
+#-# Compair two files based purly on their modified time. the files are usually
+#-# in separate directories.
+#-#
+#-# Usage: mtime path/file1 path/file2
+#-# Output: "older_file_number diff_in_seconds"   
+#-# Example: 
+#-# assume file2 is 14 seconds older run:
+#-#   mtime file1 file2
+#-# prints "2 14"
+#-# 2 being the second argument or file
+#-# if they are both the same it prints "0 0"
 
 
 # Script Variables:

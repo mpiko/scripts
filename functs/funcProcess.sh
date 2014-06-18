@@ -4,36 +4,35 @@
 
 
 usage() {
-#   grep Usage $ME | sed 's/^#//'
-#   if [ $? -ne 0 ]
-#   then
-#      echo "No Usage clause for $ME"
-#      echo "Please add one to the script"
-#   fi
-#   return 0
+# Intend to display the usage clause from a script.
+# Usage: usage
+# Example: if ! enoughArgs 2 $#; then usage ; exit 2; fi
+# if runs back off to the calling script to find the usage clause.
+# the clause must be properly formatted: "#-#"
+#
   SCRIPT=$(which $ME)
-  FOUND="FALSE"
-IFS="
+  IFS="
 "
+  FOUND="FALSE"
   for LINE in $(cat $SCRIPT)
   do
-    RET=$(echo $LINE | grep '^# Usage:' 2> /dev/null)
-    if [ ! -z $RET ]
-    then
-      FOUND="TRUE"
-    fi
-    if [ $FOUND = "TRUE" ] 
-    then
-       CHAR1=$(echo $LINE | grep '^#')
-       if [ -z $CHAR1 ] 
-       then 
-            break
-       else
-          echo $LINE | sed 's/^#//'
-       fi
-    fi
+      TMP=$(echo $LINE | grep "^#-#")
+      if [ ! -z $TMP ]
+      then
+         FOUND="TRUE"
+      fi
+      if [ $FOUND = "TRUE" ]
+      then
+          CHAR=$(echo $LINE | cut -c1-3)
+          if [ $CHAR = '#-#' ]
+          then
+             echo $LINE | sed 's/^#-#/   /'
+          else
+              break
+          fi
+      fi
+      
   done
-  return 0
 }
 
 isRunning() {

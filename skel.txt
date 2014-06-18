@@ -5,13 +5,13 @@
 # Date created:  CDD-CMM-C20YY
 # last modified: dd-mm-20yy
 
-# Description:
-#
-#
-#
-# Usage: 
-#
-# Example:
+#-# Usage: 
+#-#
+#-#
+#-#
+#-# Description:
+#-#
+#-# Example:
 
 # Script Variables:
 
@@ -24,10 +24,18 @@
 #recordscriptrun $(basename $0) $LOGBASE
 
 
+# if ! enoughArgs +0 $#
+# then
+#  usage
+#  exit 100
+#fi
+
 #VERBOSE=n
 #if [ $# -eq 1 ] && [ $1 = "-v" ]
 #then
 #  VERBOSE=y
+#  shift
 #fi
+
 
 # onScreen $VERBOSE "running"
