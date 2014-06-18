@@ -1,0 +1,5 @@
+
+
+
+find /media/media/Toshiba/Media/Music -iname 'desktop.ini' | quoteOutput | xargs rm
+find /media/media/Toshiba/Media/Music -iname 'Thumbs.db' | quoteOutput | xargs rm
