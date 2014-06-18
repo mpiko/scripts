@@ -1,0 +1,70 @@
+#!/bin/bash
+#
+# Michael Piko
+# Description: 
+# Date created:  18-06-2014
+# last modified: dd-mm-20yy
+
+# Description:
+# Compair two files based purly on their modified time. the files are usually
+# in separate directories.
+#
+# Usage: mtime path/file1 path/file2
+# Output: "older_file_number diff_in_seconds"   
+# Example: 
+# assume file2 is 14 seconds older run:
+#   mtime file1 file2
+# prints "2 14"
+# 2 being the second argument or file
+# if they are both the same it prints "0 0"
+
+
+# Script Variables:
+
+
+#see setEnvironment.sh, functions.sh, and variables.sh for explainations
+. setEnvironment.sh
+
+#buildpath $LOGDIR
+#cleandir $LOGDIR 2
+#recordscriptrun $(basename $0) $LOGBASE
+
+if ! enoughArgs 2 $#
+then
+   usage
+   exit
+fi
+
+#VERBOSE=n
+#if [ $# -eq 1 ] && [ $1 = "-v" ]
+#then
+#  VERBOSE=y
+#fi
+
+# onScreen $VERBOSE "running"
+
+FILE1=$1
+FILE2=$2
+if [ ! -e $FILE1 ]
+then
+  echo "Cannot find $FILE1. Aborting"
+elif [ ! -e $FILE2 ]
+then
+  echo "Cannot find $FILE2. Aborting"
+fi
+
+F1MTIME=$(stat --printf=%Y "$FILE1")
+F2MTIME=$(stat --printf=%Y "$FILE2")
+
+AGEDIFF=$(expr $F2MTIME - $F1MTIME)
+
+if [ $AGEDIFF -gt 0 ]
+then
+   echo "1 $AGEDIFF"
+elif [ $AGEDIFF -lt 0 ]
+then
+   AGEDIFF=$(echo $AGEDIFF | sed 's/^-//')
+   echo "2 $AGEDIFF"
+else
+  echo "0 0"
+fi

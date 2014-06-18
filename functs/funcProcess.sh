@@ -1,6 +1,41 @@
 #!/bin/bash -x
 
 
+
+
+usage() {
+#   grep Usage $ME | sed 's/^#//'
+#   if [ $? -ne 0 ]
+#   then
+#      echo "No Usage clause for $ME"
+#      echo "Please add one to the script"
+#   fi
+#   return 0
+  SCRIPT=$(which $ME)
+  FOUND="FALSE"
+IFS="
+"
+  for LINE in $(cat $SCRIPT)
+  do
+    RET=$(echo $LINE | grep '^# Usage:' 2> /dev/null)
+    if [ ! -z $RET ]
+    then
+      FOUND="TRUE"
+    fi
+    if [ $FOUND = "TRUE" ] 
+    then
+       CHAR1=$(echo $LINE | grep '^#')
+       if [ -z $CHAR1 ] 
+       then 
+            break
+       else
+          echo $LINE | sed 's/^#//'
+       fi
+    fi
+  done
+  return 0
+}
+
 isRunning() {
   local PID=$1
   [ -z $PID ] && return 1
