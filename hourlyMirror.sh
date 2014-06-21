@@ -30,7 +30,7 @@ then
   PID=$(cat $LOCKFILE)
   if isRunning $PID
   then
-    #echo "An instance $ME is already running. Aborting." > $LOGFILE
+    echo "An instance $ME is already running. Aborting." > $LOGFILE
     exit 30
    else
      removeLock $LOCKFILE

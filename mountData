@@ -2,4 +2,8 @@
 
 . .secrets
 
-sudo mount -t cifs //192.168.0.5/data /media/remote/ltspdata -o username=$LTSPUSERNAME,password=$LTSPPASSWORD
+cd $HOME/bin
+
+LTSP=$(grep ltsp allhosts.txt | cut -f1 -d" ")
+
+sudo mount -t cifs //$LTSP/data /media/remote/ltspdata -o username=$LTSPUSERNAME,password=$LTSPPASSWORD
