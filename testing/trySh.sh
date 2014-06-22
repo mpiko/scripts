@@ -2,14 +2,11 @@
 
 . setEnvironment.sh
 
-set -x
-if isHostUp pi@rpi
-then
-  echo its up
-else
-  echo no
-fi
+#set -x
 
+LOGGING=y
+logevent $LOGGING $LOGFILE "it barfed"
+   
 
 #IFS="
 #"

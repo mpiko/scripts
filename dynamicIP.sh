@@ -16,6 +16,7 @@
 # Script Variables:
 DNSNAME=michaelpiko.no-ip.biz
 NOIP2=/usr/local/bin/noip2
+LOGGING=y
 
 #see setEnvironment.sh, functions.sh, and variables.sh for explainations
 . setEnvironment.sh
@@ -52,6 +53,7 @@ if [ ! -z "$PROCESS" ]
 then
   PID=$(echo $PROCESS | cut -f1 -d" ")
   onScreen $VERBOSE "killing $PID"
+  logEvent $LOGGING $LOGFILE "$NOIP2 restarted"
   sudo kill $PID
 fi
 exec sudo $NOIP2

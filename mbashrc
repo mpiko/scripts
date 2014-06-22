@@ -22,7 +22,7 @@ user_color=$green
 [ "$UID" -eq 0 ] && { user_color=$red; }
 
 PS1="\[$reset\]\[$user_color\]\u@\h\
-\[$cyan\]:\[$blue\]\w\[$reset\](\[$yellow\]\$?\[$reset\])\[$black\]\
+\[$cyan\]:\[$blue\]\w\[$reset\]\[$black\]\
 :\[$reset\] "
 
 

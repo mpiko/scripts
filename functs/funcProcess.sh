@@ -1,6 +1,22 @@
 #!/bin/bash -x
 
-
+logevent() {
+# tests to see if logging of events are wanted.
+# Usage: if logevent "y log/logfile "message text"; then ...
+# Example: if logevent "script filed"; then exit 1; fi
+  local LOGEVENT=$1
+  local LOGEVENTFILE=$2
+  shift 2
+  if [ $LOGEVENT = 'y' ]
+  then
+    TODAY=$(getDate)
+    TIME=$(getTime)
+    echo "$TODAY_$TIME: $@" >> $LOGEVENTFILE
+    return 0
+  fi
+  return 1
+  
+}
 
 
 usage() {
