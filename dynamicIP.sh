@@ -21,8 +21,8 @@ LOGGING=y
 #see setEnvironment.sh, functions.sh, and variables.sh for explainations
 . setEnvironment.sh
 
-#buildpath $LOGDIR
-#cleandir $LOGDIR 2
+buildpath $LOGDIR
+cleandir $LOGDIR 2
 #recordscriptrun $(basename $0) $LOGBASE
 
 
