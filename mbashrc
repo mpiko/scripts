@@ -1,6 +1,8 @@
 #!/bin/bash
 
 alias vi=vim
+alias ll='ls -l'
+
 
 if [ -d $HOME/localbin ] ; then
   PATH=$HOME/localbin:$PATH

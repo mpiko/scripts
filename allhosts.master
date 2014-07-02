@@ -7,6 +7,7 @@
 10.1.1.6     rpi
 10.1.1.7     vserver001
 10.1.1.8     vserver002
+10.1.1.20    xbmc
 MYIP   hunter
 
 # The following lines are desirable for IPv6 capable hosts

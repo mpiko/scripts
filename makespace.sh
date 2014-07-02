@@ -59,6 +59,6 @@ do
    #rm "$OLDESTFILE"
    sudo rm "$OLDESTFILE"
    USEDSPACE=$(df 2> /dev/null | grep sda1 | sed 's/ \+/-/g' | cut -f5 -d- | sed 's/%//')
-   read STUFF
+  # read STUFF
 done
 

@@ -21,10 +21,10 @@ then
   onScreen $VERBOSE rsync $SOURCE to ltsp
   rsync -a --delete -e ssh $SOURCE ltsp:$DEST
 fi
-if isHostUp media-laptop
+if isHostUp xbmc
 then
-  onScreen $VERBOSE rsync $SOURCE to media-laptop
-  rsync -a --delete -e ssh $SOURCE media@media-laptop:$DEST
+  onScreen $VERBOSE rsync $SOURCE to xbmc
+  rsync -a --delete -e ssh $SOURCE pi@xbmc:$DEST
 fi
 if isHostUp rpi
 then
