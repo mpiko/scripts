@@ -38,5 +38,5 @@ then
 fi
 
 setLock $LOCKFILE $$
-$COMMAND > $LOGFILE
+$COMMAND > $LOGFILE 2> $LOGBASE/lastrunerror.log
 removeLock $LOCKFILE

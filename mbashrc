@@ -2,6 +2,7 @@
 
 alias vi=vim
 alias ll='ls -l'
+alias lr='ls -1tr'
 
 
 if [ -d $HOME/localbin ] ; then

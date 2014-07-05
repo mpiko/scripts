@@ -23,7 +23,7 @@ then
 fi
 if isHostUp xbmc
 then
-  onScreen $VERBOSE rsync $SOURCE to xbmc
+  onScreen $VERBOSE rsync $SOURCE to pi@xbmc
   rsync -a --delete -e ssh $SOURCE pi@xbmc:$DEST
 fi
 if isHostUp rpi
@@ -40,5 +40,10 @@ if isHostUp vserver002
 then
   onScreen $VERBOSE rsync $SOURCE to vserver002
   rsync -a --delete -e ssh $SOURCE vserver002:$DEST
+fi
+if isHostUp xbmc
+then
+  onScreen $VERBOSE rsync $SOURCE to michael@xbmc
+  rsync -a --delete -e ssh $SOURCE michael@xbmc:$DEST
 fi
 
