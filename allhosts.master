@@ -9,6 +9,7 @@
 10.1.1.8     vserver002
 10.1.1.20    xbmc
 MYIP   hunter
+10.1.1.30    Asterisk asterisk
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
