@@ -8,7 +8,7 @@ recordscriptrun $(basename $0) $LOGBASE
 cd
 
 SOURCE=bin/
-DEST=bin/
+DEST=/usr/local/bin/
 VERBOSE="n"
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
