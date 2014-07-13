@@ -1,0 +1,9 @@
+#!/bin/bash
+
+
+
+D=$(date +"%Y-%m-%d %T")
+
+
+echo -n "$D : "
+cat
