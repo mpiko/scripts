@@ -3,7 +3,10 @@
 
 
 D=$(date +"%Y-%m-%d %T")
+IFS="
+"
 
-
-echo -n "$D : "
-cat
+for LINE in $(cat)
+do
+  echo "$D: $LINE"
+done
