@@ -1,0 +1,24 @@
+#!/bin/bash
+
+START=$1
+END=$2
+
+if [ $START -gt $END ]
+then
+  CURRENT=$START
+  while [ $CURRENT -ge $END ]
+  do
+    echo $CURRENT
+    CURRENT=$(expr $CURRENT - 1)
+   done
+elif [ $END -gt $START ]
+then
+  CURRENT=$START
+  while [ $CURRENT -le $END ]
+  do
+    echo $CURRENT
+    CURRENT=$(expr $CURRENT + 1)
+   done
+else
+   echo Dunno what to do
+fi

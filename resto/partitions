@@ -1,0 +1,32 @@
+#!/bin/bash
+
+PARTITIONFILE=/source/partitions.txt
+#PARTITIONFILE=partitions.txt
+
+if [ ! -e $PARTITOINFILE ]
+then
+  echo "Cannot find $PARTITIONFILE. Aborting"
+  exit 1
+fi
+
+
+sfdisk /dev/sda < $PARTITIONFILE
+
+IFS="
+"
+for SWAP in $(grep Id=82 $PARTITIONFILE | awk '{print $1}')
+do
+  echo SWAP=$SWAP
+  mkswap $SWAP
+done
+
+for EXT4 in $(grep Id=83 $PARTITIONFILE | awk '{print $1}')
+do
+  echo FS=$EXT4
+  mkfs.ext4 $EXT4
+done
+
+
+fdisk -l /dev/sda
+
+

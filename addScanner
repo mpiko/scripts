@@ -1,0 +1,11 @@
+
+
+if ! grep "deb http://www.bchemnet.com/suldr/ debian extra" /etc/apt/sources.list > /dev/null 2>&1
+then
+   sudo su -c "echo \"deb http://www.bchemnet.com/suldr/ debian extra\" >> /etc/apt/sources.list"
+   sudo wget -O - http://www.bchemnet.com/suldr/suldr.gpg | sudo apt-key add - 
+fi
+
+sudo apt-get update
+sudo apt-get -y install samsungmfp-scanner
+sudo /opt/Samsung/mfp/bin/netdiscovery --all --scanner >.samsung.netdiscovery

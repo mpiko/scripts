@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# sda is the destination.
+# sdb is the source
+
+
+SMOUNT=/source
+DMOUNT=/dest
+SHDD=/dev/sdb
+DHDD=/dev/sda
+
+
+[ -d $SMOUNT ] || mkdir $SMOUNT
+[ -d $DMOUNT ] || mkdir $DMOUNT
+mount ${SHDD}1 $SMOUNT
+mount ${DHDD}1 $DMOUNT
+
+rsync -avxP $SMOUNT/ $DMOUNT/ --delete
+
+SUUID=$(cat $SMOUNT/etc/fstab | grep -w '/' | grep -v '^#' | awk '{print $1}' | tr -d "UUID=")
+SWAPUUID=$(cat $SMOUNT/etc/fstab | grep -w 'swap' | grep -v '^#' | awk '{print $1}' | tr -d "UUID=")
+
+DUUID=$(lsblk -no UUID ${DHDD}1)
+DSWAPUUID=$(lsblk -no UUID ${DHDD}2)
+
+echo "Souce UUID = $SUUID"
+echo "Sorce swap = $SWAPUUID"
+echo "Dest UUID = $DUUID"
+echo "Dest swap = $DSWAPUUID"
+
+echo "Updating fstab"
+cat $SMOUNT/etc/fstab | sed "s/$SUUID/$DUUID/g" | sed "s/$SWAPUUID/$DSWAPUUID/g" > /tmp/fstab.new
+su -c "cat /tmp/fstab.new > $DMOUNT/etc/fstab"
+
+echo "Updating grub"
+cat $SMOUNT/boot/grub/grub.cfg | sed "s/$SUUID/$DUUID/g" | sed "s/$SWAPUUID/$DSWAPUUID/g" > /tmp/grub.new
+su -c "cat /tmp/grub.new > $DMOUNT/boot/grub/grub.cfg"
+
+grub-install --root-directory $DMOUNT $DHDD
