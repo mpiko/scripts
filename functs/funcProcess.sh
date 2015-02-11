@@ -106,3 +106,35 @@ enoughArgs() {
   fi
   return 1
 }
+
+
+getUpdateHosts() {
+  # get a list of hosts to be updated
+  local FILE=~/bin/allhosts.master
+  local FILELEN=$(wc -l $FILE| awk '{print $1}')
+  local COUNTER=1
+  while [ $COUNTER -le $FILELEN ]
+  do
+    local LINE=$(head -$COUNTER $FILE | tail -1)
+    COUNTER=$( expr $COUNTER + 1)
+    [ -z "$LINE" ] && continue
+    
+    local SKIP=$(echo $LINE | awk '{print $1}' | grep '^#')
+    [ ! -z $SKIP ] && continue
+  
+    UPDATE=$(echo $LINE | awk '{print $4}')
+    if [ $UPDATE == "yes" ]
+    then
+      HNAME=$(echo $LINE | awk '{print $2}')
+      SYNCHOSTS="$SYNCHOSTS $HNAME"
+    fi
+  done
+  echo $SYNCHOSTS
+}
+
+getUpdateUser(){
+  FILE=~/bin/allhosts.master
+  local HNAME=$1
+  RUSER=$(grep $HNAME $FILE | awk '{print $3}')
+  echo $RUSER
+}

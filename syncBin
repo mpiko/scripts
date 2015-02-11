@@ -7,43 +7,31 @@ recordscriptrun $(basename $0) $LOGBASE
 
 cd
 
-SOURCE=bin/
-DEST=/usr/local/bin/
+SOURCE=~/bin
+DEST=~
 VERBOSE="n"
+
 
 if [ $# -eq 1 ] && [ $1 = "-v" ]
 then
    VERBOSE="y"
 fi
 
-if isHostUp ltsp
-then
-  onScreen $VERBOSE rsync $SOURCE to ltsp
-  rsync -a --delete -e ssh $SOURCE ltsp:$DEST
-fi
-if isHostUp xbmc
-then
-  onScreen $VERBOSE rsync $SOURCE to pi@xbmc
-  rsync -a --delete -e ssh $SOURCE pi@xbmc:$DEST
-fi
-if isHostUp rpi
-then
-  onScreen $VERBOSE rsync $SOURCE to rpi
-  rsync -a --delete -e ssh $SOURCE pi@rpi:$DEST
-fi
-if isHostUp vserver001
-then
-  onScreen $VERBOSE rsync $SOURCE to vserver001
-  rsync -a --delete -e ssh $SOURCE vserver001:$DEST
-fi
-if isHostUp vserver002
-then
-  onScreen $VERBOSE rsync $SOURCE to vserver002
-  rsync -a --delete -e ssh $SOURCE vserver002:$DEST
-fi
-if isHostUp xbmc
-then
-  onScreen $VERBOSE rsync $SOURCE to michael@xbmc
-  rsync -a --delete -e ssh $SOURCE michael@xbmc:$DEST
-fi
+SYNCHOSTS=$(getUpdateHosts)
+
+
+# Update the remote machines
+for HNAME in $SYNCHOSTS
+do
+  onScreen $VERBOSE update $HNAME
+  RUSER=$(getUpdateUser $HNAME)
+  if isHostUp $HNAME
+  then
+    onScreen $VERBOSE rsync $SOURCE to $RUSER@$HNAME:$DEST
+    #echo ssh $RUSER@$HNAME "[ -d $DEST ] || mkdir $DEST"
+    rsync -a --delete -e ssh $SOURCE $RUSER@$HNAME:$DEST
+  else
+    echo $HNAME seems to be down
+  fi
+done
 

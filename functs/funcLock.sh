@@ -1,5 +1,23 @@
 #!/bin/bash
 
+checkforlock() {
+  local LOCKFILE=$1
+  if [ -e $LOCKFILE ]
+  then
+    PID=$(cat $LOCKFILE)
+    if isRunning $PID
+    then
+      if [ -z $LOGFILE ]
+      then
+        echo "An instance $ME is already running. Aborting." > $LOGFILE
+      fi
+      exit 30
+     else
+       removeLock $LOCKFILE
+    fi
+  fi
+}
+
 setLock() {
 # sets up lock files
 # Usage: setLock file limit
@@ -39,3 +57,4 @@ removeLock() {
   [ -e $LOCK ] && rm $LOCK && return 0
   return 1
 }
+
