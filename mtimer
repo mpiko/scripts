@@ -120,7 +120,7 @@ while [ $CURRENTSIZE -lt $TARGETSIZE ]; do
     output "Amount to go: $AMOUNTTOGO $METRIC"
     output "Rate:           $RATE $METRIC/s"
     output ""
-    output "To go: $ETA"
+    output "Time to go: $ETA"
     output "ETA: $EST"
 done
 
