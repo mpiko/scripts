@@ -4,6 +4,9 @@ alias vi=vim
 alias ll='ls -l'
 alias lr='ls -1tr'
 alias rosanna='ssh pi@urbank.duckdns.org'
+alias reboot='sudo reboot'
+alias shutdown='sudo shutdown -h now'
+alias halt='sudo halt -p'
 
 
 if [ -d $HOME/bin ] ; then
