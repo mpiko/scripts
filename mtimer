@@ -3,6 +3,23 @@
 STARTCMD="df | grep '/exports/media' | awk '{print \$3}'"
 UPDATECMD="df | grep /raid | awk '{print \$3}'"
 METRIC="k"
+OUTPUT=mtimer.txt
+
+output() {
+    if [ -z $OUTPUT ]; then
+       echo "$*"
+   else
+      echo "$*" >> $OUTPUT
+  fi
+} 
+
+clearscreen() {
+    if [ -z $OUTPUT ] ; then
+        clear
+    else
+        echo "" > $OUTPUT
+    fi
+}
 
 STARTTIME=$(date +%s)
 IFS="
@@ -14,27 +31,29 @@ humanise() {
     fi
 
     local SECS=$1
+    local ETA=""
 
-    echo ""
-    echo -n "Estimated time until completion: "
+    output ""
+    output "Estimated time until completion: "
     local WEEKS=$(calc -p $SECS \/ 604800 | sed 's/~//g'|cut -d. -f1)
     SECS=$(calc $SECS - \($WEEKS \* 604800\))
-    [ $WEEKS -gt 0 ] && echo -n "$WEEKS w, "
+    [ $WEEKS -gt 0 ] && ETA="$WEEKS w, "
 
     local DAYS=$(calc -p $SECS \/ 86400 | sed 's/~//g'|cut -d. -f1)
     SECS=$(calc $SECS - \($DAYS \* 86400\))
-    [ $DAYS -gt 0 ] && echo -n "$DAYS d, "
+    [ $DAYS -gt 0 ] && ETA="$ETA$DAYS d, "
 
     local HOURS=$(calc -p $SECS \/ 3600 | sed 's/~//g'|cut -d. -f1)
     SECS=$(calc $SECS - \($HOURS \* 3600\))
-    [ $HOURS -gt 0 ] && echo -n "$HOURS h, "
+    [ $HOURS -gt 0 ] && ETA="$ETA$HOURS h, "
 
     local MINS=$(calc -p $SECS \/ 60 | sed 's/~//g'|cut -d. -f1)
     SECS=$(calc $SECS - \($MINS \* 60\))
-    [ $MINS -gt 0 ] && echo -n "$MINS m, "
+    [ $MINS -gt 0 ] && ETA="$ETA$MINS m, "
 
     SECS=$(echo $SECS | sed 's/[ \t]*//g')
-    echo "$SECS s"
+    ETA="$ETA$SECS s"
+    output "$ETA"
     return
 }
 
@@ -51,14 +70,12 @@ while [ $CURRENTSIZE -lt $TARGETSIZE ]; do
     GROWTH=$(calc $CURRENTSIZE - $STARTSIZE)
     RATE=$(calc -p $GROWTH \/ $ELAPSEDTIME | sed 's/~//g' | cut -d. -f1)
     TIMETOGO=$(calc -p $AMOUNTTOGO \/ $RATE | sed 's/~//g'|cut -d. -f1)
-    clear
-    echo "Current size:  $CURRENTSIZE $METRIC"
-    echo "Target size:   $TARGETSIZE $METRIC "
-    echo "Amount to go: $AMOUNTTOGO $METRIC"
-    echo "Rate:          $RATE $METRIC/s"
+    clearscreen
+    output "Current size:   $CURRENTSIZE $METRIC"
+    output "Target size:    $TARGETSIZE $METRIC "
+    output "Amount to go: $AMOUNTTOGO $METRIC"
+    output "Rate:           $RATE $METRIC/s"
     humanise $TIMETOGO
 done
-
-
 
 
