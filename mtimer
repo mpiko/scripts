@@ -1,14 +1,28 @@
 #!/bin/bash 
 
 # These MUST be a command that returns a single number in each of these:
-STARTCMD="df | grep '/exports/media' | awk '{print \$3}'"
-UPDATECMD="df | grep /raid | awk '{print \$3}'"
-# $1 can be a file as in:
-#STARTCMD="stat -cs \$FILE"
-#UPDATECMD="stat -cb \$FILE"
+STARTCMD="sudo fdisk -l /dev/sdb | grep Disk | head -1 | awk '{print \$5}'"
+UPDATECMD="ls -l openelec_04-03-2015.img | cut -d\" \" -f5"
+# Other options:
+#   STARTCMD="df | grep '/exports/media' | awk '{print \$3}'"
+#   UPDATECMD="df | grep /raid | awk '{print \$3}'"
+#   STARTCMD="stat -cs \$FILE"
+#   UPDATECMD="stat -cb \$FILE"
+CALC=$(which calc)
+
+if [ -z $CALC ] ; then
+    echo -n "calc not found. Would you like to install it? (Y,n)"
+    read INPUT
+    if [ $INPUT = 'n' ] || [ $INPUT = 'N' ] ; then
+        echo "exiting"
+        exit 1
+    else
+        sudo apt install apcalc
+    fi
+fi
 
 # change the metric to whatever is relevant.
-METRIC="k"
+METRIC="b"
 
 # can specify an output file. Usually if you want it to run in the background
 # and then use "watch cat outputfile" to check on progress.
@@ -45,14 +59,14 @@ humanise() {
     local ETA=""
 
     if [ $SECS -gt 604800 ]; then
-        local WEEKS=$(calc -p $SECS \/ 604800 | sed 's/~//g'|cut -d. -f1)
-        SECS=$(calc $SECS - \($WEEKS \* 604800\))
+        local WEEKS=$($CALC -p $SECS \/ 604800 | sed 's/~//g'|cut -d. -f1)
+        SECS=$($CALC $SECS - \($WEEKS \* 604800\))
         ETA="$WEEKS w, "
     fi
 
     if [ $SECS -gt 86400 ]; then
-        local DAYS=$(calc -p $SECS \/ 86400 | sed 's/~//g'|cut -d. -f1)
-        SECS=$(calc $SECS - \($DAYS \* 86400\))
+        local DAYS=$($CALC -p $SECS \/ 86400 | sed 's/~//g'|cut -d. -f1)
+        SECS=$($CALC $SECS - \($DAYS \* 86400\))
         if [ $DAYS -le 9 ] ; then
             DAYS="00$DAYS"
         fi
@@ -62,8 +76,8 @@ humanise() {
     fi
 
     if [ $SECS -gt 3600 ]; then
-        local HOURS=$(calc -p $SECS \/ 3600 | sed 's/~//g'|cut -d. -f1)
-        SECS=$(calc $SECS - \($HOURS \* 3600\))
+        local HOURS=$($CALC -p $SECS \/ 3600 | sed 's/~//g'|cut -d. -f1)
+        SECS=$($CALC $SECS - \($HOURS \* 3600\))
         if [ $HOURS -le 9 ] ; then
             HOURS="0$HOURS"
         fi
@@ -73,8 +87,8 @@ humanise() {
     fi
 
     if [ $SECS -gt 60 ]; then
-        local MINS=$(calc -p $SECS \/ 60 | sed 's/~//g'|cut -d. -f1)
-        SECS=$(calc $SECS - \($MINS \* 60\))
+        local MINS=$($CALC -p $SECS \/ 60 | sed 's/~//g'|cut -d. -f1)
+        SECS=$($CALC $SECS - \($MINS \* 60\))
         if [ $MINS -le 9 ] ; then
             MINS="0$MINS"
         fi
@@ -106,12 +120,12 @@ while [ $CURRENTSIZE -lt $TARGETSIZE ]; do
     sleep 2
     NOW=$(date +%s)
     CURRENTSIZE=$(sh -c "$UPDATECMD")
-    ELAPSEDTIME=$(calc $NOW - $STARTTIME)
-    AMOUNTTOGO=$(calc $TARGETSIZE - $CURRENTSIZE)
-    GROWTH=$(calc $CURRENTSIZE - $STARTSIZE)
-    RATE=$(calc -p $GROWTH \/ $ELAPSEDTIME | sed 's/~//g' | cut -d. -f1)
-    TIMETOGO=$(calc -p $AMOUNTTOGO \/ $RATE | sed 's/~//g'|cut -d. -f1)
-    ESTCOMPLETIONTIME=$(calc $NOW + $TIMETOGO | awk '{print $1}')
+    ELAPSEDTIME=$($CALC $NOW - $STARTTIME)
+    AMOUNTTOGO=$($CALC $TARGETSIZE - $CURRENTSIZE)
+    GROWTH=$($CALC $CURRENTSIZE - $STARTSIZE)
+    RATE=$($CALC -p $GROWTH \/ $ELAPSEDTIME | sed 's/~//g' | cut -d. -f1)
+    TIMETOGO=$($CALC -p $AMOUNTTOGO \/ $RATE | sed 's/~//g'|cut -d. -f1)
+    ESTCOMPLETIONTIME=$($CALC $NOW + $TIMETOGO | awk '{print $1}')
     ETA=$(humanise $TIMETOGO)
     EST=$(date --date="@$ESTCOMPLETIONTIME" '+%d %b %Y %H:%M:%S')
     clearscreen
