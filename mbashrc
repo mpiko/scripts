@@ -8,6 +8,10 @@ alias reboot='sudo reboot'
 alias shutdown='sudo shutdown -h now'
 alias halt='sudo halt -p'
 
+# set up temp dir
+TMP=/tmp/michael
+[ -d $TMP ] || mkdir $TMP
+export TMP
 
 if [ -d $HOME/bin ] ; then
   PATH=$HOME/bin:$PATH
