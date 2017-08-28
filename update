@@ -3,3 +3,10 @@
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
+
+echo "updating ~/bin"
+cd ~/bin
+git pull
+echo "updating ~/localbin"
+cd ~/localbin
+git pull
