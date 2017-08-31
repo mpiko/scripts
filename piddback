@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo dd status=progress if=$1 bs=1M | gzip > $2
+
