@@ -1,5 +1,25 @@
 #!/bin/bash
 
+LOCKS="/var/lib/apt/lists/lock /var/lib/dpkg/lock"
+NOW=$(date +%s)
+TOL=3600 # seconds
+for I in $LOCKS
+do
+  if [ -e $I ]
+  then
+    #stat --print %y $I
+    MOD=$(stat --print %Y $I)
+    NUM=$(calc $MOD + $TOL)
+    if [ $NUM -lt $NOW ]
+    then
+      echo Removing stale lock: $I
+      sudo rm $I
+    else
+      : #echo MOD=$MOD NUM=$NUM
+    fi
+  fi
+done
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
