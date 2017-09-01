@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# this script is intended to be run from /data with
+# /data/Pi folder with files: 
+# chromium-browser_56.0.2924.84-0ubuntu0.14.04.1.1011.deb installGit installChrom
+# also a /data/ssh folder
+
+
+
 echo "Add: michael ALL=(ALL) NOPASSWD:ALL to suders"
 read NOW
 
@@ -15,7 +22,9 @@ configure vim as the editor"
 read NOW
 sudo update-alternatives --config editor
 
+cd Pi
 ./installGit
 ./installChrom
 
+rsync -av ssh ~/.ssh
 
