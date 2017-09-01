@@ -1,6 +1,8 @@
 #!/bin/bash
 
 sudo apt install git
+
+cd
 git config --global user.name "mpiko"
 git config --global user.email "michael@piko.com.au"
 git init
