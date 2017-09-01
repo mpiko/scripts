@@ -1,17 +1,21 @@
 #!/bin/bash
 
-cd
-sudo apt install git
-git config --global user.name "mpiko"
-git config --global user.email "michael@piko.com.au"
-git init
-git clone https://github.com/mpiko/scripts bin
-git clone https://github.com/mpiko/localbin localbin
+echo "Add: michael ALL=(ALL) NOPASSWD:ALL to suders"
+read NOW
+
+sudo visudo
 
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-atp install -y vim
+apt install -y vim
+echo "
 
+configure vim as the editor"
+read NOW
+sudo update-alternatives --config editor
+
+./installGit
+./installChrom
 
 
