@@ -1,0 +1,5 @@
+#!/bin/bash
+
+rsync -avP $1 $2
+
+rm $1
