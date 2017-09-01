@@ -8,7 +8,7 @@ sudo visudo
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-apt install -y vim apcalc
+apt install -y vim apcalc nfs-common
 echo "
 
 configure vim as the editor"
