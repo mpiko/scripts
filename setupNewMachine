@@ -24,7 +24,7 @@ sudo update-alternatives --config editor
 
 cd Pi
 ./installGit
-./installChrom
+#./installChrom
 
 rsync -av ssh ~/.ssh
 
