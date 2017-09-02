@@ -28,4 +28,15 @@ cd Pi
 ./installGit
 #./installChrom
 
+cd ~
 
+if [ -f bin/bash_aliases ]
+then
+    cp bin/bash_aliases .bash_aliases
+    chmod 755 .bash_aliases
+fi
+if [ -f bin/vimrc ]
+then
+    cp bin/vimrc .vimrc
+    chmod 644 .vimrc
+fi
