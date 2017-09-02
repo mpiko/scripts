@@ -22,9 +22,10 @@ configure vim as the editor"
 read NOW
 sudo update-alternatives --config editor
 
+rsync -av ssh ~/.ssh
+
 cd Pi
 ./installGit
 #./installChrom
 
-rsync -av ssh ~/.ssh
 
