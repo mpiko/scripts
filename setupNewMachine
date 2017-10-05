@@ -1,11 +1,7 @@
 #!/bin/bash
 
-# this script is intended to be run from /data with
-# /data/Pi folder with files: 
-# chromium-browser_56.0.2924.84-0ubuntu0.14.04.1.1011.deb installGit installChrom
-# also a /data/ssh folder
 
-
+HERE=$(pwd)
 
 echo "Add: michael ALL=(ALL) NOPASSWD:ALL to suders"
 read NOW
@@ -15,28 +11,53 @@ sudo visudo
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-sudo apt install -y vim apcalc nfs-common
+sudo apt install -y vim vim-scripts apcalc nfs-common git
 echo "
 
 configure vim as the editor"
 read NOW
 sudo update-alternatives --config editor
 
-rsync -av ssh ~/.ssh
 
-cd Pi
-./installGit
-#./installChrom
-
-cd ~
-
-if [ -f bin/bash_aliases ]
+if [ -d ssh ]
 then
-    cp bin/bash_aliases .bash_aliases
-    chmod 755 .bash_aliases
+  echo "setting up ssh"
+  rsync -av ssh/ $HOME/.ssh
+else
+  echo "cannot set up ssh keys. Please do it manually"
+  sleep 1
 fi
-if [ -f bin/vimrc ]
+
+cd $HOME
+git config --global user.name "mpiko"
+git config --global user.email "michael@piko.com.au"
+git clone https://github.com/mpiko/scripts bin
+git clone https://github.com/mpiko/localbin localbin
+
+cd $HERE
+
+if [ -f bash_aliases ]
 then
-    cp bin/vimrc .vimrc
-    chmod 644 .vimrc
+    cp bash_aliases $HOME/.bash_aliases
+    chmod 755 $HOME/.bash_aliases
+fi
+if [ -f vimrc ]
+then
+    cp vimrc $HOME/.vimrc
+    chmod 644 $HOME/.vimrc
+fi
+if [ -f mbashrc ]
+then
+    cp mbashrc $HOME/.mbashrc
+    chmod 755 $HOME/.mbashrc
+fi
+if [ -f secrets ]
+then
+    cp secrets $HOME/bin/.secrets
+    chmod 755 $HOME/bin/.secrets
+fi
+
+if ! grep .mbashrc $HOME/.bashrc > /dev/null
+then
+   echo ". .mbashrc" >> $HOME/.bashrc
 fi
