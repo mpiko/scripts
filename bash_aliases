@@ -9,4 +9,4 @@ alias halt='sudo halt -p'
 alias dd='dd status=progress'
 alias psg='ps ax | grep'
 alias wget='wget -c'
-
+alias gitpush='git push origin master'
