@@ -1,25 +1,19 @@
 #!/bin/bash
 
-alias vi=vim
-alias ll='ls -l'
-alias lr='ls -1tr'
-alias rosanna='ssh pi@urbank.duckdns.org'
-alias reboot='sudo reboot'
-alias shutdown='sudo shutdown -h now'
-alias halt='sudo halt -p'
-
 # set up temp dir
 TMP=/tmp/michael
 [ -d $TMP ] || mkdir $TMP
-export TMP
 
-if [ -d $HOME/bin ] ; then
+
+if ! echo $PATH | grep $HOME/bin > /dev/null ; then
   PATH=$HOME/bin:$PATH
 fi
 
-if [ -d $HOME/localbin ] ; then
+if ! echo $PATH | grep $HOME/localbin > /dev/null ; then
   PATH=$HOME/localbin:$PATH
 fi
+
+export TMP PATH
 
 #==============================
 # set the prompt
