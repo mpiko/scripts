@@ -30,3 +30,7 @@ git pull
 echo "updating ~/localbin"
 cd ~/localbin
 git pull
+
+cat bin/mbashrc > $HOME/.mbashrc
+cat bin/bash_aliases > $HOME/.bash_aliases
+cat bin/vimrc > $HOME/.vimrc
