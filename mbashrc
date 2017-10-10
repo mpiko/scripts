@@ -12,6 +12,10 @@ fi
 if ! echo $PATH | grep $HOME/localbin > /dev/null ; then
   PATH=$HOME/localbin:$PATH
 fi
+if [ -d $HOME/vpn ]
+then
+  PATH=$PATH:$HOME/vpn
+fi
 
 export TMP PATH
 
