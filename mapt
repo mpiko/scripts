@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PROG=$1
+LOG=$HOME/.apt.log
+TMP=/tmp/apt.log
+
+sudo apt install $PROG > $TMP
+
+cat $TMP >> $LOG
+cat $TMP
+
