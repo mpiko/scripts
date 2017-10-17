@@ -1,4 +1,10 @@
 #!/bin/bash
+if [ $# -ne 2 ]
+then
+    echo Usage: $(basename $0) device file
+    echo Example: $(basename $0) /dev/sda disk1.img.gz
+    exit 1
+fi
 
 sudo dd status=progress if=$1 bs=1M | gzip > $2
 
