@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+for i in 1 2 3 4
+do
+    echo -n "Camera $i "
+    ls -1 CAM$i* 2> /dev/null | wc -l
+done
