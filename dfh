@@ -1,4 +1,4 @@
 #!/bin/bash
 
-df -h | grep "^[F/]\+"
-df -h | grep "[a-zA-Z]\+:/"
+df -h 2> /dev/null | grep "^[F/]\+"
+df -h 2> /dev/null | grep "[a-zA-Z]\+:/" 
