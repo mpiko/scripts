@@ -22,7 +22,7 @@ else
 fi
 
 echo Saving to $DEST
-exit
+
 
 # Complete the URL
 START="http://emit-media-production.s3.amazonaws.com/pbs/the-juke-joint"
