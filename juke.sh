@@ -12,8 +12,9 @@ MON=$(date --date='last sun' '+%m')
 YEAR=$(date --date='last sun' '+%Y')
 Y=$(date --date='last sun' '+%y')
 
+
 # where to put the file when done.
-if [ hostname == "avon" ]
+if [ $HOSTNAME == "avon" ]
 then
     DEST=/media/michael/medback/PBS/JJ/$YEAR/$MON/
 else
@@ -21,6 +22,7 @@ else
 fi
 
 echo Saving to $DEST
+exit
 
 # Complete the URL
 START="http://emit-media-production.s3.amazonaws.com/pbs/the-juke-joint"
