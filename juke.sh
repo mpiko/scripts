@@ -2,7 +2,6 @@
 
 export DISPLAY=:0
 
-cd ~/Desktop
 
 # sudo apt-get install python-mutagen soundconverter apcalc wget
 # Note: python-mutagen contains mid3v2
@@ -12,6 +11,8 @@ MON=$(date --date='last sun' '+%m')
 YEAR=$(date --date='last sun' '+%Y')
 Y=$(date --date='last sun' '+%y')
 
+WORKDIR=~/Desktop
+cd $WORKDIR
 
 # where to put the file when done.
 if [ $HOSTNAME == "avon" ]
@@ -71,5 +72,8 @@ mid3v2 -A "Juke Joint" -t "${DAY}-${MON}-$Y" -a "Matt Fredricks" -T $D JJ-${DAY}
 
 # Move the file to its destination
 [ -d $DEST ] || mkdir -p $DEST
-mv JJ-${DAY}-${MON}-$Y.mp3 $DEST
+if [ ! $DEST == $WORKDIR ]
+then
+    mv JJ-${DAY}-${MON}-$Y.mp3 $DEST
+fi
 
