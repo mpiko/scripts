@@ -17,7 +17,7 @@ cd $WORKDIR
 # where to put the file when done.
 if [ $HOSTNAME == "avon" ]
 then
-    DEST=/media/michael/medback/PBS/JJ/$YEAR/$MON/
+    DEST=/medback/PBS/JJ/$YEAR/$MON/
 else
     DEST=~/Desktop
 fi
