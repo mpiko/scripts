@@ -22,8 +22,13 @@ else
     DEST=~/Desktop
 fi
 
-echo Saving to $DEST
+if [ -e $DEST/JJ-${DAY}-${MON}-$Y.mp3 ]
+then
+    #echo Nothing to do.
+    exit
+fi
 
+echo Saving to $DEST
 
 # Complete the URL
 START="http://emit-media-production.s3.amazonaws.com/pbs/the-juke-joint"
