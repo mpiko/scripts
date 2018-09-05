@@ -3,6 +3,9 @@
 LOCKS="/var/lib/apt/lists/lock /var/lib/dpkg/lock"
 NOW=$(date +%s)
 TOL=3600 # seconds
+
+
+removelocks() {
 for I in $LOCKS
 do
   if [ -e $I ]
@@ -19,6 +22,9 @@ do
     fi
   fi
 done
+}
+
+removelocks
 
 sudo apt update
 sudo apt upgrade -y
@@ -36,4 +42,6 @@ cat $HOME/bin/mbashrc > $HOME/.mbashrc
 echo updating .bash_aliases
 cat $HOME/bin/bash_aliases > $HOME/.bash_aliases
 echo updating .vimrc
+
+removelocks
 cat $HOME/bin/vimrc > $HOME/.vimrc
