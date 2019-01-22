@@ -1,0 +1,29 @@
+#!/bin/bash
+
+TMPFILE=/tmp/vpnstatus.$$
+
+ME=$(ifconfig tun0 2> /dev/null | grep -w inet | gawk '{print $2}') >/dev/null 2>&1
+if [ -z $ME ]
+then
+    ME="Down"
+    SERVER=www.valavon.com.au
+else
+    SERVER=192.168.2.1
+fi
+
+echo "This machine: $ME"
+echo -n "Others: "
+#exit
+
+ssh $SERVER "sudo cat /etc/openvpn/openvpn-status.log" > $TMPFILE
+
+IFS="
+"
+for i in $(grep "^192.168" $TMPFILE | grep -v $ME)
+do
+    OTHER=$(echo $i | cut -f1 -d,)
+    echo -n "$OTHER "
+done
+
+echo ""
+rm $TMPFILE
