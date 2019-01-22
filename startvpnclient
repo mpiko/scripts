@@ -1,6 +1,11 @@
 #!/bin/bash
 
 cd /etc/openvpn
-sudo openvpn --config /etc/openvpn/client.conf &
 
+TUN=$(ifconfig tun0| grep -w inet | awk '{print $1}') 2> /dev/null
+
+if [ -z $TUN ]
+then
+    sudo openvpn --config /etc/openvpn/client.conf &
+fi
 
