@@ -1,0 +1,27 @@
+#!/bin/bash
+
+ME=$(basename $0)
+
+if [ $# -ne 1 ]
+then
+    echo "Usage: $ME pattern"
+    exit 1
+fi
+
+PATH=$PATH:/home/michael/bin
+
+IFS="
+"
+
+for i in $(ps -ax | grep $1 | grep -v grep | grep -v $ME)
+do
+    PID=$(echo $i | gawk '{print $1}')
+    NAME=$(echo $i | gawk '{print $5" "$6" "$7" "$8" "$9" "$10}')
+    echo "Kill? $PID $NAME (y/N)"
+    read KILL
+    if [ $KILL == "y" ]
+    then
+         sudo kill $PID
+    fi
+done
+
