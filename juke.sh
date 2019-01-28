@@ -2,6 +2,7 @@
 
 export DISPLAY=:0
 
+START=$(date '+%s')
 
 # sudo apt-get install python-mutagen soundconverter apcalc wget
 # Note: python-mutagen contains mid3v2
@@ -18,6 +19,9 @@ cd $WORKDIR
 if [ $HOSTNAME == "avon" ]
 then
     DEST=/medback/PBS/JJ/$YEAR/$MON/
+elif [ -e "/media/michael/4055-910E" ]
+then 
+    DEST="/media/michael/4055-910E/Juke Joint"
 else
     DEST=~/Desktop
 fi
@@ -76,9 +80,21 @@ fi
 mid3v2 -A "Juke Joint" -t "${DAY}-${MON}-$Y" -a "Matt Fredricks" -T $D JJ-${DAY}-${MON}-$Y.mp3
 
 # Move the file to its destination
-[ -d $DEST ] || mkdir -p $DEST
-if [ ! $DEST == $WORKDIR ]
+[ -d "$DEST" ] || mkdir -p "$DEST"
+if [ ! "$DEST" == "$WORKDIR" ]
 then
-    mv JJ-${DAY}-${MON}-$Y.mp3 $DEST
+    mv JJ-${DAY}-${MON}-$Y.mp3 "$DEST"
 fi
+
+END=$(date '+%s')
+
+TIME=$(calc $END - $START)
+MINS=$(calc $TIME / 60| sed 's/~//' | cut -f1 -d.)
+SECS=$(calc $TIME % 60 | gawk '{print $1}')
+if [ $SECS -lt 10 ]
+then
+   SECS="0$SECS"
+fi
+
+echo "Time = $MINS:$SECS"
 
