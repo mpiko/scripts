@@ -2,7 +2,7 @@
 
 export DISPLAY=:0
 
-START=$(date '+%s')
+#START=$(date '+%s')
 
 # sudo apt-get install python-mutagen soundconverter apcalc wget
 # Note: python-mutagen contains mid3v2
@@ -86,15 +86,15 @@ then
     mv JJ-${DAY}-${MON}-$Y.mp3 "$DEST"
 fi
 
-END=$(date '+%s')
+#END=$(date '+%s')
 
-TIME=$(calc $END - $START)
-MINS=$(calc $TIME / 60| sed 's/~//' | cut -f1 -d.)
-SECS=$(calc $TIME % 60 | gawk '{print $1}')
-if [ $SECS -lt 10 ]
-then
-   SECS="0$SECS"
-fi
-
-echo "Time = $MINS:$SECS"
-
+#TIME=$(calc $END - $START)
+#MINS=$(calc $TIME \/ 60| sed 's/~//' | cut -f1 -d.)
+#SECS=$(calc $TIME \% 60 | gawk '{print $1}')
+#if [ $SECS -lt 10 ]
+#then
+#   SECS="0$SECS"
+#fi
+#
+#echo "Time = $MINS:$SECS"
+#
