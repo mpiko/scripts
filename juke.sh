@@ -19,9 +19,9 @@ cd $WORKDIR
 if [ $HOSTNAME == "avon" ]
 then
     DEST=/medback/PBS/JJ/$YEAR/$MON/
-elif [ -e "/media/michael/4055-910E" ]
+elif [ -e "/media/michael/MUSIC" ]
 then 
-    DEST="/media/michael/4055-910E/Juke Joint"
+    DEST="/media/michael/MUSIC/Juke Joint"
 else
     DEST=~/Desktop
 fi
