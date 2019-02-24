@@ -40,7 +40,7 @@ END="1300_the-juke-joint_64.m4a"
 URL="$START/$YEAR/$MON/$DAY/1300/$YEAR$MON$DAY$END"
 
 # numerical week of the year
-D=$(date +%W)
+D=$(date +%W | sed 's/^0//')
 D=$(calc $D -1| sed 's/\t\+//g')
 # add leading 0 if below 10
 if [ $D -lt 10 ]
