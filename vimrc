@@ -2,6 +2,7 @@ filetype plugin indent on
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set number
 
 " Tell vim to remember certain things when we exit
 "  '10  :  marks will be remembered for up to 10 previously edited files
