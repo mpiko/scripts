@@ -12,6 +12,17 @@ MON=$(date --date='last sun' '+%m')
 YEAR=$(date --date='last sun' '+%Y')
 Y=$(date --date='last sun' '+%y')
 
+# override the date. 
+#Day = 07 
+#Mon = 06 (June)
+#Year = 2019
+#Y = 19
+#DAY=30
+#MON=06
+#YEAR=2019
+#Y=19
+
+
 WORKDIR=~/Desktop
 cd $WORKDIR
 
