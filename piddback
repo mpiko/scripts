@@ -6,5 +6,5 @@ then
     exit 1
 fi
 
-sudo dd status=progress if=$1 bs=1M | gzip > $2
+sudo dd status=progress conv=fsync if=$1 bs=1M | gzip > $2
 
