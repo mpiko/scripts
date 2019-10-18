@@ -7,4 +7,4 @@ then
 fi
 
 sudo dd status=progress conv=fsync if=$1 bs=1M | gzip > $2
-
+sudo sync

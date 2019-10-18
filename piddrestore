@@ -1,2 +1,3 @@
 #!/bin/bash
 gzip -dc $1 | sudo dd status=progress conv=fsync of=$2
+sudo sync
