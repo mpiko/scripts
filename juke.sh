@@ -29,7 +29,8 @@ cd $WORKDIR
 # where to put the file when done.
 if [ $HOSTNAME == "avon" ]
 then
-    DEST=/medback/PBS/JJ/$YEAR/$MON/
+    #DEST=/medback/PBS/JJ/$YEAR/$MON/
+    DEST=/multmedia/PBS/JJ/$YEAR/$MON/
 elif [ -e "/media/michael/MUSIC" ]
 then 
     DEST="/media/michael/MUSIC/Juke Joint"
