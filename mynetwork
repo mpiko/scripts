@@ -1,3 +1,59 @@
 #!/bin/bash
 
-nmap -sP 10.1.1.* | grep -v latency | sed 's/Nmap scan report for /    /'
+NETWORK=$(ifconfig | grep inet | grep netmask | grep -v 127.0.0 | gawk '{print $2" "$4}')
+
+IP=$(echo $NETWORK | gawk '{print $1}')
+MASK=$(echo $NETWORK | gawk '{print $2}')
+
+if [ $MASK == "255.255.255.0" ]
+then
+    NET=3
+    SUB=1
+    DECMASK=24
+    HOSTS=".0"
+elif [ $MASK == "255.255.0.0" ]
+then
+    NET=2
+    SUB=2
+    DECMASK=16
+    HOSTS=".0.0"
+else
+    NET=1
+    SUB=3
+    DECMASK=8
+    HOSTS=".0.0.0"
+fi
+echo "My details: IP=$IP Mask=$MASK Net=$NET Sub=$SUB"
+NETPART=$(echo $IP | cut -d"." -f-$NET)
+SEARCH=${NETPART}${HOSTS}
+echo "Searching $SEARCH"
+OLDIFS=$IFS
+IFS="
+"
+
+for LINE in $(nmap -sP $SEARCH/$DECMASK | grep -v latency | sed 's/Nmap scan report for /    /')
+do
+   echo $LINE
+   FLAG=$(echo $LINE | grep $NETPART)
+   if [ -z "$FLAG" ]
+   then 
+       continue
+   else
+       FOUND="$FOUND $LINE"
+   fi
+done
+
+IFS=$OLDIFS
+for LINE in $FOUND
+do
+    FLAG=$(echo $LINE | grep $NETPART)
+    if [ -z "$FLAG" ]
+    then 
+        continue
+    else
+        HOST=$(echo "$LINE" | sed 's/[\(\)]//g')
+        echo "___________________________________"
+        echo "Scanning $HOST"
+        sudo nmap -O $HOST
+    fi
+done
