@@ -1,3 +1,32 @@
 #!/bin/bash
-gzip -dc $1 | sudo dd status=progress conv=fsync of=$2
+
+if [ $# -ne 2 ]
+then
+    echo $(basename $0) source destination
+    exit 1
+fi
+
+if [ ! -e "$1" ]
+then
+    echo cannot find $1
+    exit 2
+fi
+
+# find the extension of $1
+for PART in $(echo $1 | sed 's/\./ /g')
+do
+    EXT=$PART
+done
+
+if [ $EXT == "zip" ]
+then
+    unzip -p $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+elif [ $EXT == "gz" ]
+then 
+    gzip -dc $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+else
+    echo dont know what to do with $1
+    echo aborting.
+fi
+
 sudo sync
