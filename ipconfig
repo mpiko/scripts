@@ -1,10 +1,14 @@
 #!/bin/bash
 
-INTERFACES=$(ifconfig | grep '^[a-zA-Z0-9]' | cut -f1 -d" ")
+INTERFACES=$(ifconfig | grep '^[a-zA-Z0-9]' | cut -f1 -d" " | sed 's/://g')
 
 for i in $INTERFACES
 do
-  IP=$(ifconfig $i | grep "inet addr" | sed 's/ *inet addr://')
-  echo "$i    Addr:$IP"
+    if [ $i == lo ]
+    then
+        continue
+    fi
+    IP=$(ifconfig $i | grep -w inet | gawk '{print $2}')
+    echo "$i    $IP"
 done
 
