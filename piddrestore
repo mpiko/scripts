@@ -1,11 +1,31 @@
 #!/bin/bash
 
+IMAGE_INFO_FILE=/home/michael/.michael/images.txt
+
+UTILITIES="dd pv gzip unzip"
+# Check to see we have all the tools we need.
+for UTIL in $UTILITIES
+do
+    dpkg -l | grep -w $UTIL > /dev/null 2>&1
+    if [ $? -ne 0 ]
+    then
+        NOTFOUND="$NOTFOUND $UTIL"
+    fi
+done
+if [ ! -z "$NOTFOUND" ]
+then
+    echo "The following utiliies are missing: $NOTFOUND"
+    exit 1
+fi
+
+# do we have the right number of arguments
 if [ $# -ne 2 ]
 then
     echo $(basename $0) source destination
     exit 1
 fi
 
+# does the source exist?
 if [ ! -e "$1" ]
 then
     echo cannot find $1
@@ -18,15 +38,33 @@ do
     EXT=$PART
 done
 
+# if the size is known then we can use pv. Otherwise, we use dd's progress.
+if [ -e $IMAGE_INFO_FILE ]
+then
+    SIZE=$(grep $1 $IMAGE_INFO_FILE | gawk '{print $2}')
+fi
+
+# here we go...
 if [ $EXT == "zip" ]
 then
-    unzip -p $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+    if [ -z $SIZE ]
+    then
+        unzip -p $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+    else
+        unzip -p $1 | pv -s $SIZE | sudo dd status=none conv=fsync bs=4M of=$2
+    fi
 elif [ $EXT == "gz" ]
 then 
-    gzip -dc $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+    if [ -z $SIZE ]
+    then
+        gzip -dc $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+    else
+        gzip -dc $1 | pv -s $SIZE | sudo dd status=none conv=fsync bs=4M of=$2
+    fi
 else
     echo dont know what to do with $1
     echo aborting.
 fi
 
+# just for luck.
 sudo sync
