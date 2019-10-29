@@ -1,17 +1,10 @@
 
-10.1.1.1     router
-10.1.1.2     media-laptop
-10.1.1.3     Samsung
-10.1.1.4     HP
-10.1.1.5     ltsp
-10.1.1.6     rpi
-10.1.1.7     vserver001
-10.1.1.8     vserver002
-10.1.1.101   hunter
+192.168.0.1	router
+192.168.0.5	extender
 
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
+192.168.0.200	nas
+192.168.0.6	laptop
+192.168.0.7	Brother_Printer
+192.168.0.8	pitop
+192.168.0.10	avon
+192.168.0.12	traveller
