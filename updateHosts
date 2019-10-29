@@ -1,0 +1,23 @@
+#!/bin/bash
+
+TEMPFILE=/tmp/newhosts.$$
+
+# Make sure only root can run our script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+cd /home/michael/bin
+
+echo "127.0.0.1	localhost
+::1		localhost ip6-localhost ip6-loopback
+ff02::1		ip6-allnodes
+ff02::2		ip6-allrouters" > $TEMPFILE
+
+cat allhosts.txt >> $TEMPFILE
+
+cat $TEMPFILE > /etc/hosts 
+
+rm $TEMPFILE
+
