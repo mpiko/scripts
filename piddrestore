@@ -2,7 +2,7 @@
 
 IMAGE_INFO_FILE=/home/michael/.michael/images.txt
 
-UTILITIES="dd pv gzip unzip"
+UTILITIES="pv gzip unzip"
 # Check to see we have all the tools we need.
 for UTIL in $UTILITIES
 do
