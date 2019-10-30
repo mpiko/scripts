@@ -3,8 +3,9 @@
 192.168.0.5	extender
 
 192.168.0.200	nas
-192.168.0.6	laptop
+192.168.0.	laptop
 192.168.0.7	Brother_Printer
+192.168.0.8	pitop_wifi
 192.168.0.9	pitop
-192.168.0.10	avon
+192.168.0.6	avon
 192.168.0.12	traveller
