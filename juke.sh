@@ -95,8 +95,12 @@ mid3v2 -A "Juke Joint" -t "${DAY}-${MON}-$Y" -a "Matt Fredricks" -T $D JJ-${DAY}
 [ -d "$DEST" ] || mkdir -p "$DEST"
 if [ ! "$DEST" == "$WORKDIR" ]
 then
-    mv JJ-${DAY}-${MON}-$Y.mp3 "$DEST"
+    ssh nas -C "[ -e $DEST ] || mkdir -p $DEST"
+    rsync -ae ssh JJ-${DAY}-${MON}-$Y.mp3 nas:$DEST
+    #mv JJ-${DAY}-${MON}-$Y.mp3 "$DEST"
 fi
+ssh nas -C "[ -e $DEST ] || mkdir -p $DEST"
+rsync -ae ssh JJ-${DAY}-${MON}-$Y.mp3 nas:$DEST
 
 #END=$(date '+%s')
 
