@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#DAY=$(date --date='last sun' '+%d')
+MON=$(date --date='last sun' '+%m')
+YEAR=$(date --date='last sun' '+%Y')
+#Y=$(date --date='last sun' '+%y')
+
+ssh nas -C "mkdir -p /multimedia/PBS/JJ/$Y/$MON/"
+
+cd ~/Desktop
+for MP3 in $(ls -1 *.mp3)
+do
+    if [ "$1" == "-q" ]
+    then
+        rsync -ae ssh $MP3  nas:/multimedia/PBS/JJ/$YEAR/$MON/
+    else
+        rsync -avPe ssh $MP3  nas:/multimedia/PBS/JJ/$YEAR/$MON/
+    fi
+done
