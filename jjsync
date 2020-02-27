@@ -8,7 +8,7 @@ YEAR=$(date --date='last sun' '+%Y')
 ssh nas -C "mkdir -p /multimedia/PBS/JJ/$Y/$MON/"
 
 cd ~/Desktop
-for MP3 in $(ls -1 *.mp3)
+for MP3 in $(ls -1 *.mp3 2> /dev/null)
 do
     if [ "$1" == "-q" ]
     then
@@ -16,4 +16,5 @@ do
     else
         rsync -avPe ssh $MP3  nas:/multimedia/PBS/JJ/$YEAR/$MON/
     fi
+    rm $MP3
 done
