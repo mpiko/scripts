@@ -1,0 +1,46 @@
+#!/bin/bash
+
+FILE=$1
+NEWFILE=$(basename $FILE .mp4)
+
+echo $FILE
+echo $NEWFILE
+exit
+export DISPLAY=:0
+
+#START=$(date '+%s')
+
+# sudo apt-get install python-mutagen soundconverter apcalc wget
+# Note: python-mutagen contains mid3v2
+
+DAY=$(date --date='last sun' '+%d')
+MON=$(date --date='last sun' '+%m')
+YEAR=$(date --date='last sun' '+%Y')
+Y=$(date --date='last sun' '+%y')
+
+# override the date. 
+#Day = 07 
+#Mon = 06 (June)
+#Year = 2019
+#Y = 19
+#DAY=30
+#MON=06
+#YEAR=2019
+#Y=19
+
+
+# numerical week of the year
+D=$(date +%W | sed 's/^0//')
+D=$(calc $D -1| sed 's/\t\+//g')
+# add leading 0 if below 10
+if [ $D -lt 10 ]
+then
+    D=0$D
+fi
+
+# convert the file from mp4 to mp3
+soundconverter -b -m "audio/mpeg" -s ".mp3" $FILE
+
+# add the id tags to the mp3
+mid3v2 -A "Juke Joint" -t "${DAY}-${MON}-$Y" -a "Matt Fredricks" -T $D $NEWFILE.mp3
+
