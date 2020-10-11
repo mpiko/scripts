@@ -1,0 +1,22 @@
+#!/bin/bash
+
+if [ $# -eq 2 ]
+then
+    FLOAT=$1
+    PREC=$2
+elif [ $# -eq 1 ]
+then
+    FLOAT=$1
+    PREC=2
+else
+   echo "Usage: $(basename $0) float [precision]"
+   echo "Default precision is 2"
+   echo "EXAMPLE:"
+   echo "\"$(basename $0) 3.14159\" returns: 3.14"
+   echo "\"$(basename $0) 3.14159 4\" returns: 3.1415"
+   exit 1
+fi
+
+
+printf "%.*f\n" $PREC $FLOAT
+
