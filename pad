@@ -1,11 +1,21 @@
 #!/bin/bash
 
 WORD=$1
-PADLEN=$2
+if [ $# -eq 0 ]
+then
+    exit 1
+elif [ $# -eq 1 ]
+then
+    PADLEN=10
+elif [ $# -eq 2 ]
+then
+    PADLEN=$2
+fi
+
 
 LEN=$(echo $WORD | wc -c)
 LEN=$(($LEN - 1))
-if [ $PADLEN -lt $LEN ]
+if [ $PADLEN -le $LEN ]
 then
    echo $WORD
 else
