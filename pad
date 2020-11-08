@@ -1,0 +1,19 @@
+#!/bin/bash
+
+WORD=$1
+PADLEN=$2
+
+LEN=$(echo $WORD | wc -c)
+LEN=$(($LEN - 1))
+if [ $PADLEN -lt $LEN ]
+then
+   echo $WORD
+else
+    PADS=$(($PADLEN - $LEN))
+    echo -n $WORD
+    for S in $(range 1 $PADS)
+    do
+        echo -n " "
+    done
+    echo ""
+fi
