@@ -1,0 +1,3 @@
+#!/bin/bash
+
+calc -d "$@" | sed 's/^[ \t]\+//'
