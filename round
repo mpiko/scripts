@@ -17,6 +17,7 @@ else
    exit 1
 fi
 
+[ $1 = "NULL" ] && exit
 
 printf "%.*f\n" $PREC $FLOAT
 
