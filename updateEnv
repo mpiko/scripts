@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "updating ~/bin"
+cd ~/bin
+git pull
+echo "updating ~/localbin"
+cd ~/localbin
+git pull
+
+echo updating .mbashrc
+cat $HOME/bin/mbashrc > $HOME/.mbashrc
+echo updating .bash_aliases
+cat $HOME/bin/bash_aliases > $HOME/.bash_aliases
+echo updating .vimrc
+cat $HOME/bin/vimrc > $HOME/.vimrc
