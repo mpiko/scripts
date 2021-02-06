@@ -43,5 +43,10 @@ echo updating .bash_aliases
 cat $HOME/bin/bash_aliases > $HOME/.bash_aliases
 echo updating .vimrc
 
+if [ -e ~/Projects/setupNewMachine ]
+then
+    rm -rf ~/Projects/setupNewMachine
+fi
+
 removelocks
 cat $HOME/bin/vimrc > $HOME/.vimrc
