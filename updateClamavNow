@@ -1,0 +1,3 @@
+service clamav-freshclam stop
+freshclam 
+service clamav-freshclam start
