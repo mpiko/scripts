@@ -12,6 +12,9 @@ fi
 if ! echo $PATH | grep $HOME/localbin > /dev/null ; then
   PATH=$HOME/localbin:$PATH
 fi
+if ! echo $PATH | grep $HOME/VMs/bin > /dev/null ; then
+  PATH=$PATH:$HOME/VMs/bin
+fi
 if [ -d $HOME/vpn ]
 then
   PATH=$PATH:$HOME/vpn
