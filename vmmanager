@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# https://www.oracle.com/technical-resources/articles/it-infrastructure/admin-manage-vbox-cli.html
+
+
+case $1 in
+    list)
+        VBoxManage list vms;;
+    running)
+        VBoxManage list runningvms;;
+    start)
+        VBoxManage startvm $2 --type headless;;
+    pause)
+         VBoxManage controlvm $2 pause;;
+    resume)
+        VBoxManage controlvm $2 resume;;
+    stop)
+        VBoxManage controlvm $2 poweroff;;
+    detail)
+        VBoxManage list -l runningvms;;
+    status)
+        VBoxManage list -l runningvms | grep -E "Name:|State:";;
+    *)
+        echo $(basename $0) "[list|running|pause vm|resume vm|stop vm|detail|status]"
+         echo "give me some options"
+esac
+
