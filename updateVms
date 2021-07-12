@@ -1,0 +1,48 @@
+#!/bin/bash
+
+SVRS=ubuntu_server_template
+
+RUNNING=false
+
+running() {
+    RET=$(vmmanager status | grep $1)
+    [ -z "$RET" ] && return 1
+    return 0
+}
+
+
+
+
+
+
+for SVR in $SVRS
+do
+    # find out whether the machine is already running
+    if running $SVR
+    then
+        STATE=on
+    else
+        # start the machine up.
+        STATE=off
+        vmmanager start $SVR > /dev/null
+        # give the machine time to boot
+        sleep 60
+    fi
+
+
+    echo "doing stuff"    
+
+    ssh $SVR "sudo apt update && sudo apt -y upgrade && sudo apt -y autoremove"
+    sleep 60
+
+
+    # put things back the way we found them.
+    if [ $STATE == "off" ]
+    then
+        ssh $SVR "sudo halt -p"
+        # wait for shutdown before starting the next.
+        sleep 60
+    fi
+done
+
+
