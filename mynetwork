@@ -43,6 +43,8 @@ do
    fi
 done
 
+exit
+#######################################
 IFS=$OLDIFS
 for LINE in $FOUND
 do
