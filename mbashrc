@@ -19,6 +19,11 @@ if [ -d $HOME/vpn ]
 then
   PATH=$PATH:$HOME/vpn
 fi
+if [ -d $HOME/.local/bin ]
+then
+  PATH=$PATH:$HOME/.local/bin
+fi
+
 
 export TMP PATH
 
