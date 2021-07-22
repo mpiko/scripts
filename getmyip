@@ -1,1 +1,45 @@
-curl icanhazip.com
+#!/bin/bash
+
+if [ "$(id -u)" != "0" ] 
+then
+    echo "Only root can run this."
+    exit 2
+fi
+
+ping -c4 extender > /dev/null 2>&1
+#ping -c4 blah > /dev/null 2>&1
+
+if [ $? -ne 0 ]
+then
+    echo not at home
+    exit 1
+fi
+
+IP=$(curl icanhazip.com 2> /dev/null)
+
+add_ip() {
+    echo "$1 wombat" >> /etc/hosts
+}
+
+
+#echo $IP
+
+if grep wombat /etc/hosts > /dev/null
+then
+    OLD=$(grep wombat /etc/hosts | gawk '{print $1}')
+    echo "found current entry: $OLD"
+    if [ $OLD == $IP ]
+    then
+        echo "Current entry is correct"
+        exit 0
+    else
+        echo "Correcting hosts file"
+        cp /etc/hosts /tmp/
+        grep -v wombat /tmp/hosts > /etc/hosts
+        add_ip $IP
+    fi
+else
+    echo "Adding to hosts"
+    add_ip $IP
+fi
+
