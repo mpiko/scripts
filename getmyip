@@ -5,18 +5,38 @@ then
     echo "Only root can run this."
     exit 2
 fi
+MYIP=$(hostname -I)
 
+# only run this on the 192.168.0 network
+GO=FALSE
+for I in $MYIP
+do
+    TMP=$(echo $I | cut -f1-3 -d.)
+    if [ $TMP == 192.168.0 ]
+    then
+        GO=TRUE
+        break
+    fi
+done
+[ $GO == "FALSE" ] && exit 1
+
+# lets check to see if we can ping extender 
+# (the other router at 192.168.0.7)
 ping -c4 extender > /dev/null 2>&1
 #ping -c4 blah > /dev/null 2>&1
 
+# if we get a 0 return value, we can assume we are home.
 if [ $? -ne 0 ]
 then
     echo not at home
     exit 1
 fi
 
+# get our extern IP address
 IP=$(curl icanhazip.com 2> /dev/null)
 
+# we do this a couple of times so have put it in a function.
+# update the /etc/hosts with our external IP address.
 add_ip() {
     echo "$1 wombat" >> /etc/hosts
 }
@@ -24,21 +44,29 @@ add_ip() {
 
 #echo $IP
 
+# test to see if there is already an entry for wombat in the hosts file.
 if grep wombat /etc/hosts > /dev/null
 then
+    # grab the ip from the hosts file and check to see if it matches the
+    # newly reported one.
     OLD=$(grep wombat /etc/hosts | gawk '{print $1}')
     echo "found current entry: $OLD"
     if [ $OLD == $IP ]
     then
+        # the newly report IP is the same as the one in the hosts file
+        # not need to do anything.
         echo "Current entry is correct"
         exit 0
     else
+        # the newly report IP is not the same as the one we have. 
+        # lets fix it.
         echo "Correcting hosts file"
         cp /etc/hosts /tmp/
         grep -v wombat /tmp/hosts > /etc/hosts
         add_ip $IP
     fi
 else
+    # No entry is found in the host file. We need to add it.
     echo "Adding to hosts"
     add_ip $IP
 fi
