@@ -5,7 +5,7 @@
 
 case $1 in
     list)
-        VBoxManage list vms;;
+        VBoxManage list vms | cut -f2 -d\";;
     running)
         VBoxManage list runningvms;;
     start)
@@ -21,6 +21,7 @@ case $1 in
     status)
         VBoxManage list -l runningvms | grep -E "Name:|State:";;
     *)
+       #$0 status
         echo $(basename $0) "[list|running|pause vm|resume vm|stop vm|detail|status]"
          echo "give me some options"
 esac
