@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_INFO_FILE=/home/michael/.michael/images.txt
+IMAGE_INFO_FILE=/home/michael/bin/.michael/images.txt
 
 UTILITIES="pv gzip unzip"
 # Check to see we have all the tools we need.
