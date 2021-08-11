@@ -12,5 +12,8 @@ NET=$(hostname -I | cut -f1-3 -d.)
 
 if [ $NET == "192.168.0" ] && [ $RESOLV == "127" ]
 then
-        echo "nameserver 192.168.0.1" > /etc/resolv.conf
+        echo "
+nameserver 192.168.0.1
+options edns0 trust-ad
+" > /etc/resolv.conf
 fi
