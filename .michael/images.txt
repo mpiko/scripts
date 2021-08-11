@@ -1,0 +1,2 @@
+OSMC_TGT_rbp4_20210808.img.gz 335544320
+green_tank_arduino.gz 16021192704
