@@ -61,6 +61,14 @@ then
     else
         gzip -dc $1 | pv -s $SIZE | sudo dd status=none conv=fsync bs=4M of=$2
     fi
+elif [ $EXT == "xz" ]
+then 
+    if [ -z $SIZE ]
+    then
+        unxz -dc $1 | sudo dd status=progress conv=fsync bs=4M of=$2
+    else
+        unxz -dc $1 | pv -s $SIZE | sudo dd status=none conv=fsync bs=4M of=$2
+    fi
 else
     echo dont know what to do with $1
     echo aborting.
