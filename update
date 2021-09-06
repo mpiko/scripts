@@ -12,7 +12,7 @@ do
   then
     #stat --print %y $I
     MOD=$(stat --print %Y $I)
-    NUM=$(calc $MOD + $TOL)
+    NUM=$(($MOD + $TOL))
     if [ $NUM -lt $NOW ]
     then
       echo Removing stale lock: $I
