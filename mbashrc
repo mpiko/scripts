@@ -10,8 +10,10 @@ if ! echo $PATH | grep $HOME/bin > /dev/null ; then
 fi
 
 if [ -d $HOME/localbin ]
-  PATH=$HOME/localbin:$PATH
+then
+  PATH=$PATH:$HOME/localbin
 fi
+
 if [ -d $HOME/.local/bin ]
 then
   PATH=$PATH:$HOME/.local/bin
