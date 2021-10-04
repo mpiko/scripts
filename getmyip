@@ -61,6 +61,8 @@ then
         # the newly report IP is not the same as the one we have. 
         # lets fix it.
         echo "Correcting hosts file"
+        DATE=$(date '+%y-%m-%d_%H-%M')
+        echo "$DATE $OLD" >> ~michael/wombat.old
         cp /etc/hosts /tmp/
         grep -v wombat /tmp/hosts > /etc/hosts
         add_ip $IP
