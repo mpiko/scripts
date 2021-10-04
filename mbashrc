@@ -9,15 +9,8 @@ if ! echo $PATH | grep $HOME/bin > /dev/null ; then
   PATH=$HOME/bin:$PATH
 fi
 
-if ! echo $PATH | grep $HOME/localbin > /dev/null ; then
+if [ -d $HOME/localbin ]
   PATH=$HOME/localbin:$PATH
-fi
-if ! echo $PATH | grep $HOME/VMs/bin > /dev/null ; then
-  PATH=$PATH:$HOME/VMs/bin
-fi
-if [ -d $HOME/vpn ]
-then
-  PATH=$PATH:$HOME/vpn
 fi
 if [ -d $HOME/.local/bin ]
 then
