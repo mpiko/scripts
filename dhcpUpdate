@@ -1,4 +1,15 @@
 #!/bin/bash
 
 sudo dhclient
+sleep 1
 sudo /root/updateResolv
+echo "-----------------------
+
+Resolve.conf
+------------"
+cat /etc/resolv.conf
+echo "-----------------------
+
+Routes
+------"
+route -n
