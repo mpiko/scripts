@@ -1,3 +1,7 @@
 OSMC_TGT_rbp4_20210808.img.gz 335544320
 green_tank_arduino.gz 16021192704
 nas_13-08-21_32bit_pi2.gz 15931539456
+ubuntu-20.04.2-server-armhf+raspi.img.gz 2960262144 
+pitop.gz 31914983424
+2021-05-07-raspios-buster-armhf-lite.zip 1874853888
+2021-05-07-raspios-buster-armhf.zip 3980394496

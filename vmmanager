@@ -2,6 +2,19 @@
 #
 # https://www.oracle.com/technical-resources/articles/it-infrastructure/admin-manage-vbox-cli.html
 
+SELF=$(basename $0)
+
+#check() {
+#    VMS=$(VBoxManage list vms | cut -f2 -d\")
+#    echo $VMS
+#}
+
+if [ $# -eq 0 ]
+then
+    $SELF list
+    $SELF abcdef
+    exit
+fi
 
 case $1 in
     list)
@@ -22,7 +35,7 @@ case $1 in
         VBoxManage list -l runningvms | grep -E "Name:|State:";;
     *)
        #$0 status
-        echo $(basename $0) "[list|running|pause vm|resume vm|stop vm|detail|status]"
-         echo "give me some options"
+        echo $SELF "[list|running|pause vm|resume vm|stop vm|detail|status]"
+        echo "give me some options"
 esac
 

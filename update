@@ -29,6 +29,7 @@ removelocks
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
+sudo snap refresh
 
 echo "updating ~/bin"
 cd ~/bin

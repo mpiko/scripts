@@ -1,13 +1,29 @@
 #!/bin/bash
 
-sudo dhclient
-sleep 1
-sudo /root/updateResolv
-echo "-----------------------
+if [ $# -eq 1 ]
+then
+    if [ $1 == "refresh" ]
+    then
+        sudo dhclient
+    fi
+fi
 
+
+sudo /root/updateResolv
+
+# Report 
+echo "-----------------------
+    
+IP Address(s)
+------------"
+hostname -I
+
+echo "-----------------------
+    
 Resolve.conf
 ------------"
 cat /etc/resolv.conf
+
 echo "-----------------------
 
 Routes
