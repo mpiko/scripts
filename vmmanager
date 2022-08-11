@@ -22,13 +22,13 @@ case $1 in
     running)
         VBoxManage list runningvms;;
     start)
-        VBoxManage startvm $2 --type headless;;
+        VBoxManage startvm "$2" --type headless;;
     pause)
-         VBoxManage controlvm $2 pause;;
+         VBoxManage controlvm "$2" pause;;
     resume)
-        VBoxManage controlvm $2 resume;;
+        VBoxManage controlvm "$2" resume;;
     stop)
-        VBoxManage controlvm $2 poweroff;;
+        VBoxManage controlvm "$2" poweroff;;
     detail)
         VBoxManage list -l runningvms;;
     status)
