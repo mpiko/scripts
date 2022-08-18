@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sudo systemctl disable apt-daily.timer
+
+echo Before:
+cat /etc/apt/apt.conf.d/20auto-upgrades
+
+cat /etc/apt/apt.conf.d/20auto-upgrades | sed 's/\"1\"/\"0\"/g' > /tmp/20auto-upgrades
+
+sudo mv /tmp/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades
+sudo chown root.root /etc/apt/apt.conf.d/20auto-upgrades
+
+echo "
+After:"
+cat /etc/apt/apt.conf.d/20auto-upgrades
