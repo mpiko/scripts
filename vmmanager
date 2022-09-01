@@ -3,6 +3,7 @@
 # https://www.oracle.com/technical-resources/articles/it-infrastructure/admin-manage-vbox-cli.html
 
 SELF=$(basename $0)
+DATE=$(date '+%y%m%d_%H%M')
 
 #check() {
 #    VMS=$(VBoxManage list vms | cut -f2 -d\")
@@ -22,6 +23,7 @@ case $1 in
     running)
         VBoxManage list runningvms;;
     start)
+        VBoxManage snapshot "$2" take $DATE;
         VBoxManage startvm "$2" --type headless;;
     pause)
          VBoxManage controlvm "$2" pause;;
