@@ -1,0 +1,38 @@
+#!/bin/bash
+
+IFS="
+"
+DATE=$(date '+%y%m%d_%H%M')
+RDATE=$(date '+%s' --date='1 days ago')
+
+# remove old snapshots
+for VM in $(VBoxManage list vms)
+do
+    UUID=$(echo $VM | cut -f2 -d\{ | sed 's/[\{\}]//g')
+    #echo $UUID
+    # Remove old snaps
+    for SNAP in $(VBoxManage snapshot $UUID list | sed 's/ \+/ /g'| cut -f3 -d" ")
+    do
+        [ "$SNAP" = "This machine does not have any snapshots" ] && continue
+        y=$(echo $SNAP | cut -c-2)
+        m=$(echo $SNAP | cut -c3-4)
+        d=$(echo $SNAP | cut -c5-6)
+        H=$(echo $SNAP | cut -c8-9)
+        M=$(echo $SNAP | cut -c10-11)
+       
+        SNAPDATE=$(date '+%s' --date="$y-$m-$d $H:$M")
+        
+        if [ $SNAPDATE -lt $RDATE ]
+        then
+            VBoxManage snapshot $UUID delete $SNAP
+        fi
+    done
+done
+
+# snapshot running vms
+for VM in $(VBoxManage list runningvms)
+do
+    UUID=$(echo $VM | cut -f2 -d\{ | sed 's/[\{\}]//g')
+    VBoxManage snapshot $UUID take $DATE
+done
+
