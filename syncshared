@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # sleep a random time to avoid collisions
-sleep $(($RANDOM % 20))
+sleep $(($RANDOM % 60))
 
 rsync -u $HOME/shared/ nas:/common/shared/ > /dev/null 2>&1
 rsync -u nas:/common/shared/ $HOME/shared/ > /dev/null 2>&1
