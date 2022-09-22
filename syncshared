@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rsync -u $HOME/shared/ nas:/common/shared/ > /dev/null 2>&1
+rsync -u nas:/common/shared/ $HOME/shared/ > /dev/null 2>&1
