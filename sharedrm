@@ -1,0 +1,26 @@
+#!/bin/bash
+
+SERVERS="Mate max nas"
+
+
+ME=$(hostname)
+SELF=$(basename $0)
+
+if [ $# -eq 0 ]
+then
+    echo "Usage: $SELF [flags] file"
+    exit 1
+fi
+
+cd $HOME/shared
+
+for SERVER in $SERVERS
+do
+   if [ $SERVER = $ME ]
+   then
+       rm $@
+       continue
+   fi
+   ssh $SERVER "rm $@"
+  
+done
