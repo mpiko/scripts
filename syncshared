@@ -3,5 +3,5 @@
 # sleep a random time to avoid collisions
 sleep $(($RANDOM % 60))
 
-rsync -ur $HOME/shared/ nas:/common/shared/ > /dev/null 2>&1
-rsync -ur nas:/common/shared/ $HOME/shared/ > /dev/null 2>&1
+rsync -ur $HOME/shared/ nas:/common/shared/ --delete > /dev/null 2>&1
+rsync -ur nas:/common/shared/ $HOME/shared/ --delete > /dev/null 2>&1
