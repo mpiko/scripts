@@ -1,0 +1,13 @@
+#!/bin/bash
+
+
+cd /home/michael/Obsidian/Youtube
+IFS="
+"
+
+
+for FILE in $(ssh nas "find /multimedia/Work -name '*.md'")
+do
+    echo $FILE
+    rsync -ue ssh nas:\"$FILE\" .
+done
