@@ -1,13 +1,26 @@
 #!/bin/bash
 
 
-cd /home/michael/Obsidian/Youtube
+DEST=/home/michael/Obsidian/Youtube
+TEMP=/tmp/youtube
+
+[ -d $TEMP ] || mkdir -p $TEMP
+cd $TEMP
+cd $DEST
+
 IFS="
 "
 
 
 for FILE in $(ssh nas "find /multimedia/Work -name '*.md'")
 do
-    echo $FILE
-    rsync -ue ssh nas:\"$FILE\" .
+    #echo $FILE
+    rsync -u --size-only --modify-window=1 -e ssh nas:\"$FILE\" .
+    LOCALCOPY=$(basename $FILE)
+    if [ -e "$LOCALCOPY" ]
+    then
+        #echo "PUSH $LOCALCOPY"
+        rsync -u --size-only --modify-window=1 -e ssh "$LOCALCOPY" nas:\"$FILE\"
+
+    fi
 done
