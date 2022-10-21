@@ -1,0 +1,9 @@
+#!/bin/bash
+
+VER=15.0
+WD=/opt/odoosrc/$VER
+[ -d $WD ] && echo "already exists" && exit 1
+mkdir -p $WD
+cd $WD
+git clone -b $VER --single-branch --depth 1 git@github.com:odoo/odoo.git
+git clone -b $VER --single-branch --depth 1 git@github.com:odoo/enterprise.git
