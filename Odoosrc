@@ -1,0 +1,4 @@
+scp $HOME/.ssh/id_rsa ute:.ssh/
+ssh ute "cd /opt/odoosrc/16.0/odoo; git pull"
+ssh ute "cd /opt/odoosrc/16.0/enterprise; git pull"
+ssh ute "rm .ssh/id_rsa*"
