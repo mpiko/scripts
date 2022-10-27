@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # set up temp dir
-TMP=/tmp/michael
-[ -d $TMP ] || mkdir $TMP
+#TMP=/tmp/michael
+#[ -d $TMP ] || mkdir $TMP
+[ -e /tmp/$USER ] || mkdir /tmp/$USER
+[ -e $HOME/temp ] || ln -s /tmp/$USER $HOME/temp
 
 
 if ! echo $PATH | grep $HOME/bin > /dev/null ; then
