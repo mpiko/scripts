@@ -29,14 +29,14 @@ removelocks
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-if which snap > /dev/null 2? &1
+if which snap > /dev/null 2>&1
 then
     sudo snap refresh
 fi
 
 for BIN in bin localbin
 do
-    if [ ~/$BIN ]
+    if [ -d ~/$BIN ]
     then
         echo "updating ~/$BIN"
         cd ~/$BIN
