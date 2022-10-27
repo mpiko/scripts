@@ -29,14 +29,20 @@ removelocks
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-sudo snap refresh
+if which snap > /dev/null 2? &1
+then
+    sudo snap refresh
+fi
 
-echo "updating ~/bin"
-cd ~/bin
-git pull
-echo "updating ~/localbin"
-cd ~/localbin
-git pull
+for BIN in bin localbin
+do
+    if [ ~/$BIN ]
+    then
+        echo "updating ~/$BIN"
+        cd ~/$BIN
+        git pull
+    fi
+done
 
 echo updating .mbashrc
 cat $HOME/bin/mbashrc > $HOME/.mbashrc
