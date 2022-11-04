@@ -1,5 +1,8 @@
 #!/bin/bash
 
+which ffmpeg > /dev/null 2>&1
+[ $? -ne 0 ] && echo "Cannot find ffmpeg" && exit 1
+
 IFS="
 "
 
