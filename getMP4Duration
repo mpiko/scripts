@@ -1,0 +1,11 @@
+#!/bin/bash
+
+IFS="
+"
+
+for FILE in $(find . -iname '*.mp4')
+do
+    [ -f $FILE ] || continue
+    echo -n "$FILE "
+    ffmpeg -i "$FILE" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -f1 -d.
+done
