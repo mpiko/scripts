@@ -6,9 +6,41 @@ which ffmpeg > /dev/null 2>&1
 IFS="
 "
 
+HOURS=0
+MIN=0
+SEC=0
+
 for FILE in $(find . -iname '*.mp4')
 do
     [ -f $FILE ] || continue
-    echo -n "$FILE "
-    ffmpeg -i "$FILE" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -f1 -d.
+    F=$(echo $FILE | sed 's/^.\///g')
+    echo -n "$F "
+    DURATION=$(ffmpeg -i "$FILE" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -f1 -d.)
+    echo $DURATION
+    HOUR=$(echo $DURATION | cut -f1 -d: | sed 's/^0//')
+    MIN=$(echo $DURATION | cut -f2 -d: | sed 's/^0//')
+    SEC=$(echo $DURATION | cut -f3 -d: | sed 's/^0//')
+    HOURS=$(( $HOURS + $HOUR ))
+    MINS=$(( $MINS + $MIN ))
+    SECS=$(( $SECS + $SEC ))
 done
+
+
+
+if [ $SECS -gt 59 ]
+then
+    M=$(( $SECS / 60))
+    SECS=$(( $SECS % 60))
+    MINS=$(( $MINS + $M ))
+fi
+if [ $MINS -gt 59 ]
+then
+    H=$(( $MINS / 60))
+    MINS=$(( $MINS % 60))
+    HOURS=$(( $HOURS + $H ))
+fi
+
+[ $SECS -lt 10 ] && SECS="0$SECS"
+[ $MINS -lt 10 ] && MINS="0$MINS"
+
+echo TOTAL: ${HOURS}:${MINS}:${SECS}
