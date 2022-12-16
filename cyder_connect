@@ -2,13 +2,21 @@
 
 SELF=$(basename $0)
 PRODUCTION=4518917@cyder-solutions.odoo.com
-STAGING=6546539@cyder-solutions-staging-6546539.dev.odoo.com
+STAGING=6624355@cyder-solutions-staging-6624355.dev.odoo.com
 
 if [ $# -eq 1 ]
 then
     if [ $1 = "-d" ]
     then
-        ssh $PRODUCTION "./deactivate_employees"
+        # deactivate if before 1am on 3/01/2023
+        DATE=$(date '+%s')
+        if [ $DATE -lt 1672668000 ]
+        then
+            ssh $PRODUCTION "./deactivate_employees"
+        else
+            # activate if after 1am 3/01/2023
+            ssh $PRODUCTION "./activate_employees"
+        fi
     elif [ $1 = "-a" ]
     then
         ssh $PRODUCTION "./activate_employees"
