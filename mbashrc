@@ -66,11 +66,11 @@ export TMP PATH
 #export LS_COLORS
 #cat ~/.bash_history ~/.apt.txt | grep 'sudo apt' | grep 'install' | sort | uniq > ~/.apt.txt
 
-if [ $HOME/cydergoogle ]
-then
-    if [ ! -d $HOME/cydergoogle/Cyder ]
-    then
-        google-drive-ocamlfuse $HOME/cydergoogle
-    fi
-fi
+#if [ $HOME/cydergoogle ]
+#then
+#    if [ ! -d $HOME/cydergoogle/Cyder ]
+#    then
+#        google-drive-ocamlfuse $HOME/cydergoogle
+#    fi
+#fi
 
