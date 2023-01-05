@@ -29,10 +29,10 @@ removelocks
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
-if which snap > /dev/null 2>&1
-then
-    sudo snap refresh
-fi
+#if which snap > /dev/null 2>&1
+#then
+#    sudo snap refresh
+#fi
 
 for BIN in bin localbin
 do
