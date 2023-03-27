@@ -11,9 +11,12 @@ then
     elif [ $1 = "-a" ]
     then
         ssh $PRODUCTION "./activate_cyder"
+    elif [ $1 = "-m" ]
+    then
+        ssh $PRODUCTION "./activate_michael"
     else
         echo "dont know what to do with $1"
-        echo "Usage: $SELF [-a|-d]"
+        echo "Usage: $SELF [-a|-d|-m]"
     fi
 else
     ssh $PRODUCTION
