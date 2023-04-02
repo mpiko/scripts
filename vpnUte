@@ -1,2 +1,9 @@
+#!/bin/bash
 
-sudo openvpn --config ~/vpnkeys/UTE_michael.ovpn
+CONF=/home/michael/vpnkeys/UTE_michael.ovpn
+
+[ $(hostname) = "max" ] && CONF=/home/michael/vpnkeys/UTE_max.ovpn
+[ $(hostname) = "development" ] && CONF=/root/vpnkeys/vpnDev.ovpn
+[ $(hostname) = "dev" ] && CONF=/root/vpnkeys/ramdev2Ute.ovpn
+
+sudo openvpn --config $CONF
