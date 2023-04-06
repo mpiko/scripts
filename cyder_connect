@@ -3,7 +3,7 @@
 SELF=$(basename $0)
 PRODUCTION=4518917@cyder-solutions.odoo.com
 #STAGING=6719626@cyder-solutions-staging-6719626.dev.odoo.com
-STAGING=7323385@cyder-solutions-staging-7323385.dev.odoo.com
+STAGING=7843579@cyder-solutions-staging-7843579.dev.odoo.com
 
 if [ $# -eq 1 ]
 then
