@@ -29,5 +29,5 @@ then
         echo "Usage: $SELF [-a|-d|-s]"
     fi
 else
-    ssh $PRODUCTION
+    ssh $PRODUCTION $@
 fi
