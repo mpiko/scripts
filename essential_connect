@@ -2,22 +2,25 @@
 
 SELF=$(basename $0)
 PRODUCTION=2887485@essential-caravans.odoo.com
+STAGING=7646480@essential-caravans-stage-7646480.dev.odoo.com
+
+ENV=$PRODUCTION
 
 if [ $# -eq 1 ]
 then
     if [ $1 = "-d" ]
     then
-        ssh $PRODUCTION "./deactivate_cyder"
+        ssh $ENV "./deactivate_cyder"
     elif [ $1 = "-a" ]
     then
-        ssh $PRODUCTION "./activate_cyder"
+        ssh $ENV "./activate_cyder"
     elif [ $1 = "-m" ]
     then
-        ssh $PRODUCTION "./activate_michael"
+        ssh $ENV "./activate_michael"
     else
         echo "dont know what to do with $1"
         echo "Usage: $SELF [-a|-d|-m]"
     fi
 else
-    ssh $PRODUCTION
+    ssh $ENV
 fi
