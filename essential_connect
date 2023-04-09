@@ -1,26 +1,26 @@
 #!/bin/bash
 
 SELF=$(basename $0)
-PRODUCTION=2887485@essential-caravans.odoo.com
+PROD=2887485@essential-caravans.odoo.com
 STAGING=7646480@essential-caravans-stage-7646480.dev.odoo.com
 
-ENV=$PRODUCTION
+ENV=$PROD
 
-if [ $# -eq 1 ]
-then
-    if [ $1 = "-d" ]
+for ARG in $@
+do
+    if [ $ARG = "-d" ]
     then
-        ssh $ENV "./deactivate_cyder"
-    elif [ $1 = "-a" ]
+        ACTIONS="./deactivate_cyder"
+    elif [ $ARG = "-a" ]
     then
-        ssh $ENV "./activate_cyder"
-    elif [ $1 = "-m" ]
+        ACTIONS="./activate_cyder"
+    elif [ $ARG = "-m" ]
     then
-        ssh $ENV "./activate_michael"
-    else
-        echo "dont know what to do with $1"
-        echo "Usage: $SELF [-a|-d|-m]"
+        ACTIONS="./activate_michael"
+    elif [ $ARG = "-s" ]
+    then
+        ENV=$STAGING
     fi
-else
-    ssh $ENV
-fi
+done
+
+ssh $ENV \"$ACTIONS\"
