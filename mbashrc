@@ -21,6 +21,11 @@ then
   PATH=$PATH:$HOME/.local/bin
 fi
 
+if [ -d $HOME/devbin ]
+then
+  PATH=$PATH:$HOME/devbin
+fi
+
 
 export TMP PATH
 
