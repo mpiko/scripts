@@ -23,4 +23,9 @@ do
     fi
 done
 
-ssh $ENV \"$ACTIONS\"
+if [ -z "$ACTIONS" ]
+then
+    ssh $ENV 
+else
+    ssh $ENV \"$ACTIONS\"
+fi
