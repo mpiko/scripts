@@ -1,0 +1,31 @@
+#!/bin/bash
+
+SELF=$(basename $0)
+PROD=8107811@mpiko-berkeley-engineering.odoo.com
+STAGING=8107895@mpiko-berkeley-engineering-staging-8107895.dev.odoo.com
+
+ENV=$PROD
+
+for ARG in $@
+do
+    if [ $ARG = "-d" ]
+    then
+        ACTIONS="./deactivate_cyder"
+    elif [ $ARG = "-a" ]
+    then
+        ACTIONS="./activate_cyder"
+    elif [ $ARG = "-m" ]
+    then
+        ACTIONS="./activate_michael"
+    elif [ $ARG = "-s" ]
+    then
+        ENV=$STAGING
+    fi
+done
+
+if [ -z "$ACTIONS" ]
+then
+    ssh $ENV 
+else
+    ssh $ENV \"$ACTIONS\"
+fi
