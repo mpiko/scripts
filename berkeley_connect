@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SELF=$(basename $0)
-PROD=8107811@mpiko-berkeley-engineering.odoo.com
-STAGING=8107895@mpiko-berkeley-engineering-staging-8107895.dev.odoo.com
+PROD=8107811@berkeley-engineering.odoo.com
+STAGING=8159053@mpiko-berkeley-engineering-staging-8159053.dev.odoo.com
 
 ENV=$PROD
 
