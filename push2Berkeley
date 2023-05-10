@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PROD=8107811@berkeley-engineering.odoo.com
+STAGING=8159053@mpiko-berkeley-engineering-staging-8159053.dev.odoo.com
+
+
+for DEST in $PROD $STAGING
+do
+    echo $DEST
+    rsync -anv $1/ $DEST:data/addons/16.0/
+done
