@@ -1,0 +1,8 @@
+#!/bin/bash
+
+EXISTS=$(ps ax | grep Devmaster | grep -v grep | gawk '{print $1}')
+echo $EXISTS
+if [ -z $EXISTS ]
+then
+    /home/michael/bin/vmmanager start Devmaster
+fi
