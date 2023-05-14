@@ -2,7 +2,7 @@
 
 SELF=$(basename $0)
 PROD=8107811@berkeley-engineering.odoo.com
-STAGING=8159053@mpiko-berkeley-engineering-staging-8159053.dev.odoo.com
+STAGING=8246887@berkeley-engineering-staging-8246887.dev.odoo.com
 
 ENV=$PROD
 
