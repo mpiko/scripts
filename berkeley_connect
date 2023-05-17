@@ -1,8 +1,10 @@
 #!/bin/bash
 
 SELF=$(basename $0)
-PROD=8107811@berkeley-engineering.odoo.com
-STAGING=8246887@berkeley-engineering-staging-8246887.dev.odoo.com
+. $HOME/.clients
+
+PROD=$BERKELEY_PROD
+STAGING=$BERKELEY_STAGING
 
 ENV=$PROD
 
@@ -10,13 +12,13 @@ for ARG in $@
 do
     if [ $ARG = "-d" ]
     then
-        ACTIONS="./deactivate_cyder"
+        ACTIONS="./cyder_scripts/deactivate_cyder"
     elif [ $ARG = "-a" ]
     then
-        ACTIONS="./activate_cyder"
+        ACTIONS="./cyder_scripts/activate_support"
     elif [ $ARG = "-m" ]
     then
-        ACTIONS="./activate_michael"
+        ACTIONS="./cyder_scripts/activate_michael"
     elif [ $ARG = "-s" ]
     then
         ENV=$STAGING
