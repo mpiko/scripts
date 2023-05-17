@@ -1,33 +1,20 @@
 #!/bin/bash
 
 SELF=$(basename $0)
-PRODUCTION=4518917@cyder-solutions.odoo.com
-#STAGING=6719626@cyder-solutions-staging-6719626.dev.odoo.com
-STAGING=7843579@cyder-solutions-staging-7843579.dev.odoo.com
+. $HOME/.clients
 
-if [ $# -eq 1 ]
+PRODUCTION=$CYDER_PROD
+STAGING=$CYDER_STAGING
+
+if [ $# -gt 0 ]
 then
-    if [ $1 = "-d" ]
+    if [ $1 = "-s" ]
     then
-        # deactivate if before 1am on 3/01/2023
-        DATE=$(date '+%s')
-        if [ $DATE -lt 1672668000 ]
-        then
-            ssh $PRODUCTION "./deactivate_employees"
-        else
-            # activate if after 1am 3/01/2023
-            ssh $PRODUCTION "./activate_employees"
-        fi
-    elif [ $1 = "-a" ]
-    then
-        ssh $PRODUCTION "./activate_employees"
-    elif [ $1 = "-s" ]
-    then
-        ssh $STAGING
+        shift
+        ssh $STAGING "$@"
     else
-        echo "dont know what to do with $1"
-        echo "Usage: $SELF [-a|-d|-s]"
+        ssh $PRODUCTION "$@"
     fi
 else
-    ssh $PRODUCTION $@
+    ssh $PRODUCTION
 fi
