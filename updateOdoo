@@ -1,0 +1,19 @@
+#!/bin/bash
+
+
+MACHINES="michaeldev devmaster"
+MACHINES="10.8.0.9 10.8.0.3"
+
+
+for MACHINE in $MACHINES
+do
+    if ping -c4 $MACHINE #> /dev/null
+    then
+        echo $MACHINE
+        scp $HOME/.ssh/id_rsa $MACHINE:.ssh
+        ssh $MACHINE "/opt/cyder/scripts/gitpull"
+        [ $MACHINE = "michaeldev" ] && continue
+        [ $MACHINE = "devmaster" ] && continue
+        ssh $MACHINE "rm .ssh/id_rsa"
+    fi
+done
