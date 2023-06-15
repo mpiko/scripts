@@ -1,3 +1,8 @@
-scp $HOME/.ssh/id_rsa ute:.ssh/
-ssh ute "/opt/cyder/cydbin/updateOdooSrc"
-ssh ute "rm .ssh/id_rsa*"
+#!/bin/bash
+
+for SVR in ute support@server1
+do
+    scp $HOME/.ssh/id_rsa $SVR:.ssh/
+    ssh $SVR "/opt/cyder/scripts/updateOdooSrc"
+    ssh $SVR "rm .ssh/id_rsa*"
+done
