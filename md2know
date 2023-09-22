@@ -1,0 +1,69 @@
+#!/bin/bash 
+
+
+IFS="
+"
+
+if [ $# -ne 1 ]
+then
+    read -p "Which file? " INPUT
+else
+    INPUT=$1
+fi
+
+togglePara() {
+    if [ $PARA = "ON" ]
+    then
+        echo -n "</p> "
+        PARA=OFF
+    else
+        echo -n "<p> "
+        PARA=ON
+    fi
+}
+
+PARA=OFF
+echo -n "<h1>"
+echo -n $INPUT | sed 's/.md//g'
+echo -n "</h1>"
+COUNTER=1
+for LINE in $(cat $INPUT)
+do
+    #echo -n $COUNTER: 
+    (( COUNTER++ ))
+    TEXT=$(echo $LINE | sed 's/^ *//')
+    HEADING=$(echo $TEXT | gawk '{print $1}')
+    CHAR=$(echo $HEADING | cut -b1)
+    CLEAN=$(echo $TEXT | sed 's/^#\+//')
+
+    #[ $COUNTER = 3 ] && set -x || set +x
+    if [ "$CHAR" = "#" ]
+    then
+        NUM=$(echo $HEADING | wc -c)
+        (( NUM-- ))
+        echo -n "<h$NUM>$CLEAN</h$NUM>"
+    elif [ $CLEAN = "---" ]
+    then
+        echo -n "<hr/>"
+    else
+        togglePara
+        #set -x
+        PARTS=$(echo $CLEAN | sed 's/ \+/ /g' |tr ' ' '\n')
+        for P in $PARTS
+        do
+            BOLD=$(echo $P | sed 's#\*\*\([a-zA-Z0-9:]\)#<b>\1#' | sed 's#\([a-zA-Z0-9:"]\)\*\*#\1</b>#')
+            echo -n "$BOLD "
+        done
+    fi
+    [ $PARA = "ON" ] && togglePara
+    #echo ""
+done
+echo ""
+            #CLEAN=$(echo "$P" | sed 's/\*\*/<b>/g')
+            #if [[ $CLEAN = *"<b>" ]]
+            #then
+            #    TMP=$(echo $CLEAN | sed 's/|-|/<b>/')
+            #fi
+            #if [[ $CLEAN = *"|-|" ]]
+            #    P=$(echo $CLEAN | sed 's/|-|/<\/b>/')
+            #fi
