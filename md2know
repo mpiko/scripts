@@ -1,9 +1,21 @@
 #!/bin/bash 
 
+# TODO
+# need to put some comments in here.
 
+
+
+#-----------------------------------------------------------------
+# Options. TODO need to add a switch on the command line.
+# html headers should be off if output is for Odoo Knowledge
+HTMLWRAPPER=OFF
+
+#-----------------------------------------------------------------
 IFS="
 "
 
+#-----------------------------------------------------------------
+# check for input
 if [ $# -ne 1 ]
 then
     read -p "Which file? " INPUT
@@ -11,6 +23,14 @@ else
     INPUT=$1
 fi
 
+if [ ! -e "$1" ]
+then
+    echo "Cannot find \"$1\""
+    exit 1
+fi
+
+#-----------------------------------------------------------------
+# functions
 togglePara() {
     if [ $PARA = "ON" ]
     then
@@ -22,10 +42,38 @@ togglePara() {
     fi
 }
 
+bulletsOff() {
+    if [ $BULLETS = "ON" ]
+    then
+        echo -n "</li></ul>"
+        BULLETS="OFF"
+    fi
+}
+
+display() {
+    echo -n "$@" \
+        | sed 's/ \+/ /g' \
+        | sed 's#\*\*\([a-zA-Z0-9\.:"\\\(\\\)]\)#<b>\1#' \
+        | sed 's#\([a-zA-Z0-9\.:"\\\(\\\)]\)\*\*#\1</b>#'
+}
+
+#-----------------------------------------------------------------
 PARA=OFF
-echo -n "<h1>"
-echo -n $INPUT | sed 's/.md//g'
-echo -n "</h1>"
+BULLETS=OFF
+
+#-----------------------------------------------------------------
+if [ $HTMLWRAPPER = "ON" ]
+then
+    display "<html><title>"
+    display $INPUT | sed 's/.md//g'
+    display "</title><body>"
+else
+    display "<h1>"
+    display $INPUT | sed 's/.md//g'
+    display "</h1>"
+fi
+
+#-----------------------------------------------------------------
 COUNTER=1
 for LINE in $(cat $INPUT)
 do
@@ -39,31 +87,39 @@ do
     #[ $COUNTER = 3 ] && set -x || set +x
     if [ "$CHAR" = "#" ]
     then
+        bulletsOff
         NUM=$(echo $HEADING | wc -c)
         (( NUM-- ))
-        echo -n "<h$NUM>$CLEAN</h$NUM>"
-    elif [ $CLEAN = "---" ]
+        CLEAN=$(echo $CLEAN | sed 's/\*//g')
+        display "<h$NUM>$CLEAN</h$NUM>"
+    #-------------------------------------------------------------
+    elif [ "$HEADING" = "---" ]
     then
-        echo -n "<hr/>"
+        display "<hr/>"
+    #-------------------------------------------------------------
+    elif [ "$CHAR" = "-" ]
+    then
+        # TODO
+        # we are in a bullet list.
+        if [ $BULLETS = "OFF" ]
+        then
+            BULLETS="ON"
+            echo -n "<ul><li>"
+        else
+            echo -n "<li>"
+        fi
+        display $(echo $CLEAN | sed 's/^- //')
+    #-------------------------------------------------------------
     else
+        bulletsOff
         togglePara
-        #set -x
-        PARTS=$(echo $CLEAN | sed 's/ \+/ /g' |tr ' ' '\n')
-        for P in $PARTS
-        do
-            BOLD=$(echo $P | sed 's#\*\*\([a-zA-Z0-9:]\)#<b>\1#' | sed 's#\([a-zA-Z0-9:"]\)\*\*#\1</b>#')
-            echo -n "$BOLD "
-        done
+        display $CLEAN
     fi
     [ $PARA = "ON" ] && togglePara
-    #echo ""
 done
+bulletsOff
+if [ $HTMLWRAPPER = "ON" ]
+then
+    display "</body></html>"
+fi
 echo ""
-            #CLEAN=$(echo "$P" | sed 's/\*\*/<b>/g')
-            #if [[ $CLEAN = *"<b>" ]]
-            #then
-            #    TMP=$(echo $CLEAN | sed 's/|-|/<b>/')
-            #fi
-            #if [[ $CLEAN = *"|-|" ]]
-            #    P=$(echo $CLEAN | sed 's/|-|/<\/b>/')
-            #fi
