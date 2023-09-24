@@ -8,10 +8,19 @@
 #-----------------------------------------------------------------
 # Options. TODO need to add a switch on the command line.
 # html headers should be off if output is for Odoo Knowledge
-HTMLWRAPPER=OFF
-CSV=ON
-ID="know_book_0001"
-PARENT="Books"
+HTMLWRAPPER="OFF"   # OFF = just the body of the knowledge article.
+                    # ON if you want to create a standalone web page.
+CSV="ON"            # ready for import
+CSVHEADERS="ON"     # turn off if adding to an existing file
+
+#-----------------------------------------------------------------
+if [ $CSV = "ON" ]
+then
+    read -p "what ID would you like to use? (default = know_book_0001) " ID
+    [ -z "$ID" ] && ID="know_book_0001"
+    read -p "What parent location? (default = Books) " PARENT
+    [ -z "$PARENT" ] && PARENT="Books"
+fi
 
 #-----------------------------------------------------------------
 IFS="
@@ -69,7 +78,10 @@ TITLE=$(echo $INPUT | sed 's/.md//g')
 #-----------------------------------------------------------------
 if [ "$CSV" = "ON" ]
 then
-    echo "\"id\",\"name\",parent_id\",\"body\""
+    if [ $CSVHEADERS = "ON" ]
+    then
+        echo "\"id\",\"name\",parent_id\",\"body\""
+    fi
     echo -n "\"$ID\",\"$TITLE\",\"$PARENT\",\""
 fi
 #-----------------------------------------------------------------
