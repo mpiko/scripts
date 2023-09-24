@@ -9,6 +9,9 @@
 # Options. TODO need to add a switch on the command line.
 # html headers should be off if output is for Odoo Knowledge
 HTMLWRAPPER=OFF
+CSV=ON
+ID="know_book_0001"
+PARENT="Books"
 
 #-----------------------------------------------------------------
 IFS="
@@ -53,6 +56,7 @@ bulletsOff() {
 display() {
     echo -n "$@" \
         | sed 's/ \+/ /g' \
+        | sed 's/\"/\&quot;/g' \
         | sed 's#\*\*\([a-zA-Z0-9\.:"\\\(\\\)]\)#<b>\1#' \
         | sed 's#\([a-zA-Z0-9\.:"\\\(\\\)]\)\*\*#\1</b>#'
 }
@@ -60,12 +64,19 @@ display() {
 #-----------------------------------------------------------------
 PARA=OFF
 BULLETS=OFF
+TITLE=$(echo $INPUT | sed 's/.md//g')
 
+#-----------------------------------------------------------------
+if [ "$CSV" = "ON" ]
+then
+    echo "\"id\",\"name\",parent_id\",\"body\""
+    echo -n "\"$ID\",\"$TITLE\",\"$PARENT\",\""
+fi
 #-----------------------------------------------------------------
 if [ $HTMLWRAPPER = "ON" ]
 then
     display "<html><title>"
-    display $INPUT | sed 's/.md//g'
+    display $TITLE
     display "</title><body>"
 else
     display "<h1>"
@@ -122,4 +133,9 @@ if [ $HTMLWRAPPER = "ON" ]
 then
     display "</body></html>"
 fi
-echo ""
+if [ $CSV = "ON" ]
+then
+    echo "\""
+else
+    echo ""
+fi
