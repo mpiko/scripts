@@ -1,0 +1,26 @@
+#!/bin/bash
+    
+if [ $# -eq 1 ]
+then
+    DIR="$1"
+else
+    read -p "Please enter the new vault name " DIR
+fi
+[ -z "$DIR" ] && exit
+
+cd $HOME/Obsidian
+
+if [ -d "$DIR" ] 
+then 
+    echo "$DIR not found"
+    exit
+fi
+
+
+MASTER=$HOME/Obsidian/Master
+ARCHIVE=.archive
+
+[ "$DIR" = "$MASTER" ] && exit
+
+rsync -aCvb "$MASTER/.obsidian/" "$DIR/.obsidian'" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
+
