@@ -3,11 +3,11 @@
 
 if [ $# -eq 1 ]
 then
-    TEMPLATE=$1
+    TEMPLATE="$1"
 else
     read -p "which template to remove? " TEMPLATE
 fi
-[ -z $TEMPLATE ] && exit
+[ -z "$TEMPLATE" ] && exit
 
 IFS="
 "
