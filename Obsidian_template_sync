@@ -1,9 +1,6 @@
 #!/bin/bash
 
-
-#CHILD=$HOME/Obsidian/GRDC/Templates
-#MASTER=MasterTemplates
-MASTER=$HOME/Obsidian/MasterTemplates
+MASTER=$HOME/Obsidian/Master/Templates
 DIR=Templates
 ARCHIVE=.archive
 IFS="
@@ -11,6 +8,7 @@ IFS="
 
 for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
 do
+    [ "$DIR" = "$MASTER" ] && continue
     echo $DIR
     echo "---Pull---"
     rsync -aCvb "$DIR/" "$MASTER/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
