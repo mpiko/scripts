@@ -26,6 +26,8 @@ done
 
 removelocks
 
+sudo dpkg --configure -a
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
