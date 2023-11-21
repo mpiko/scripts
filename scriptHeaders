@@ -1,0 +1,14 @@
+#!/bin/bash
+
+
+cat $1 <<EOH
+
+if [ \$# -eq 1 ]
+then
+    ARG1="\$1"
+else
+    read -p "which template to remove? " ARG1
+fi
+[ -z "\$ARG1" ] && exit
+
+EOH

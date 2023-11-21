@@ -1,0 +1,13 @@
+#!/bin/bash
+
+ssh max "date" > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+    rsync -a /home/michael/appimages/ max:appimages/ --delete
+fi
+
+ssh nas "date" > /dev/null 2>&1
+if [ $? -eq 0 ]
+then
+    rsync -a /home/michael/appimages/ nas:/common/Software/appimages/ --delete
+fi
