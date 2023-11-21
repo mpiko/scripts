@@ -1,24 +1,35 @@
 #!/bin/bash
 
-MASTER=$HOME/Obsidian/Master/Templates
-DIR=Templates
+MASTER=$HOME/Obsidian/Master
 ARCHIVE=.archive
 IFS="
 "
 
+#for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
+#do
+#    [ "$DIR" = "$MASTER" ] && continue
+#    echo $DIR
+#    echo "---Pull---"
+#    rsync -aCvb "$DIR/" "$MASTER/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
+#    echo "
+#
+#    "
+#done
+
 for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
 do
-    [ "$DIR" = "$MASTER" ] && continue
-    echo $DIR
-    echo "---Pull---"
-    rsync -aCvb "$DIR/" "$MASTER/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
-    echo "
+    [ "$DIR" = "$MASTER/Templates" ] && continue
+    #echo "---Push---"
+    #rsync -aCb "$MASTER/" "$DIR/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE --delete
 
-    "
+    rsync -aC "$MASTER/Templates/" "$DIR/" --delete
 done
 
-for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
+for DIR in $(find $HOME/Obsidian -type d -iname 'Instructional')
 do
-    echo "---Push---"
-    rsync -aCvb "$MASTER/" "$DIR/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE --delete
+    [ "$DIR" = "$MASTER/Instructional" ] && continue
+    #echo "---Push---"
+    #rsync -aCb "$MASTER/" "$DIR/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE --delete
+
+    rsync -aC "$MASTER/Instructional/" "$DIR/" --delete
 done
