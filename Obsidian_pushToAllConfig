@@ -1,0 +1,13 @@
+#!/bin/bash
+
+MASTER=$HOME/Obsidian/Master
+ARCHIVE=.archive
+IFS="
+"
+
+for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
+do
+    [ "$DIR" = "$MASTER" ] && continue
+    echo $DIR
+    rsync -aCvb "$MASTER/.obsidian/" "$DIR/.obsidian'" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
+done

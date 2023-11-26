@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -eq 1 ]
+then
+    VAULT="$1"
+else
+    read -p "Please enter the new vault name " VAULT
+fi
+[ -z "$VAULT" ] && exit
+
+cd $HOME/Obsidian
+
+if [ -d "$VAULT" ]
+then
+    echo "$VAULT already exists"
+    exit 1
+fi
+
+CONFIG=$HOME/Obsidian/Master
+
+mkdir -p "$VAULT"
+
+rsync -a $CONFIG/ "$VAULT/"
+
+echo "Done"

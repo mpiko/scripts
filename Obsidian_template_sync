@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MASTER=$HOME/Obsidian/Master/Templates
+DIR=Templates
+ARCHIVE=.archive
+IFS="
+"
+
+for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
+do
+    [ "$DIR" = "$MASTER" ] && continue
+    echo $DIR
+    echo "---Pull---"
+    rsync -aCvb "$DIR/" "$MASTER/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE
+    echo "
+
+    "
+done
+
+for DIR in $(find $HOME/Obsidian -type d -iname 'Templates')
+do
+    echo "---Push---"
+    rsync -aCvb "$MASTER/" "$DIR/" --backup-dir=$ARCHIVE/$(date '+%Y-%m-%d_%H%M')/ --exclude=$ARCHIVE --delete
+done
