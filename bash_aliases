@@ -19,8 +19,5 @@ alias lsnc='ls --color=never'
 alias nano='vim'
 alias tesseract='tesseract --psm 6'
 alias rsync='rsync -C --exclude="__pycache__"'
-<<<<<<< HEAD
 alias pandoc='pandoc -V --lang=en_AU'
-=======
 alias logdate='date "+%Y-%m-%d_%H:%M"'
->>>>>>> e999219 (added logdate)
