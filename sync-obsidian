@@ -1,0 +1,18 @@
+#!/bin/bash
+
+REPOS=$HOME/obsidian-git-syn
+
+for DIR in $REPOS
+do
+    cd $DIR
+
+    GSTATUS=$(git status --porcelain)
+    
+    if [ ${#GSTATUS} -ne 0 ]
+    then
+        git add --all
+        git commit -m "Automated sync: $GSTATUS"
+        git pull --rebase
+        git push
+    fi
+done
