@@ -2,6 +2,9 @@
 
 REPOS=$HOME/obsidian-git-syn
 
+
+sleep $(echo $RANDOM | cut -c1)
+
 for DIR in $REPOS
 do
     cd $DIR
