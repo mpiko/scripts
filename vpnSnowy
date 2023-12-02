@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+[ $(hostname) = "Mate" ] && CONF=/home/michael/vpnkeys/UTE_michael.ovpn
+[ $(hostname) = "max" ] && CONF=/home/michael/vpnkeys/VPN_max.ovpn
+[ $(hostname) = "development" ] && CONF=/root/vpnkeys/vpnDev.ovpn
+[ $(hostname) = "dev" ] && CONF=/root/vpnkeys/ramdev2Ute.ovpn
+[ $(hostname) = "nas" ] && CONF=/home/michael/vpnkeys/UTE_nas.ovpn
+
+
+if [ -z "$CONF" ]
+then
+    echo "No configuration for this machine"
+else
+    sudo openvpn --config $CONF
+fi
