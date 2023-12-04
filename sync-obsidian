@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOS=$HOME/obsidian-git-syn
+REPOS=$HOME/obsidian-git-sync
 
 
 sleep $(echo $RANDOM | cut -c1)
