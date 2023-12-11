@@ -10,7 +10,7 @@ HOURS=0
 MIN=0
 SEC=0
 
-for FILE in $(find . -iname '*.mp4')
+for FILE in $(find . -iname '*.mp4'| sort -n)
 do
     [ -f $FILE ] || continue
     F=$(echo $FILE | sed 's/^.\///g')
