@@ -23,7 +23,7 @@ case $1 in
     running)
         VBoxManage list runningvms;;
     start)
-        VBoxManage snapshot "$2" take $DATE;
+        #VBoxManage snapshot "$2" take $DATE;
         VBoxManage startvm "$2" --type headless;;
     pause)
          VBoxManage controlvm "$2" pause;;
