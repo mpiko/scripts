@@ -17,14 +17,32 @@ then
     exit
 fi
 
+checkinlist(){
+    #for VM in $(VBoxManage list vms | cut -f2 -d\" | tr '\n' ' ')
+    for VM in $(VBoxManage list vms | cut -f2 -d\")
+    do
+        #if [ "$1" = *"$VM"* ]
+        if [ "$@" = "$VM" ]
+        then
+            return 0
+        fi
+    done
+    return 1
+}
+
 case $1 in
     list)
         VBoxManage list vms | cut -f2 -d\";;
     running)
         VBoxManage list runningvms;;
     start)
-        VBoxManage snapshot "$2" take $DATE;
-        VBoxManage startvm "$2" --type headless;;
+        if checkinlist $2;
+        then
+            #VBoxManage snapshot "$2" take $DATE;
+            VBoxManage startvm "$2" --type headless;
+        else
+            echo "$2 not found";
+        fi;;
     pause)
          VBoxManage controlvm "$2" pause;;
     resume)
