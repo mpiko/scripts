@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# https://www.youtube.com/watch?v=3FKsdbjzBcc
+
+if [ $# -eq 1 ]
+then
+    MECH="$1"
+else
+    read -p "which template to remove? " MECH
+fi
+[ -z "$MECH" ] && exit
+
+ssh-keygen -t ed25519 -f ~/.ssh/$MACH
+
+ssh-copy-id -i ~/.ssh/${MACH}.pub $MACH
+
+cat >>~/.ssh/config<<EOM
+Host $MACH
+    HostName $MACH
+    IdentityFile ~/.ssh/$MACH
+    User michael
+EOM
