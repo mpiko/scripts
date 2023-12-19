@@ -26,7 +26,6 @@ done
 
 removelocks
 
-sudo dpkg --configure -a
 
 sudo apt update
 sudo apt upgrade -y
@@ -46,11 +45,14 @@ do
     fi
 done
 
-echo updating .mbashrc
-cat $HOME/bin/mbashrc > $HOME/.mbashrc
-echo updating .bash_aliases
-cat $HOME/bin/bash_aliases > $HOME/.bash_aliases
-echo updating .vimrc
+if [ -d ~/bin ]
+then
+    echo updating .mbashrc
+    cat $HOME/bin/mbashrc > $HOME/.mbashrc
+    echo updating .bash_aliases
+    cat $HOME/bin/bash_aliases > $HOME/.bash_aliases
+    echo updating .vimrc
+fi
 
 if [ -e ~/Projects/setupNewMachine ]
 then
