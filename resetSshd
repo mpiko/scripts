@@ -1,0 +1,14 @@
+#!/bin/bash
+
+CONFIG=/etc/ssh/sshd_config
+
+if [ $(id -u) -ne 0 ]
+then
+    echo "you need to be root"
+    exit
+fi
+
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' $CONFIG
+sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' $CONFIG
+
+sudo systemctl reload sshd 
