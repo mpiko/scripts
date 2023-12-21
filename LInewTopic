@@ -1,0 +1,32 @@
+#!/bin/bash
+
+if [ $# -gt 0 ]
+then
+    TOPIC="$@"
+fi
+
+while [ -z "$TOPIC" ]
+do
+    read -p "What is the new topic? " TOPIC
+    [ -z "$TOPIC" ] && echo "No topic supplied" && exit 1
+done
+
+[ -d "$TOPIC" ] || mkdir "$TOPIC"
+
+SUB=new
+COUNT=0
+while [ "$SUB" != "done" ]
+do 
+    if [ $COUNT -eq 0 ]
+    then
+        read -p "What is the next subtopic name (Default = 0. Introduction)? " SUB
+        [ -z "$SUB" ] && SUB="Introduction"
+    else
+        read -p "What is the next subtopic name ($COUNT)? " SUB
+    fi
+    [ -d "$TOPIC/${COUNT}. $SUB" ] || mkdir "$TOPIC/${COUNT}. $SUB"
+    [ "$SUB" = "Conclusion" ] && exit
+    (( COUNT++ ))
+done
+
+
