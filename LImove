@@ -1,0 +1,44 @@
+#!/bin/bash
+
+COUNTFILE=count.txt
+
+if [ -f $COUNTFILE ]
+then
+    COUNTER=$(head -1 $COUNTFILE)
+else
+    COUNTER=1
+fi
+
+FILE=$1
+if ! [ -f "$FILE" ]
+then
+    echo "$FILE not found" 
+    exit
+fi
+
+shift
+DEST="$@"
+
+
+if ! [ -e "$DEST" ]
+then
+    echo "$DEST not found" 
+    exit
+fi
+
+WAITED=false
+while lsof "$FILE" > /dev/null
+do
+    if [ $WAITED = "false" ]
+    then
+        WAITED=true
+        echo -n "Wait"
+    fi
+    echo -n "."
+    sleep 2
+done
+
+mv "$FILE" "$DEST/$COUNTER. $FILE"
+(( COUNTER++ ))
+echo $COUNTER > $COUNTFILE
+echo "done"
