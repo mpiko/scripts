@@ -1,0 +1,49 @@
+#!/bin/bash
+
+
+if [ -L current ]
+then
+    echo -n "OLD: "
+    ls -l current | cut -f9- -d" "
+    FULL=$(ls -l current | cut -f2 -d\> | sed 's/^ //')
+    #echo $FULL
+    DIR=$(basename "$FULL")
+    PARENT=$(dirname "$FULL")
+
+    # Get the dir number
+    CTR=$(echo $DIR | cut -f1 -d.)
+
+    FOLDIR=$(echo $DIR | cut -f2 -d. | sed 's/^ //')
+    #echo $CTR $FOLDIR
+    
+    if [ "$FOLDIR" = "Conclusion" ]
+    then
+        echo Last one.
+        rm current
+    else
+        (( CTR++ ))
+        #echo NEXT: $CTR
+        NEXT=$(ls -1d "$PARENT/$CTR."*)
+        rm current
+        ln -s "$NEXT" current
+        echo -n "NEW: "
+        ls -l current | cut -f9- -d" "
+    fi
+else
+    if [ $# -eq 1 ]
+    then
+        DIR="$1"
+    fi
+    while [ -z "$DIR" ]
+    do
+        read -p "What dir " DIR
+    done
+
+    if [ -d "$DIR" ]
+    then
+        ln -s "$DIR" current
+        ls -l current | cut -f9- -d" "
+    else
+        echo "Cannot find $DIR"
+    fi
+fi
