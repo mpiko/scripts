@@ -23,7 +23,7 @@ then
     else
         (( CTR++ ))
         #echo NEXT: $CTR
-        NEXT=$(ls -1d "$PARENT/$CTR."*)
+        NEXT=$(ls -1d "$PARENT/$CTR. "*)
         rm current
         ln -s "$NEXT" current
         echo -n "NEW: "
@@ -42,6 +42,7 @@ else
     if [ -d "$DIR" ]
     then
         ln -s "$DIR" current
+        [ -e /home/michael/dwhelper/count.txt ] && rm /home/michael/dwhelper/count.txt
         ls -l current | cut -f9- -d" "
     else
         echo "Cannot find $DIR"
