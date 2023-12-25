@@ -24,6 +24,7 @@ do
     else
         read -p "What is the next subtopic name ($COUNT)? " SUB
     fi
+    [ "$SUB" = "end" ] && SUB=Conclusion
     [ -d "$TOPIC/${COUNT}. $SUB" ] || mkdir "$TOPIC/${COUNT}. $SUB"
     [ "$SUB" = "Conclusion" ] && exit
     (( COUNT++ ))
