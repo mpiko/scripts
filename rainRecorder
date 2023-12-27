@@ -1,0 +1,159 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel, QDateTimeEdit, QLineEdit, QTabWidget, QTableWidget, QTableWidgetItem
+from PyQt5.QtCore import Qt, QDateTime, QDate, QTime
+import psycopg2
+from configparser import ConfigParser
+
+class DatabaseManager:
+    def __init__(self, config_file):
+        self.config = self.read_db_config(config_file)
+        self.conn = self.connect()
+
+    def read_db_config(self, filename='database.ini', section='postgresql'):
+        parser = ConfigParser()
+        parser.read(filename)
+        db = {}
+
+        if parser.has_section(section):
+            params = parser.items(section)
+            for param in params:
+                db[param[0]] = param[1]
+        else:
+            raise Exception(f'Section {section} not found in the {filename} file')
+
+        return db
+
+    def connect(self):
+        conn = None
+        try:
+            params = self.config
+            conn = psycopg2.connect(**params)
+            return conn
+        except (Exception, psycopg2.DatabaseError) as error:
+            print(error)
+
+    def close_connection(self):
+        if self.conn is not None:
+            self.conn.close()
+
+class RainDataApp(QMainWindow):
+    def __init__(self, db_manager):
+        super().__init__()
+        self.db_manager = db_manager
+        self.init_ui()
+
+    def init_ui(self):
+        self.central_widget = QTabWidget(self)
+
+        self.input_tab = RainDataInputTab(self.db_manager)
+        self.retrieval_tab = RainDataRetrievalTab(self.db_manager)
+
+        self.central_widget.addTab(self.input_tab, "Input")
+        self.central_widget.addTab(self.retrieval_tab, "Retrieval")
+
+        self.setCentralWidget(self.central_widget)
+
+        self.setWindowTitle('Rain Data Recorder')
+        self.setGeometry(100, 100, 800, 600)
+        self.show()
+
+class RainDataInputTab(QWidget):
+    def __init__(self, db_manager):
+        super().__init__()
+        self.db_manager = db_manager
+        self.init_ui()
+
+    def init_ui(self):
+        self.input_volume = QLineEdit(self)
+        self.input_date_time = QDateTimeEdit(QDateTime.currentDateTime(), self)
+
+        submit_button = QPushButton('Submit', self)
+        submit_button.clicked.connect(self.submit_data)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(QLabel('Enter Rain Volume:'))
+        layout.addWidget(self.input_volume)
+        layout.addWidget(QLabel('Enter Date and Time:'))
+        layout.addWidget(self.input_date_time)
+        layout.addWidget(submit_button)
+
+    def submit_data(self):
+        volume = self.input_volume.text()
+        date_time = self.input_date_time.dateTime().toString(Qt.ISODate)
+
+        if volume and date_time:
+            self.save_to_database(date_time, volume)
+        else:
+            print("Volume and Date/Time cannot be empty.")
+
+    def save_to_database(self, date_time, volume):
+        try:
+            cursor = self.db_manager.conn.cursor()
+            cursor.execute("INSERT INTO rain_data (date_time, volume) VALUES (%s, %s)", (date_time, volume))
+            self.db_manager.conn.commit()
+            print("Record inserted successfully")
+        except (Exception, psycopg2.Error) as error:
+            print(f"Error inserting data into the database: {error}")
+        finally:
+            if cursor:
+                cursor.close()
+
+class RainDataRetrievalTab(QWidget):
+    def __init__(self, db_manager):
+        super().__init__()
+        self.db_manager = db_manager
+        self.init_ui()
+
+    def init_ui(self):
+        self.start_date_time = QDateTimeEdit(QDateTime(QDate.currentDate(), QTime(0, 0)), self)
+        self.end_date_time = QDateTimeEdit(QDateTime.currentDateTime(), self)
+
+        retrieve_button = QPushButton('Retrieve Data', self)
+        retrieve_button.clicked.connect(self.retrieve_data)
+
+        self.table = QTableWidget(self)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(QLabel('Enter Start Date and Time:'))
+        layout.addWidget(self.start_date_time)
+        layout.addWidget(QLabel('Enter End Date and Time:'))
+        layout.addWidget(self.end_date_time)
+        layout.addWidget(retrieve_button)
+        layout.addWidget(self.table)
+
+    def retrieve_data(self):
+        start_date_time = self.start_date_time.dateTime().toString(Qt.ISODate)
+        end_date_time = self.end_date_time.dateTime().toString(Qt.ISODate)
+
+        try:
+            cursor = self.db_manager.conn.cursor()
+            query = f"SELECT * FROM rain_data WHERE date_time BETWEEN '{start_date_time}' AND '{end_date_time}'"
+            cursor.execute(query)
+            records = cursor.fetchall()
+
+            self.display_data(records)
+        except (Exception, psycopg2.Error) as error:
+            print(f"Error retrieving data from the database: {error}")
+        finally:
+            if cursor:
+                cursor.close()
+
+    def display_data(self, records):
+        self.table.clear()
+        self.table.setRowCount(len(records))
+        self.table.setColumnCount(3)
+        self.table.setHorizontalHeaderLabels(["ID", "Date and Time", "Volume"])
+
+        for row, record in enumerate(records):
+            for col, value in enumerate(record):
+                item = QTableWidgetItem(str(value))
+                self.table.setItem(row, col, item)
+
+def main():
+    app = QApplication(sys.argv)
+    db_manager = DatabaseManager('database.ini')
+    main_win = RainDataApp(db_manager)
+    sys.exit(app.exec_())
+
+if __name__ == '__main__':
+    main()
