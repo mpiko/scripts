@@ -1,5 +1,8 @@
+#!/usr/bin/python3
+
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel, QDateTimeEdit, QLineEdit, QTabWidget, QTableWidget, QTableWidgetItem
+
+from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QLabel, QDateTimeEdit, QTabWidget, QTableWidget, QTableWidgetItem, QSpinBox, QCalendarWidget, QTimeEdit, QComboBox, QHBoxLayout
 from PyQt5.QtCore import Qt, QDateTime, QDate, QTime
 import psycopg2
 from configparser import ConfigParser
@@ -54,7 +57,7 @@ class RainDataApp(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         self.setWindowTitle('Rain Data Recorder')
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(600, 100, 300, 900)
         self.show()
 
 class RainDataInputTab(QWidget):
@@ -64,8 +67,22 @@ class RainDataInputTab(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.input_volume = QLineEdit(self)
-        self.input_date_time = QDateTimeEdit(QDateTime.currentDateTime(), self)
+        self.input_volume = QSpinBox(self)
+        self.input_date = QCalendarWidget(self)
+        self.input_hour = QComboBox(self)
+        self.input_minute = QComboBox(self)
+
+        current_time = QDateTime.currentDateTime().time()
+        current_hour = current_time.hour()
+        current_minute = current_time.minute()
+
+        for hour in range(24):
+            self.input_hour.addItem(str(hour))
+        self.input_hour.setCurrentIndex(current_hour)
+
+        for minute in range(60):
+            self.input_minute.addItem(str(minute))
+        self.input_minute.setCurrentIndex(current_minute)
 
         submit_button = QPushButton('Submit', self)
         submit_button.clicked.connect(self.submit_data)
@@ -73,18 +90,27 @@ class RainDataInputTab(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(QLabel('Enter Rain Volume:'))
         layout.addWidget(self.input_volume)
-        layout.addWidget(QLabel('Enter Date and Time:'))
-        layout.addWidget(self.input_date_time)
+
+        date_time_layout = QHBoxLayout()
+        date_time_layout.addWidget(QLabel('Enter Date:'))
+        date_time_layout.addWidget(self.input_date)
+        date_time_layout.addWidget(QLabel('Enter Time:'))
+        date_time_layout.addWidget(self.input_hour)
+        date_time_layout.addWidget(self.input_minute)
+
+        layout.addLayout(date_time_layout)
         layout.addWidget(submit_button)
 
     def submit_data(self):
-        volume = self.input_volume.text()
-        date_time = self.input_date_time.dateTime().toString(Qt.ISODate)
+        volume = self.input_volume.value()
+        date = self.input_date.selectedDate().toString(Qt.ISODate)
+        hour = self.input_hour.currentText()
+        minute = self.input_minute.currentText()
 
-        if volume and date_time:
-            self.save_to_database(date_time, volume)
+        if volume and date and hour and minute:
+            self.save_to_database(f"{date} {hour}:{minute}", volume)
         else:
-            print("Volume and Date/Time cannot be empty.")
+            print("Volume, Date, Hour, and Minute cannot be empty.")
 
     def save_to_database(self, date_time, volume):
         try:
@@ -105,8 +131,39 @@ class RainDataRetrievalTab(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.start_date_time = QDateTimeEdit(QDateTime(QDate.currentDate(), QTime(0, 0)), self)
-        self.end_date_time = QDateTimeEdit(QDateTime.currentDateTime(), self)
+        self.start_date = QCalendarWidget(self)
+        self.end_date = QCalendarWidget(self)
+        self.start_hour = QComboBox(self)
+        self.end_hour = QComboBox(self)
+        self.start_minute = QComboBox(self)
+        self.end_minute = QComboBox(self)
+        self.total_rain_label = QLabel(self)
+
+        current_time = QDateTime.currentDateTime().time()
+        current_hour = current_time.hour()
+        current_minute = current_time.minute()
+        start_default_date = QDate(QDate.currentDate().year(), QDate.currentDate().month(), 1)
+        end_default_date = QDate(QDate.currentDate().year(), QDate.currentDate().month(), QDate.currentDate().daysInMonth())
+
+        self.start_date.setSelectedDate(start_default_date)
+        self.end_date.setSelectedDate(end_default_date)
+
+
+        for hour in range(24):
+            self.start_hour.addItem(str(hour))
+            self.end_hour.addItem(str(hour))
+        #-# self.start_hour.setCurrentIndex(current_hour)
+        #-# self.end_hour.setCurrentIndex(current_hour)
+        self.start_hour.setCurrentIndex(0)
+        self.end_hour.setCurrentIndex(23)
+
+        for minute in range(60):
+            self.start_minute.addItem(str(minute))
+            self.end_minute.addItem(str(minute))
+        #-# self.start_minute.setCurrentIndex(current_minute)
+        #-# self.end_minute.setCurrentIndex(current_minute)
+        self.start_minute.setCurrentIndex(0)
+        self.end_minute.setCurrentIndex(59)
 
         retrieve_button = QPushButton('Retrieve Data', self)
         retrieve_button.clicked.connect(self.retrieve_data)
@@ -114,24 +171,48 @@ class RainDataRetrievalTab(QWidget):
         self.table = QTableWidget(self)
 
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel('Enter Start Date and Time:'))
-        layout.addWidget(self.start_date_time)
-        layout.addWidget(QLabel('Enter End Date and Time:'))
-        layout.addWidget(self.end_date_time)
+        layout.addWidget(QLabel('Enter Start Date:'))
+        layout.addWidget(self.start_date)
+        layout.addWidget(QLabel('Enter Start Time:'))
+        start_time_layout = QHBoxLayout()
+        start_time_layout.addWidget(self.start_hour)
+        start_time_layout.addWidget(self.start_minute)
+        layout.addLayout(start_time_layout)
+
+        layout.addWidget(QLabel('Enter End Date:'))
+        layout.addWidget(self.end_date)
+        layout.addWidget(QLabel('Enter End Time:'))
+        end_time_layout = QHBoxLayout()
+        end_time_layout.addWidget(self.end_hour)
+        end_time_layout.addWidget(self.end_minute)
+        layout.addLayout(end_time_layout)
+
         layout.addWidget(retrieve_button)
+        layout.addWidget(QLabel('Total Rain:'))
+        layout.addWidget(self.total_rain_label)
         layout.addWidget(self.table)
 
     def retrieve_data(self):
-        start_date_time = self.start_date_time.dateTime().toString(Qt.ISODate)
-        end_date_time = self.end_date_time.dateTime().toString(Qt.ISODate)
+        start_date = self.start_date.selectedDate().toString(Qt.ISODate)
+        end_date = self.end_date.selectedDate().toString(Qt.ISODate)
+        start_hour = self.start_hour.currentText()
+        end_hour = self.end_hour.currentText()
+        start_minute = self.start_minute.currentText()
+        end_minute = self.end_minute.currentText()
 
         try:
             cursor = self.db_manager.conn.cursor()
-            query = f"SELECT * FROM rain_data WHERE date_time BETWEEN '{start_date_time}' AND '{end_date_time}'"
+            query = f"SELECT * FROM rain_data WHERE date_time BETWEEN '{start_date} {start_hour}:{start_minute}' AND '{end_date} {end_hour}:{end_minute}'"
             cursor.execute(query)
             records = cursor.fetchall()
 
+            total_rain_query = f"SELECT SUM(volume) FROM rain_data WHERE date_time BETWEEN '{start_date} {start_hour}:{start_minute}' AND '{end_date} {end_hour}:{end_minute}'"
+            cursor.execute(total_rain_query)
+            total_rain = cursor.fetchone()[0]
+            total_rain = total_rain if total_rain else 0
+
             self.display_data(records)
+            self.total_rain_label.setText(str(total_rain))
         except (Exception, psycopg2.Error) as error:
             print(f"Error retrieving data from the database: {error}")
         finally:
@@ -143,6 +224,9 @@ class RainDataRetrievalTab(QWidget):
         self.table.setRowCount(len(records))
         self.table.setColumnCount(3)
         self.table.setHorizontalHeaderLabels(["ID", "Date and Time", "Volume"])
+        #self.table.horizontalHeader().SetResizeMode(QtWidgets.QHeaderView.Stretch)
+        #self.table.horizontalHeader().setSectionResizeMode(QTableWidgetItem.QHeaderView.ResizeToContents)
+        #self.table.horizontalHeader().setSectionResizeMode(QTableWidgetItem.QHeaderView.ResizeToContents)
 
         for row, record in enumerate(records):
             for col, value in enumerate(record):
