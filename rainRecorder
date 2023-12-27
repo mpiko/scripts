@@ -12,7 +12,7 @@ class DatabaseManager:
         self.config = self.read_db_config(config_file)
         self.conn = self.connect()
 
-    def read_db_config(self, filename='database.ini', section='postgresql'):
+    def read_db_config(self, filename='/etc/rainRecorder/database.ini', section='postgresql'):
         parser = ConfigParser()
         parser.read(filename)
         db = {}
@@ -235,7 +235,7 @@ class RainDataRetrievalTab(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    db_manager = DatabaseManager('database.ini')
+    db_manager = DatabaseManager('/etc/rainRecorder/database.ini')
     main_win = RainDataApp(db_manager)
     sys.exit(app.exec_())
 
