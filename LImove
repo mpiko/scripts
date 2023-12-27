@@ -17,8 +17,14 @@ then
 fi
 
 shift
-DEST="$@"
 
+ARGS="$@"
+if [ -z "$ARGS" ]
+then
+    DEST=current
+else
+    DEST="$ARGS"
+fi
 
 if ! [ -e "$DEST" ]
 then
