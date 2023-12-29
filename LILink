@@ -40,10 +40,11 @@ else
         read -p "What dir " DIR
     done
 
+    cd /home/michael/dwhelper
     if [ -d "$DIR" ]
     then
         ln -s "$DIR" current
-        [ -e /home/michael/dwhelper/count.txt ] && rm /home/michael/dwhelper/count.txt
+        [ -e count.txt ] && rm count.txt
         ls -l current | cut -f9- -d" "
     else
         echo "Cannot find $DIR"
