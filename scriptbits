@@ -1,0 +1,131 @@
+#!/bin/bash
+
+OIFS=$IFS
+IFS="
+"
+if [ $# -eq 1 ]
+then
+    FUNC=$1
+else
+    FOUND=0
+    for LINE in $(tail -30 $0)
+    do
+        if [[ "$LINE" = *"case"* ]]
+        then
+            FOUND=1
+        elif [[ "$LINE" = *"esac"* ]]
+        then
+            FOUND=0
+            break
+        fi
+        if [ $FOUND -gt 0 ]
+        then
+            if [[ $LINE = *")"* ]]
+            then
+                echo $LINE | sed 's/)//'
+            fi
+        fi
+    done
+
+    read -p "which function would you like? " FUNC
+    [ -z $FUNC ] && exit
+fi
+
+IFS=$OIFS
+#------------------------------------------------------
+# Functions
+func_if(){
+    echo "
+    if []
+    then
+        echo \"\"
+    fi" 
+}
+
+func_1arg(){
+    echo "
+    if [ i\$# -eq 1 ]
+    then
+        ARG=\$1
+    else
+        read -p \"which function would you like? \" ARG
+        [ -z \$ARG ] && exit
+    fi"
+}
+
+func_ifelse(){
+    echo "
+    if []
+    then
+        echo \"\"
+    else
+        echo \"\"
+    fi"
+}
+
+
+func_elif(){
+    echo "
+    if []
+    then
+        echo \"\"
+    elif []
+        echo \"\"
+    else
+        echo \"\"
+    fi"
+}
+
+func_yesno() {
+    echo "
+    read -p \"Ask something? \(Y/n\)\" RESP
+    [ -z "\$RESP" ] && exit
+    [ "\$RESP" = 'y' ] && RESP='Y'
+    if [ \$RESP = 'Y' ]
+    then
+        echo \"\"
+    fi"
+}
+
+func_interactive() {
+    echo "
+    case \$- in
+      *i*) echo \"This shell is interactive\";;
+      *) echo \"This is a script\";;
+    esac"
+}
+
+func_menu() {
+    echo "
+    PS3=\"Enter a number: \"
+
+    select character in Sheldon Leonard Penny Howard Raj
+    do
+        echo \"Selected character: \$character\"
+        echo \"Selected number: \$REPLY\"
+    done"
+}
+
+#------------------------------------------------------
+# options
+case $FUNC in
+    1arg)
+        func_1arg;;
+
+    if)
+        func_if;;
+    ifelse)
+        func_ifelse;;
+    elif)
+        func_elif;;
+    askyesno)
+        func_yesno;;
+    interactive)
+        func_interactive;;
+    menu)
+        func_menu;;
+    *)
+        echo "invalid option: $FUNC";;
+esac
+
+
