@@ -23,11 +23,30 @@ do
         [ -z "$SUB" ] && SUB="Introduction"
     else
         read -p "What is the next subtopic name ($COUNT)? " SUB
+        while [ -z "$SUB" ]
+        do
+            echo "No response. Please proved a topic"
+            read -p "What is the next subtopic name ($COUNT)? " SUB
+        done
     fi
-    [ "$SUB" = "end" ] && SUB=Conclusion
+    [ "$SUB" = "conc" ] && SUB=Conclusion
+    [ "$SUB" = "end" ] && break
     [ -d "$TOPIC/${COUNT}. $SUB" ] || mkdir "$TOPIC/${COUNT}. $SUB"
-    [ "$SUB" = "Conclusion" ] && exit
+    [ "$SUB" = "Conclusion" ] && break
+    [ $COUNT -eq 0 ] && LINK="$TOPIC/${COUNT}. $SUB"
     (( COUNT++ ))
 done
+
+# will we create the link in dwhelper?
+read -p "Would you like a link in dwhelper (Y/n)? " DW
+[ -z "$DW" ] && DW='Y'
+[ "$DW" = 'y' ] && DW='Y'
+if [ $DW = 'Y' ]
+then
+    PWD=$(pwd)
+    [ -L $HOME/dwhelper/current ] && rm $HOME/dwhelper/current
+    LILink "$PWD/$LINK"
+fi
+    
 
 
