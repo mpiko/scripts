@@ -21,5 +21,7 @@ CONFIG=$HOME/Obsidian/Master
 mkdir -p "$VAULT"
 
 rsync -a $CONFIG/ "$VAULT/"
+rm "$VAULT/Markdown Cheat-sheet.md"
+ln -s "$CONFIG/Markdown Cheat-sheet.md" "$VAULT/Markdown Cheat-sheet.md"
 
 echo "Done"
