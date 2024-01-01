@@ -6,6 +6,15 @@ which ffmpeg > /dev/null 2>&1
 IFS="
 "
 
+if [ $# -eq 1 ]
+then
+    DIR=$1
+else
+    DIR="."
+fi
+
+cd $DIR
+
 HOURS=0
 MIN=0
 SEC=0

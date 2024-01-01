@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CURRENT=.current
 if [ $# -gt 0 ]
 then
     TOPIC="$@"
@@ -44,7 +45,7 @@ read -p "Would you like a link in dwhelper (Y/n)? " DW
 if [ $DW = 'Y' ]
 then
     PWD=$(pwd)
-    [ -L $HOME/dwhelper/current ] && rm $HOME/dwhelper/current
+    [ -L $HOME/dwhelper/$CURRENT ] && rm $HOME/dwhelper/$CURRENT
     LILink "$PWD/$LINK"
 fi
     

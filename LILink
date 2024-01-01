@@ -1,11 +1,13 @@
 #!/bin/bash
 
+COUNTTXT=.count.txt
+CURRENT=.current
 
-if [ -L current ]
+if [ -L $CURRENT ]
 then
     echo -n "OLD: "
-    ls -l current | cut -f9- -d" "
-    FULL=$(ls -l current | cut -f2 -d\> | sed 's/^ //')
+    ls -l $CURRENT | cut -f9- -d" "
+    FULL=$(ls -l $CURRENT | cut -f2 -d\> | sed 's/^ //')
     #echo $FULL
     DIR=$(basename "$FULL")
     PARENT=$(dirname "$FULL")
@@ -19,16 +21,16 @@ then
     if [ "$FOLDIR" = "Conclusion" ]
     then
         echo Last one.
-        rm current
-        rm count.txt
+        rm $CURRENT
+        rm $COUNTTXT
     else
         (( CTR++ ))
         #echo NEXT: $CTR
         NEXT=$(ls -1d "$PARENT/$CTR. "*)
-        rm current
-        ln -s "$NEXT" current
+        rm $CURRENT
+        ln -s "$NEXT" $CURRENT
         echo -n "NEW: "
-        ls -l current | cut -f9- -d" "
+        ls -l $CURRENT | cut -f10- -d" "
     fi
 else
     if [ $# -eq 1 ]
@@ -43,9 +45,9 @@ else
     cd /home/michael/dwhelper
     if [ -d "$DIR" ]
     then
-        ln -s "$DIR" current
-        [ -e count.txt ] && rm count.txt
-        ls -l current | cut -f9- -d" "
+        ln -s "$DIR" $CURRENT
+        [ -e $COUNTTXT ] && rm $COUNTTXT
+        ls -l $CURRENT | cut -f10- -d" "
     else
         echo "Cannot find $DIR"
     fi

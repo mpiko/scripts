@@ -1,6 +1,7 @@
 #!/bin/bash
 
-COUNTFILE=count.txt
+COUNTFILE=.count.txt
+CURRENT=.current
 
 if [ -f $COUNTFILE ]
 then
@@ -21,7 +22,7 @@ shift
 ARGS="$@"
 if [ -z "$ARGS" ]
 then
-    DEST=current
+    DEST=$CURRENT
 else
     DEST="$ARGS"
 fi

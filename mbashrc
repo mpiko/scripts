@@ -48,3 +48,7 @@ xterm*|rxvt*)
     ;;
 esac
 
+function mls() {
+ls -lh $1 | gawk '{print $5," ",$9}'
+}
+export -f mls
