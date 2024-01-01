@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+if [ $# -eq 1 ]
+then
+    DIR=$1
+else
+    read -p "which directory would you like? " DIR
+    [ -z $DIR ] && exit
+fi
+if [ -d "$DIR" ]
+then
+    watch -n 10 "tail -1 \"$DIR/durations.txt\";
+    tree -rv \"$DIR\""
+fi

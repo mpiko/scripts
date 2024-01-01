@@ -1,0 +1,13 @@
+#!/bin/bash
+
+clear
+
+NOW=$(date)
+while [ 1 -eq 1 ]
+do
+    echo "$@ | $NOW"
+    $@
+    sleep 2
+    NOW=$(date)
+    clear
+done

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+COUNTTXT=.count.txt
+
+if [ $# -eq 1 ]
+then
+    DIR=$1
+else
+    read -p "which directory would you like? " DIR
+    [ -z $DIR ] && exit
+fi
+
+writeDurations() {
+    /home/michael/bin/getMP4Duration "$DIR" > "$DIR/.durations.txt"
+    mv "$DIR/.durations.txt" "$DIR/durations.txt"
+}
+
+while [ -f /home/michael/dwhelper/$COUNTTXT ]
+do
+    writeDurations
+    sleep 10
+done
+writeDurations
+
+
