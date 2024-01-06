@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+LOGFILE="~/Obsidian/Log/Notes $ vi Log.md"
+DATE=$(date '+%Y-%m-%d %H:%m')
+
+LOG="${DATE}: $@ 
+"
+
+echo $LOG >> $LOGFILE
