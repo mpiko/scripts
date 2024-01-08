@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Config
+BROWSER=~/appimages/firefox
+
+
+if [ $# -eq 1 ]
+then
+    FILE=$1
+else
+    read -p "which file would you like to use? " FILE
+    [ -z $FILE ] && exit
+fi
+
+if ! which grip > /dev/null
+then
+    pip install grip
+fi
+
+F=$(basename $FILE)
+P=$(dirname $FILE)
+N=$(echo $F | sed 's/.md//')
+
+cd "$P"
+if ! [ -f ${N}.html ]
+then
+    grip --export "$F"
+fi
+$BROWSER ${N}.html
