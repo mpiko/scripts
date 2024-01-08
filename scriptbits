@@ -34,6 +34,15 @@ fi
 IFS=$OIFS
 #------------------------------------------------------
 # Functions
+func_new(){
+    echo "
+#!/bin/bash
+
+# Michael Piko michael@piko.com.au
+# Variables
+"
+}
+
 func_if(){
     echo "
     if []
@@ -106,12 +115,25 @@ func_menu() {
     done"
 }
 
+func_executable() {
+    echo "
+if which \"\$ARG\" > /dev/null
+then
+    echo \$ARG exists
+else
+    echo \"\$ARG not found\"
+    # exit N
+fi
+"
+}
+
 #------------------------------------------------------
 # options
 case $FUNC in
+    new)
+        func_new;;
     1arg)
         func_1arg;;
-
     if)
         func_if;;
     ifelse)
@@ -122,10 +144,11 @@ case $FUNC in
         func_yesno;;
     interactive)
         func_interactive;;
+    executable)
+        func_executable;;
     menu)
         func_menu;;
     *)
         echo "invalid option: $FUNC";;
 esac
-
 

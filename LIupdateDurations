@@ -17,12 +17,17 @@ writeDurations() {
 PLINES=0
 while [ -f /home/michael/dwhelper/$COUNTTXT ]
 do
-    LINES=$(find "$DIR" -type f | wc -l)
+    LINES=$(find "$DIR" -type f -iname '*.mp4'| wc -l)
     #echo LINES: $LINES PLINES: $PLINES
-    [ $LINES -eq $PLINES ] && sleep 2 && continue
+    if [ $LINES -eq 0 ]
+    then
+        echo "00:00" > "$DIR/durations.txt"
+    else
+        [ $LINES -eq $PLINES ] && sleep 2 && continue
 
-    writeDurations
-    PLINES=$(find "$DIR" -type f | wc -l)
+        writeDurations
+        PLINES=$(find "$DIR" -type f | wc -l)
+    fi
     sleep 30
 done
 writeDurations

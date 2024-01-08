@@ -16,8 +16,8 @@ fi
 cd $DIR
 
 HOURS=0
-MIN=0
-SEC=0
+MINS=0
+SECS=0
 
 for FILE in $(find . -iname '*.mp4'| sort -n)
 do
@@ -34,7 +34,10 @@ do
     SECS=$(( $SECS + $SEC ))
 done
 
-
+if [ "$HOURS:$MINS:$SEC" = "0:0:0" ]
+then
+    echo 00:00:00
+fi
 
 if [ $SECS -gt 59 ]
 then
