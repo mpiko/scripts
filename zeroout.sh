@@ -10,27 +10,22 @@
 # We are restricted to working with integers as some shells do not support
 # floats.
 
-PERCENT10=10
-PERCENT5=20
-PERCENT2=50
-
 # CHANGE HERE for the requried % of head room
-PERCENTAGE=$PERCENT5
+PERCENTAGE=5
 
 #--------------------------------------------------------
 
 AVAIL=$(df / | tail -1 | gawk '{print $4}')
 
-sudo mkdir /tmpdd
-cd /tmpdd
+#sudo mkdir /tmpdd
+#cd /tmpdd
 
 echo Free Space: $AVAIL
-BUFFER=$(($AVAIL / $PERCENTAGE))
-SIZE=$(($AVAIL - $BUFFER))
+SIZE=$(($AVAIL - ($AVAIL / 100 * $PERCENTAGE)))
 #echo $SIZE
 
 
 echo dd if=/dev/zero of=dump.$$ bs=1k count=$SIZE status=progress
-sudo dd if=/dev/zero of=dump.$$ bs=1k count=$SIZE status=progress
+#sudo dd if=/dev/zero of=dump.$$ bs=1k count=$SIZE status=progress
 
-sudo rm -rf /tmpdd
+#sudo rm -rf /tmpdd
