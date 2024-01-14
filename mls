@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for F in $@
+do
+    ls -lh $F | gawk '{print $5," ",$9}'
+done
