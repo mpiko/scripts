@@ -11,7 +11,7 @@ else
 fi
 
 writeDurations() {
-    /home/michael/bin/getMP4Duration "$DIR" > "$DIR/.durations.txt"
+    getMP4Duration "$DIR" > "$DIR/.durations.txt"
     mv "$DIR/.durations.txt" "$DIR/durations.txt"
 }
 PLINES=0

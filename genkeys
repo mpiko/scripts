@@ -4,11 +4,11 @@
 
 if [ $# -eq 1 ]
 then
-    MECH="$1"
+    MACH="$1"
 else
-    read -p "which template to remove? " MECH
+    read -p "which machine? " MACH
 fi
-[ -z "$MECH" ] && exit
+[ -z "$MACH" ] && exit
 
 ssh-keygen -t ed25519 -f ~/.ssh/$MACH
 
