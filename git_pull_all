@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DEV_REPOS=$(find /home/michael/Developments -name '.git')
+OTHER_REPOS=/home/michael/.scripts
+
+REPOS="$DEV_REPOS $OTHER_REPOS"
+
+for REPO in $REPOS 
+do
+    [ $(basename $REPO) = '.git' ] && DIR=$(dirname $REPO) || DIR=$REPO
+    echo $DIR
+    cd $DIR
+    git pull
+done
+
+
+
