@@ -3,6 +3,44 @@
 START=$1
 END=$2
 
+is_num() {
+    RENUM='^[0-9]+$'
+    if [[ $1 =~ $RENUM ]]
+    then
+       return 0
+    fi
+    return 1
+}
+
+if is_num $START
+then
+    STARTNUM=0
+    STARTLET=1
+else
+    STARTNUM=1
+    STARTLET=0
+fi
+
+if is_num $END
+then
+    ENDNUM=0
+    ENDLET=1
+else
+    ENDNUM=1
+    ENDLET=0
+fi
+if ! [ $STARTNUM = $ENDNUM ] && ! [ $STARTLET = $ENDLET ]
+then
+    echo "Dont mix"
+    exit
+fi
+if [ $STARTLET = 0 ] || [ $ENDLET = 0 ]
+then
+    echo "Cannot do letters yet."
+    exit
+fi
+
+
 if [ $START -gt $END ]
 then
   CURRENT=$START
