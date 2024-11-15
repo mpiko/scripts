@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]
+then
+    echo "Usage: $(basename $0) question"
+    exit
+fi
+
+QUESTION=$@
+
+read -p "$QUESTION (Y/n) " RESP
+[ -z $RESP ] && RESP=Y
+[ $RESP = 'y' ] && RESP=Y
+
+[ $RESP = 'Y' ] && exit 0
+
+exit 1
