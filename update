@@ -60,4 +60,10 @@ then
 fi
 
 removelocks
-cat $HOME/bin/vimrc > $HOME/.vimrc
+if [ -f $HOME/bin/vimrc ]
+then
+    cat $HOME/bin/vimrc > $HOME/.vimrc
+elif [ -f $HOME/.scripts/vimrc ]
+then
+    cat $HOME/.scripts/vimrc > $HOME/.vimrc
+fi
