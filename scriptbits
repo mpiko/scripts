@@ -145,6 +145,20 @@ done
 EOG
 }
 
+func_array_loop() {
+    cat<<EOB
+
+FILE=file.csv
+
+readarray -t LINES < <(head \$FILE)
+
+for LINE in "\${LINES[@]}"
+do
+    echo \$LINE
+done
+EOB
+}
+
 #------------------------------------------------------
 # options
 case $FUNC in
@@ -166,6 +180,8 @@ case $FUNC in
         func_executable;;
     getopts)
         func_getopts;;
+    array_loop)
+        func_array_loop;;
     menu)
         func_menu;;
     *)
