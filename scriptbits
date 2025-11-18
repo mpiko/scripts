@@ -129,13 +129,18 @@ fi
 
 func_getopts() {
     cat<<EOG
+show_help() {
+    echo "Help"
+}
+
 # --------------------------------------------
 # Parse options
 # --------------------------------------------
-while getopts ":m:dqh" opt; do
+while getopts ":m:dfqh" opt; do
     case \$opt in
         m) MOD="\$OPTARG" ;;
         d) DEBUG=1 ;;
+        f) FORCE=1 ;;
         q) QUIET=1 ;;
         h) show_help ;;
         \\?) echo "Invalid option: -\$OPTARG" >&2; show_help ;;
@@ -156,6 +161,22 @@ for LINE in "\${LINES[@]}"
 do
     echo \$LINE
 done
+EOB
+}
+
+func_find_modules() {
+cat<<EOB
+DIR=.
+
+for MOD_PATH in \$(find \$DIR -type f -name '__manifest__.py' | xargs dirname)
+do
+    MOD=\$(basename \$MOD_PATH)
+
+    # Do something
+    echo MOD_PATH=\$MOD_PATH
+    echo MOD=\$MOD
+done
+
 EOB
 }
 
@@ -182,6 +203,8 @@ case $FUNC in
         func_getopts;;
     array_loop)
         func_array_loop;;
+    find_modules)
+        func_find_modules;;
     menu)
         func_menu;;
     *)
